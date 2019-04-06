@@ -1,0 +1,16 @@
+[
+{
+  "modid": "twitchmod",
+  "name": "Twitch Vs. Minecraft",
+  "description": "Be at your viewers' mercy! Every 20 seconds a random command is chosen from the Twitch chat.",
+  "version": "1.0",
+  "mcversion": "1.12.2",
+  "url": "https://icrazyblaze.github.io/",
+  "updateUrl": "",
+  "authorList": ["iCrazyBlaze"],
+  "credits": "Inspired by Kaze Emanuar's Twitch Vs. Super Mario 64 mod. Thank you to the Minecraft Mod Development Discord server!",
+  "logoFile": "/logo.png",
+  "screenshots": [],
+  "dependencies": []
+}
+]
