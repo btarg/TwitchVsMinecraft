@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.icrazyblaze.twitchmod.BotCommands;
-import com.icrazyblaze.twitchmod.pircbot.Config;
-import com.icrazyblaze.twitchmod.util.ConfigSaveLoad;
+import com.icrazyblaze.twitchmod.pircbot.BotConfig;
+import com.icrazyblaze.twitchmod.util.ConfigManager;
 import com.icrazyblaze.twitchmod.util.TickHandler;
 
 import net.minecraft.command.CommandBase;
@@ -57,46 +57,46 @@ public class TTVCommand extends CommandBase {
 			if (args.length > 0) {
 			
 				if (args[0].equalsIgnoreCase("key") && args.length == 2) {
-					Config.TWITCH_KEY = args[1];
+					BotConfig.TWITCH_KEY = args[1];
 					sender.sendMessage(new TextComponentString(TextFormatting.GOLD + "Set OAuth key."));	
 					
 				}
 				else if (args[0].equalsIgnoreCase("channel") && args.length == 2) {
-					Config.CHANNEL_NAME = args[1];
+					BotConfig.CHANNEL_NAME = args[1];
 					sender.sendMessage(new TextComponentString(TextFormatting.GOLD + "Set channel name."));
 				}
 				else if (args[0].equalsIgnoreCase("connect")) {
 					try {
-						if (Config.isConnected) {
+						if (BotConfig.isConnected) {
 							sender.sendMessage(new TextComponentString(TextFormatting.DARK_PURPLE + "Reonnecting..."));
 						}
 						else {
 							sender.sendMessage(new TextComponentString(TextFormatting.DARK_PURPLE + "Connecting..."));
 						}
 
-						Config.main();
+						BotConfig.main();
 						
 					} catch (Exception e) {
 						sender.sendMessage(new TextComponentString(TextFormatting.RED + e.toString()));
 					}
 				}
 				else if (args[0].equalsIgnoreCase("save")) {
-					ConfigSaveLoad.saveConfig();
+					ConfigManager.saveConfig();
 					sender.sendMessage(new TextComponentString(TextFormatting.GREEN + "Saved configuration."));
 				}
 				else if (args[0].equalsIgnoreCase("reload")) {
-					ConfigSaveLoad.loadConfig();
+					ConfigManager.loadConfig();
 					sender.sendMessage(new TextComponentString(TextFormatting.GREEN + "Reloaded configuration."));
 				}
 				
 				else if (args[0].equalsIgnoreCase("showchat") && args.length == 2) {
 					
 					if (args[1].equalsIgnoreCase("true")) {
-						Config.showChatMessages = true;
+						BotConfig.showChatMessages = true;
 						sender.sendMessage(new TextComponentString(TextFormatting.DARK_PURPLE + "Chat is now shown."));
 					}
 					else if (args[1].equalsIgnoreCase("false")) {
-						Config.showChatMessages = false;
+						BotConfig.showChatMessages = false;
 						sender.sendMessage(new TextComponentString(TextFormatting.DARK_PURPLE + "Chat is now hidden."));
 					}
 					
@@ -145,14 +145,14 @@ public class TTVCommand extends CommandBase {
 			}
 			else {
 				
-				if (Config.isConnected) {
+				if (BotConfig.isConnected) {
 					sender.sendMessage(new TextComponentString(TextFormatting.GREEN + "Bot is connected."));
 				}
 				else {
 					sender.sendMessage(new TextComponentString(TextFormatting.RED + "Bot not connected."));
 				}
 				
-				sender.sendMessage(new TextComponentString(TextFormatting.GOLD + "Channel name: " + Config.CHANNEL_NAME));
+				sender.sendMessage(new TextComponentString(TextFormatting.GOLD + "Channel name: " + BotConfig.CHANNEL_NAME));
 				sender.sendMessage(new TextComponentString(TextFormatting.DARK_PURPLE + "A new command will be chosen every " + TickHandler.chatSecondsDefault + " seconds."));
 				
 				TextComponentString keyMessage = new TextComponentString(TextFormatting.AQUA + "Click here to get your Twitch OAuth key!");

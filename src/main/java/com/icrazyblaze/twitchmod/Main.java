@@ -5,7 +5,7 @@ import org.apache.logging.log4j.Logger;
 import com.icrazyblaze.twitchmod.commands.TTVCommand;
 import com.icrazyblaze.twitchmod.gui.TimerGui;
 import com.icrazyblaze.twitchmod.pircbot.TwitchBot;
-import com.icrazyblaze.twitchmod.util.ConfigSaveLoad;
+import com.icrazyblaze.twitchmod.util.ConfigManager;
 import com.icrazyblaze.twitchmod.util.Reference;
 import com.icrazyblaze.twitchmod.util.TickHandler;
 
@@ -38,7 +38,7 @@ public class Main {
     public static void Preinit(FMLPreInitializationEvent event) {
         logger = event.getModLog();
         config = new Configuration(event.getSuggestedConfigurationFile());
-        ConfigSaveLoad.loadConfig();
+        ConfigManager.loadConfig();
     }
 
     @EventHandler

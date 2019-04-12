@@ -90,7 +90,6 @@ public class BotCommands {
 	
 	
 	public static void floorIsLava() {	
-        
 		
 		double xpos = player().posX;
 		double ypos = player().posY;
@@ -100,6 +99,17 @@ public class BotCommands {
 		BlockPos bpos = new BlockPos(xpos, ypos - 1, zpos);
 		
 		player().world.setBlockState(bpos, Blocks.LAVA.getDefaultState(), 2);
+	}
+	
+	public static void waterBucket() {
+		double xpos = player().posX;
+		double ypos = player().posY;
+		double zpos = player().posZ;
+
+		
+		BlockPos bpos = new BlockPos(xpos, ypos, zpos);
+		
+		player().world.setBlockState(bpos, Blocks.WATER.getDefaultState(), 2);
 	}
 	
 	public static void spawnAnvil() {	
@@ -171,6 +181,7 @@ public class BotCommands {
         player().world.destroyBlock(bpos, false);
 		
 	}
+	
 
 	
 	@SubscribeEvent

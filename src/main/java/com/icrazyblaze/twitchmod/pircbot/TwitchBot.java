@@ -1,6 +1,6 @@
 package com.icrazyblaze.twitchmod.pircbot;
 
-import org.jibble.pircbot.PircBot;
+import org.jibble.pircbot.*;
 
 import com.icrazyblaze.twitchmod.Main;
 import com.icrazyblaze.twitchmod.chat.ChatPicker;
@@ -10,14 +10,13 @@ import net.minecraft.util.text.TextFormatting;
 
 public class TwitchBot extends PircBot {
 	
-	
 	public TwitchBot() {
 		this.setName("MinecraftBot");
 		}
 	
 	public void onMessage(String channel, String sender, String login, String hostname, String message) {
 
-		if (Config.showChatMessages) {
+		if (BotConfig.showChatMessages) {
 			Main.logger.info(sender + ": " + message);
 			PrintToChat.print(TextFormatting.DARK_PURPLE, sender + ": " + message);
 		}
@@ -33,13 +32,13 @@ public class TwitchBot extends PircBot {
 	
 	
 	public void onConnect() {
-		Config.isConnected = true;
+		BotConfig.isConnected = true;
 		PrintToChat.print(TextFormatting.GREEN, "Bot connected! Use /ttv to see details.");
 	}
 	
 	
 	public void onDisconnect() {
-		Config.isConnected = false;
+		BotConfig.isConnected = false;
 		PrintToChat.print(TextFormatting.RED, "Bot disconnected.");
 	}
 	

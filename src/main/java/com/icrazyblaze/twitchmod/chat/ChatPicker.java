@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import com.icrazyblaze.twitchmod.BotCommands;
-import com.icrazyblaze.twitchmod.pircbot.Config;
+import com.icrazyblaze.twitchmod.pircbot.BotConfig;
 import com.icrazyblaze.twitchmod.util.PrintToChat;
 
 import net.minecraft.util.text.TextFormatting;
@@ -63,6 +63,12 @@ public class ChatPicker {
         else if (message.equalsIgnoreCase("!oresexplode") && !BotCommands.oresExplode) {
             BotCommands.oresExplode = true;
         }
+        else if (message.equalsIgnoreCase("!break")) {
+        	BotCommands.breakBlock();
+        }
+        else if (message.equalsIgnoreCase("!watersbroke") || message.equalsIgnoreCase("!water")) {
+        	BotCommands.waterBucket();
+        }
         
         // If command is invalid
         else {
@@ -77,7 +83,7 @@ public class ChatPicker {
         	}
         }
         
-        if (Config.showChatMessages) {
+        if (BotConfig.showChatMessages) {
         	PrintToChat.print(TextFormatting.AQUA, "Command Chosen: " + message);
         }
         

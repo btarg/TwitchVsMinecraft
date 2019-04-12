@@ -4,7 +4,7 @@ import com.icrazyblaze.twitchmod.util.PrintToChat;
 
 import net.minecraft.util.text.TextFormatting;
 
-public class Config {
+public class BotConfig {
 	
 	public static boolean isConnected = false;
 	public static String TWITCH_KEY = null;

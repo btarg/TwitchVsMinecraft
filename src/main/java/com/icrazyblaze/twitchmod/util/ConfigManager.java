@@ -1,17 +1,18 @@
 package com.icrazyblaze.twitchmod.util;
 
 import com.icrazyblaze.twitchmod.Main;
-import com.icrazyblaze.twitchmod.pircbot.Config;
+import com.icrazyblaze.twitchmod.pircbot.BotConfig;
 
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
 
-public class ConfigSaveLoad {
+public class ConfigManager {
 	
 	public static Configuration config;
 	
 	public static void loadConfig() { // Gets called from preInit	
 		
+		// Config file is made in the Main class
         config = Main.config;
 			
 	    try {
@@ -41,9 +42,9 @@ public class ConfigSaveLoad {
 
 	        
 	        // Get the values from file
-	        Config.CHANNEL_NAME = channelProp.getString();
-	        Config.TWITCH_KEY = keyProp.getString();
-	        Config.showChatMessages = showMessagesProp.getBoolean();
+	        BotConfig.CHANNEL_NAME = channelProp.getString();
+	        BotConfig.TWITCH_KEY = keyProp.getString();
+	        BotConfig.showChatMessages = showMessagesProp.getBoolean();
 	        TickHandler.chatSeconds = chatSecondsProp.getInt();
 	        TickHandler.chatSecondsDefault = chatSecondsProp.getInt();
 	        
@@ -54,7 +55,8 @@ public class ConfigSaveLoad {
 	}
 	
 	public static void saveConfig() { // Gets called from preInit		
-			
+		
+		// Config file is made in the Main class
         config = Main.config;
 		
 	    try {
@@ -84,9 +86,9 @@ public class ConfigSaveLoad {
 	                "How many seconds until the next command is chosen"); // Comment
 	    	
 	        // Set the values in file
-		    keyProp.set(Config.TWITCH_KEY);
-		    channelProp.set(Config.CHANNEL_NAME);
-		    showMessagesProp.set(Config.showChatMessages);
+		    keyProp.set(BotConfig.TWITCH_KEY);
+		    channelProp.set(BotConfig.CHANNEL_NAME);
+		    showMessagesProp.set(BotConfig.showChatMessages);
 		    chatSecondsProp.set(TickHandler.chatSecondsDefault);
 	        
 	    } catch (Exception e) {
