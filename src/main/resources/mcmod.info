@@ -6,8 +6,9 @@
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "https://icrazyblaze.github.io/",
+  "updateJSON": "https://gist.githubusercontent.com/iCrazyBlaze/3d1eed1d5a92bb1cca685975e6b99e46/raw/39313ba8a8338d951bdf9d325dfb1e95d4e145ec/update.json",
   "authorList": ["iCrazyBlaze"],
-  "credits": "Inspired by Kaze Emanuar's Twitch Vs. Super Mario 64 mod. Thank you to the Minecraft Mod Development Discord server!",
-  "logoFile": "/logo.png",
+  "credits": "Idea from Kaze Emanuar. Thank you to MMD!",
+  "logoFile": "/logo.png"
 }
 ]

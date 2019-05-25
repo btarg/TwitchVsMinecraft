@@ -1,7 +1,8 @@
 package com.icrazyblaze.twitchmod.util;
 
+import com.icrazyblaze.twitchmod.BotCommands;
 import com.icrazyblaze.twitchmod.Main;
-import com.icrazyblaze.twitchmod.pircbot.BotConfig;
+import com.icrazyblaze.twitchmod.irc.BotConfig;
 
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
@@ -10,7 +11,7 @@ public class ConfigManager {
 	
 	public static Configuration config;
 	
-	public static void loadConfig() { // Gets called from preInit	
+	public static void loadConfig() { // Gets called from preInit
 		
 		// Config file is made in the Main class
         config = Main.config;
@@ -39,6 +40,11 @@ public class ConfigManager {
 	                "CHAT_TIMER", // Property name
 	                20, // Default value
 	                "How many seconds until the next command is chosen"); // Comment
+	        
+	        Property usernameProp = config.get(Configuration.CATEGORY_GENERAL, // What category will it be saved to, can be any string
+	                "USER_AFFECTED", // Property name
+	                "", // Default value
+	                "The streamer's Minecraft username"); // Comment
 
 	        
 	        // Get the values from file
@@ -47,6 +53,7 @@ public class ConfigManager {
 	        BotConfig.showChatMessages = showMessagesProp.getBoolean();
 	        TickHandler.chatSeconds = chatSecondsProp.getInt();
 	        TickHandler.chatSecondsDefault = chatSecondsProp.getInt();
+	        BotCommands.username = usernameProp.getString();
 	        
 	        
 	    } catch (Exception e) {
@@ -54,7 +61,7 @@ public class ConfigManager {
 	    }
 	}
 	
-	public static void saveConfig() { // Gets called from preInit		
+	public static void saveConfig() {	
 		
 		// Config file is made in the Main class
         config = Main.config;
@@ -84,12 +91,18 @@ public class ConfigManager {
 	                "CHAT_TIMER", // Property name
 	                20, // Default value
 	                "How many seconds until the next command is chosen"); // Comment
+	        
+	        Property usernameProp = config.get(Configuration.CATEGORY_GENERAL, // What category will it be saved to, can be any string
+	                "USER_AFFECTED", // Property name
+	                "", // Default value
+	                "The streamer's Minecraft username"); // Comment
 	    	
 	        // Set the values in file
 		    keyProp.set(BotConfig.TWITCH_KEY);
 		    channelProp.set(BotConfig.CHANNEL_NAME);
 		    showMessagesProp.set(BotConfig.showChatMessages);
 		    chatSecondsProp.set(TickHandler.chatSecondsDefault);
+		    usernameProp.set(BotCommands.username);
 	        
 	    } catch (Exception e) {
 	        // Failed reading/writing, just continue

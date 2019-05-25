@@ -2,25 +2,26 @@ package com.icrazyblaze.twitchmod;
 
 import org.apache.logging.log4j.Logger;
 
-import com.icrazyblaze.twitchmod.commands.TTVCommand;
+import com.icrazyblaze.twitchmod.command.TTVCommand;
 import com.icrazyblaze.twitchmod.gui.TimerGui;
-import com.icrazyblaze.twitchmod.pircbot.TwitchBot;
+import com.icrazyblaze.twitchmod.irc.TwitchBot;
 import com.icrazyblaze.twitchmod.util.ConfigManager;
 import com.icrazyblaze.twitchmod.util.Reference;
 import com.icrazyblaze.twitchmod.util.TickHandler;
 
-import net.minecraft.client.Minecraft;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.common.ForgeVersion;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
+import net.minecraftforge.fml.common.ModContainer;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 
 
 @Mod(modid = Reference.MOD_ID, name = Reference.NAME, version = Reference.VERSION)
@@ -28,7 +29,6 @@ public class Main {
 
     public static Logger logger;
     public static Configuration config;
-
 
     @Instance
     public static Main instance;
@@ -46,8 +46,8 @@ public class Main {
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(new TwitchBot());
         MinecraftForge.EVENT_BUS.register(new TickHandler());
-        MinecraftForge.EVENT_BUS.register(new TimerGui());
         MinecraftForge.EVENT_BUS.register(new BotCommands());
+        MinecraftForge.EVENT_BUS.register(new TimerGui());
     }
 
     @EventHandler

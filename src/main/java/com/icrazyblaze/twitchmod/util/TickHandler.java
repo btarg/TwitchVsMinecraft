@@ -11,12 +11,11 @@ import net.minecraft.entity.player.EntityPlayerMP;
 public class TickHandler {
 
 	public static int chatTicks = 0;
-	
 	public static int chatSecondsDefault = 20;
 	public static int chatSeconds = chatSecondsDefault;
 	
-	public static int secondsTicks = 0;
-	public static int secondsLeft = 60;
+	public static int timerTicks = 0;
+	public static int timerSeconds = 60;
 	
 	public static boolean killTimer = false;
 	
@@ -46,17 +45,17 @@ public class TickHandler {
             }
             
             if (killTimer) {
-	            secondsTicks++;
+	            timerTicks++;
 	            
-	            if (secondsTicks == 40) {
+	            if (timerTicks == 40) {
 	            	
-	            	if (secondsLeft > 0) {
-	            		secondsLeft--;
+	            	if (timerSeconds > 0) {
+	            		timerSeconds--;
 	            	}
 	                
-	                secondsTicks = 0;
+	                timerTicks = 0;
 	            }
-	            if (secondsLeft == 0) {
+	            if (timerSeconds == 0) {
 	                BotCommands.killPlayer();
 	                killTimer = false;
 	            }

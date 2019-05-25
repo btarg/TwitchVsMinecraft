@@ -21,7 +21,7 @@ public class TimerGui extends Gui
     	if (TickHandler.killTimer) {
     		
     		Minecraft mc = Minecraft.getMinecraft();
-    		String text = "TIMER: " + TickHandler.secondsLeft;
+    		String text = "TIMER: " + TickHandler.timerSeconds;
     		 
             drawString(mc.fontRenderer, text, 4, 4, Integer.parseInt("AA0000", 16));
     	}

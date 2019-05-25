@@ -1,19 +1,25 @@
-package com.icrazyblaze.twitchmod.commands;
+package com.icrazyblaze.twitchmod.command;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import com.icrazyblaze.twitchmod.BotCommands;
-import com.icrazyblaze.twitchmod.pircbot.BotConfig;
+import com.icrazyblaze.twitchmod.chat.ChatPicker;
+import com.icrazyblaze.twitchmod.irc.BotConfig;
+import com.icrazyblaze.twitchmod.irc.TwitchBot;
 import com.icrazyblaze.twitchmod.util.ConfigManager;
 import com.icrazyblaze.twitchmod.util.TickHandler;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
@@ -23,6 +29,8 @@ import net.minecraft.util.text.event.HoverEvent;
 public class TTVCommand extends CommandBase {
 
     private final List aliases;
+    private final String[] autocomplete = {"key", "channel", "affects", "connect", "disconnect", "save", "reload", "showchat", "seconds", "blacklist", "help", "test", "queue"};
+	private final String[] truefalse = {"true", "false"};
 	
 	public TTVCommand() {
         aliases = new ArrayList(); 
@@ -36,7 +44,7 @@ public class TTVCommand extends CommandBase {
 	
 	@Override
 	public String getUsage(ICommandSender sender) {
-		return "/ttv <key/channel> [OAuth key/channel name] OR /ttv <save/reload> OR /ttv showchat <true/false> OR /ttv seconds <seconds>";
+		return "/ttv <key/channel> [OAuth key/channel name] OR /ttv affects <username> OR /ttv <connect/disconnect> OR /ttv <save/reload> OR /ttv showchat <true/false> OR /ttv seconds <seconds> OR /ttv blacklist OR /ttv queue";
 	}
 	
     @Override 
@@ -51,6 +59,24 @@ public class TTVCommand extends CommandBase {
 	}
 	
 	@Override
+	public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos) {
+		
+		if (args.length <= 1) {
+			return CommandBase.getListOfStringsMatchingLastWord(args, autocomplete);
+		}
+		else if (args[0].equalsIgnoreCase("affects")) {
+			return CommandBase.getListOfStringsMatchingLastWord(args, server.getOnlinePlayerNames());
+		}
+		else if (args[0].equalsIgnoreCase("showchat")) {
+			return CommandBase.getListOfStringsMatchingLastWord(args, truefalse);
+		}
+		else {
+			return null;
+		}
+	}
+	
+	
+	@Override
 	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
 		if (sender instanceof EntityPlayer) {
 		
@@ -58,17 +84,21 @@ public class TTVCommand extends CommandBase {
 			
 				if (args[0].equalsIgnoreCase("key") && args.length == 2) {
 					BotConfig.TWITCH_KEY = args[1];
-					sender.sendMessage(new TextComponentString(TextFormatting.GOLD + "Set OAuth key."));	
+					sender.sendMessage(new TextComponentString(TextFormatting.GOLD + "Set Twitch OAuth key"));	
 					
 				}
 				else if (args[0].equalsIgnoreCase("channel") && args.length == 2) {
 					BotConfig.CHANNEL_NAME = args[1];
-					sender.sendMessage(new TextComponentString(TextFormatting.GOLD + "Set channel name."));
+					sender.sendMessage(new TextComponentString(TextFormatting.GOLD + "Set channel name to " + args[1]));
+				}
+				else if (args[0].equalsIgnoreCase("affects") && args.length == 2) {
+					BotCommands.username = args[1];
+					sender.sendMessage(new TextComponentString(TextFormatting.GOLD + "Set player name to " + args[1]));
 				}
 				else if (args[0].equalsIgnoreCase("connect")) {
 					try {
 						if (BotConfig.isConnected) {
-							sender.sendMessage(new TextComponentString(TextFormatting.DARK_PURPLE + "Reonnecting..."));
+							sender.sendMessage(new TextComponentString(TextFormatting.DARK_PURPLE + "Reconnecting..."));
 						}
 						else {
 							sender.sendMessage(new TextComponentString(TextFormatting.DARK_PURPLE + "Connecting..."));
@@ -77,9 +107,26 @@ public class TTVCommand extends CommandBase {
 						BotConfig.main();
 						
 					} catch (Exception e) {
+						sender.sendMessage(new TextComponentString(TextFormatting.RED + "Could not connect: " + e.toString()));
+					}
+				}
+				else if (args[0].equalsIgnoreCase("disconnect")) {
+					try {
+						if (BotConfig.isConnected) {
+							sender.sendMessage(new TextComponentString(TextFormatting.DARK_PURPLE + "Disconnecting..."));
+						}
+						else {
+							sender.sendMessage(new TextComponentString(TextFormatting.RED + "Bot not conneced."));
+						}
+						
+						BotConfig.disconnectBot();
+						
+					} catch (Exception e) {
 						sender.sendMessage(new TextComponentString(TextFormatting.RED + e.toString()));
 					}
 				}
+				
+				
 				else if (args[0].equalsIgnoreCase("save")) {
 					ConfigManager.saveConfig();
 					sender.sendMessage(new TextComponentString(TextFormatting.GREEN + "Saved configuration."));
@@ -98,6 +145,9 @@ public class TTVCommand extends CommandBase {
 					else if (args[1].equalsIgnoreCase("false")) {
 						BotConfig.showChatMessages = false;
 						sender.sendMessage(new TextComponentString(TextFormatting.DARK_PURPLE + "Chat is now hidden."));
+					}
+					else {
+						throw new WrongUsageException(getUsage(sender), new Object[0]);
 					}
 					
 				}
@@ -135,6 +185,18 @@ public class TTVCommand extends CommandBase {
 					sender.sendMessage(helpmessage);
 				}
 				
+				else if (args[0].equalsIgnoreCase("blacklist")) {
+					sender.sendMessage(new TextComponentString(TextFormatting.WHITE + "Blacklist: " + ChatPicker.blacklist.toString()));
+				}
+				
+				else if (args[0].equalsIgnoreCase("test") && args.length == 3) {
+					ChatPicker.checkChat(args[1], args[2]);
+					BotCommands.player().sendMessage(new TextComponentString(TextFormatting.WHITE + "<" + TextFormatting.DARK_PURPLE + "Twitch " + TextFormatting.WHITE + args[2] + "> " + args[1]));
+				}
+				
+				else if (args[0].equalsIgnoreCase("queue")) {
+					sender.sendMessage(new TextComponentString(TextFormatting.WHITE + "Possible commands: " + ChatPicker.newChats.toString()));
+				}
 				
 				
 				else {
@@ -151,8 +213,11 @@ public class TTVCommand extends CommandBase {
 				else {
 					sender.sendMessage(new TextComponentString(TextFormatting.RED + "Bot not connected."));
 				}
-				
+
 				sender.sendMessage(new TextComponentString(TextFormatting.GOLD + "Channel name: " + BotConfig.CHANNEL_NAME));
+
+				sender.sendMessage(new TextComponentString(TextFormatting.GOLD + "Player affected: " + BotCommands.username));
+				
 				sender.sendMessage(new TextComponentString(TextFormatting.DARK_PURPLE + "A new command will be chosen every " + TickHandler.chatSecondsDefault + " seconds."));
 				
 				TextComponentString keyMessage = new TextComponentString(TextFormatting.AQUA + "Click here to get your Twitch OAuth key!");
