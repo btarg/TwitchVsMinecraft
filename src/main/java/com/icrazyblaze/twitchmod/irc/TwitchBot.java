@@ -1,6 +1,5 @@
 package com.icrazyblaze.twitchmod.irc;
 
-
 import com.icrazyblaze.twitchmod.BotCommands;
 import com.icrazyblaze.twitchmod.chat.ChatPicker;
 import net.minecraft.util.text.TextComponentString;
@@ -29,13 +28,13 @@ public class TwitchBot extends PircBot {
     }
 
     public void onConnect() {
-        BotConfig.isConnected = true;
+        BotConnection.isConnected = true;
         BotCommands.player().sendMessage(new TextComponentString(TextFormatting.DARK_GREEN + "Bot connected! Use /ttv to see details."));
     }
 
 
     public void onDisconnect() {
-        BotConfig.isConnected = false;
+        BotConnection.isConnected = false;
         BotCommands.player().sendMessage(new TextComponentString(TextFormatting.DARK_RED + "Bot disconnected."));
     }
 

@@ -32,25 +32,31 @@ public class ChatPicker {
             textfile.createNewFile(); // Create file if it doesn't already exist
             blacklist = Files.readAllLines(path); // Read into list
 
-
         } catch (IOException e) {
             Main.logger.error(e);
         }
 
     }
 
+    // My blacklist code is garbage, moving to a whitelist system soon
     public static void checkChat(String message, String sender) {
-
-        for (String str : blacklist) {
-            Main.logger.info(str);
-            if (message.contains(str)) {
-                break;
-            } else {
+        if (!blacklist.isEmpty()) {
+            for (String str : blacklist) {
+                if (message.contains(str)) {
+                    break;
+                } else {
+                    newChats.add(message);
+                    newChatSenders.add(sender);
+                    break;
+                }
+            }
+        }
+        // Fix for empty blacklist bug
+        else {
+            if (message.startsWith("!")) {
                 newChats.add(message);
                 newChatSenders.add(sender);
-                break;
             }
-
         }
     }
 
@@ -85,9 +91,9 @@ public class ChatPicker {
             BotCommands.floorIsLava();
         } else if (message.equalsIgnoreCase("!deathtimer") || message.equalsIgnoreCase("!timer")) {
             BotCommands.deathTimer();
-        } else if (message.startsWith("!messagebox ")) {
+        } else if (message.startsWith("!messagebox ") && message.length() > 12) {
             BotCommands.showMessagebox(message);
-        } else if (message.startsWith("!sign ")) {
+        } else if (message.startsWith("!sign ") && message.length() > 6) {
             BotCommands.placeSign(message);
         } else if (message.equalsIgnoreCase("!anvil")) {
             BotCommands.spawnAnvil();
@@ -126,10 +132,9 @@ public class ChatPicker {
         if (BotConfig.showChatMessages) {
             BotCommands.player().sendMessage(new TextComponentString(TextFormatting.AQUA + "Command Chosen: " + message));
         }
-
+		
         newChats.clear();
-
+		
     }
-
 
 }

@@ -36,7 +36,6 @@ public class TickHandler {
             if (chatSeconds == 0) {
                 if (ChatPicker.newChats.size() > 0) {
                     ChatPicker.pickRandomChat();
-
                     chatSeconds = chatSecondsDefault;
                 }
 

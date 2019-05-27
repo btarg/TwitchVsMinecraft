@@ -3,6 +3,7 @@ package com.icrazyblaze.twitchmod.command;
 import com.icrazyblaze.twitchmod.BotCommands;
 import com.icrazyblaze.twitchmod.chat.ChatPicker;
 import com.icrazyblaze.twitchmod.irc.BotConfig;
+import com.icrazyblaze.twitchmod.irc.BotConnection;
 import com.icrazyblaze.twitchmod.util.ConfigManager;
 import com.icrazyblaze.twitchmod.util.TickHandler;
 import net.minecraft.command.CommandBase;
@@ -84,26 +85,26 @@ public class TTVCommand extends CommandBase {
                     sender.sendMessage(new TextComponentString(TextFormatting.GOLD + "Set player name to " + args[1]));
                 } else if (args[0].equalsIgnoreCase("connect")) {
                     try {
-                        if (BotConfig.isConnected) {
+                        if (BotConnection.isConnected) {
                             sender.sendMessage(new TextComponentString(TextFormatting.DARK_PURPLE + "Reconnecting..."));
                         } else {
                             sender.sendMessage(new TextComponentString(TextFormatting.DARK_PURPLE + "Connecting..."));
                         }
 
-                        BotConfig.main();
+                        BotConnection.main();
 
                     } catch (Exception e) {
                         sender.sendMessage(new TextComponentString(TextFormatting.RED + "Could not connect: " + e.toString()));
                     }
                 } else if (args[0].equalsIgnoreCase("disconnect")) {
                     try {
-                        if (BotConfig.isConnected) {
+                        if (BotConnection.isConnected) {
                             sender.sendMessage(new TextComponentString(TextFormatting.DARK_PURPLE + "Disconnecting..."));
                         } else {
                             sender.sendMessage(new TextComponentString(TextFormatting.RED + "Bot not connected."));
                         }
 
-                        BotConfig.disconnectBot();
+                        BotConnection.disconnectBot();
 
                     } catch (Exception e) {
                         sender.sendMessage(new TextComponentString(TextFormatting.RED + e.toString()));
@@ -179,7 +180,7 @@ public class TTVCommand extends CommandBase {
 
             } else {
 
-                if (BotConfig.isConnected) {
+                if (BotConnection.isConnected) {
                     sender.sendMessage(new TextComponentString(TextFormatting.GREEN + "Bot is connected."));
                 } else {
                     sender.sendMessage(new TextComponentString(TextFormatting.RED + "Bot not connected."));
