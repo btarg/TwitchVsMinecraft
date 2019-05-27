@@ -6,8 +6,8 @@ public class BotConnection {
     static TwitchBot bot = new TwitchBot();
 
     public static void main() throws Exception {
-
-        bot.setVerbose(true);
+        // Now no longer logs by default (this prevents Oauth keys being stored in minecraft logs)
+        bot.setVerbose(false);
 
         bot.connect("irc.twitch.tv", 6667, BotConfig.TWITCH_KEY);
         bot.joinChannel("#" + BotConfig.CHANNEL_NAME);
@@ -16,5 +16,9 @@ public class BotConnection {
 
     public static void disconnectBot() {
         bot.disconnect();
+    }
+
+    public static void setVerboseMode(boolean set) {
+        bot.setVerbose(set);
     }
 }

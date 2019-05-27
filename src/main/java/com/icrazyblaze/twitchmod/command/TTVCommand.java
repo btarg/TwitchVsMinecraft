@@ -24,7 +24,7 @@ import java.util.List;
 public class TTVCommand extends CommandBase {
 
     private final List aliases;
-    private final String[] autocomplete = {"key", "channel", "affects", "connect", "disconnect", "enabled", "save", "reload", "showchat", "seconds", "blacklist", "help", "test", "queue"};
+    private final String[] autocomplete = {"key", "channel", "affects", "connect", "disconnect", "enabled", "save", "reload", "showchat", "seconds", "blacklist", "help", "test", "queue", "log"};
     private final String[] truefalse = {"true", "false"};
 
     public TTVCommand() {
@@ -59,7 +59,7 @@ public class TTVCommand extends CommandBase {
             return CommandBase.getListOfStringsMatchingLastWord(args, autocomplete);
         } else if (args[0].equalsIgnoreCase("affects")) {
             return CommandBase.getListOfStringsMatchingLastWord(args, server.getOnlinePlayerNames());
-        } else if (args[0].equalsIgnoreCase("showchat") || args[0].equalsIgnoreCase("enabled")) {
+        } else if (args[0].equalsIgnoreCase("showchat") || args[0].equalsIgnoreCase("enabled") || args[0].equalsIgnoreCase("log")) {
             return CommandBase.getListOfStringsMatchingLastWord(args, truefalse);
         } else {
             return null;
@@ -135,6 +135,17 @@ public class TTVCommand extends CommandBase {
                     } else if (args[1].equalsIgnoreCase("false")) {
                         TickHandler.enabled = false;
                         sender.sendMessage(new TextComponentString(TextFormatting.DARK_PURPLE + "Twitch commands disabled."));
+                    } else {
+                        throw new WrongUsageException(getUsage(sender));
+                    }
+
+                } else if (args[0].equalsIgnoreCase("log") && args.length == 2) {
+                    if (args[1].equalsIgnoreCase("true")) {
+                        BotConnection.setVerboseMode(true);
+                        sender.sendMessage(new TextComponentString(TextFormatting.DARK_PURPLE + "Bot log mode enabled."));
+                    } else if (args[1].equalsIgnoreCase("false")) {
+                        BotConnection.setVerboseMode(false);
+                        sender.sendMessage(new TextComponentString(TextFormatting.DARK_PURPLE + "Bot log mode disabled."));
                     } else {
                         throw new WrongUsageException(getUsage(sender));
                     }
