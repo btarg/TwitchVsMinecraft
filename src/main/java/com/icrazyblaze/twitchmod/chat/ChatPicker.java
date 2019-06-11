@@ -18,12 +18,10 @@ import java.util.Random;
 
 public class ChatPicker {
 
-    static Path path = Paths.get(Minecraft.getMinecraft().mcDataDir.getPath(), "config/twitch-blacklist.txt");
     public static List<String> blacklist;
-
     public static ArrayList<String> newChats = new ArrayList<String>();
     public static ArrayList<String> newChatSenders = new ArrayList<String>();
-
+    static Path path = Paths.get(Minecraft.getMinecraft().mcDataDir.getPath(), "config/twitch-blacklist.txt");
 
     public static void loadBlacklistFile() {
         File textfile = new File(path.toString());
@@ -38,7 +36,6 @@ public class ChatPicker {
 
     }
 
-    // My blacklist code is garbage, moving to a whitelist system soon
     public static void checkChat(String message, String sender) {
         if (!blacklist.isEmpty()) {
             for (String str : blacklist) {
@@ -85,6 +82,8 @@ public class ChatPicker {
             BotCommands.addLevitation();
         } else if (message.equalsIgnoreCase("!nofall")) {
             BotCommands.noFall();
+        } else if (message.equalsIgnoreCase("regen") || message.equalsIgnoreCase("health")) {
+            BotCommands.addRegen();
         } else if (message.equalsIgnoreCase("!fire")) {
             BotCommands.setOnFire();
         } else if (message.equalsIgnoreCase("!lava") || message.equalsIgnoreCase("!floorislava")) {
@@ -132,9 +131,9 @@ public class ChatPicker {
         if (BotConfig.showChatMessages) {
             BotCommands.player().sendMessage(new TextComponentString(TextFormatting.AQUA + "Command Chosen: " + message));
         }
-		
+
         newChats.clear();
-		
+
     }
 
 }

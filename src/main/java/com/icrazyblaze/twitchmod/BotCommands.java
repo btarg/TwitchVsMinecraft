@@ -86,6 +86,10 @@ public class BotCommands {
         player().addPotionEffect(new PotionEffect(MobEffects.LEVITATION, 400, 255));
     }
 
+    public static void addRegen() {
+        player().addPotionEffect(new PotionEffect(MobEffects.HEALTH_BOOST, 200, 0));
+    }
+
     public static void setOnFire() {
 
         BlockPos bpos = player().getPosition();
