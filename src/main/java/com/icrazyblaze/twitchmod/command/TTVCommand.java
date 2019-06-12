@@ -135,9 +135,18 @@ public class TTVCommand extends CommandBase {
                     } else if (args[1].equalsIgnoreCase("false")) {
                         TickHandler.enabled = false;
                         sender.sendMessage(new TextComponentString(TextFormatting.DARK_PURPLE + "Twitch commands disabled."));
-                    } else {
+					} else {
                         throw new WrongUsageException(getUsage(sender));
                     }
+					
+				} else if (args[0].equalsIgnoreCase("enabled") && args.length == 1) {
+					if (TickHandler.enabled) {
+						sender.sendMessage(new TextComponentString(TextFormatting.WHITE + "Twitch commands are enabled."));
+					}
+					else {
+						sender.sendMessage(new TextComponentString(TextFormatting.WHITE + "Twitch commands are disabled."));
+					}
+
 
                 } else if (args[0].equalsIgnoreCase("log") && args.length == 2) {
                     if (args[1].equalsIgnoreCase("true")) {
@@ -146,9 +155,18 @@ public class TTVCommand extends CommandBase {
                     } else if (args[1].equalsIgnoreCase("false")) {
                         BotConnection.setVerboseMode(false);
                         sender.sendMessage(new TextComponentString(TextFormatting.DARK_PURPLE + "Bot log mode disabled."));
-                    } else {
+					} else {
                         throw new WrongUsageException(getUsage(sender));
-                    }
+					}
+					
+				} else if (args[0].equalsIgnoreCase("log") && args.length == 1) {
+					if (BotConnection.isVerbose) {
+						sender.sendMessage(new TextComponentString(TextFormatting.WHITE + "Bot log mode is enabled."));
+					}
+					else {
+						sender.sendMessage(new TextComponentString(TextFormatting.WHITE + "Bot log mode is disabled."));
+					}
+
 
                 } else if (args[0].equalsIgnoreCase("seconds") && args.length == 2) {
 
@@ -190,7 +208,7 @@ public class TTVCommand extends CommandBase {
 
 
             } else {
-
+				
                 if (BotConnection.isConnected) {
                     sender.sendMessage(new TextComponentString(TextFormatting.GREEN + "Bot is connected."));
                 } else {

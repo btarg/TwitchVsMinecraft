@@ -3,6 +3,7 @@ package com.icrazyblaze.twitchmod.irc;
 public class BotConnection {
 
     public static boolean isConnected = false;
+	public static boolean isVerbose = false;
     static TwitchBot bot = new TwitchBot();
 
     public static void main() throws Exception {
@@ -20,5 +21,6 @@ public class BotConnection {
 
     public static void setVerboseMode(boolean set) {
         bot.setVerbose(set);
+		isVerbose = set;
     }
 }

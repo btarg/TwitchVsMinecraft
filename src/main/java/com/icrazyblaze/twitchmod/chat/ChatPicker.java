@@ -82,7 +82,7 @@ public class ChatPicker {
             BotCommands.addLevitation();
         } else if (message.equalsIgnoreCase("!nofall")) {
             BotCommands.noFall();
-        } else if (message.equalsIgnoreCase("regen") || message.equalsIgnoreCase("health")) {
+        } else if (message.equalsIgnoreCase("!regen") || message.equalsIgnoreCase("!health")) {
             BotCommands.addRegen();
         } else if (message.equalsIgnoreCase("!fire")) {
             BotCommands.setOnFire();
