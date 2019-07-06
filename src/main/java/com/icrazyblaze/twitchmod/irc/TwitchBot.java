@@ -9,8 +9,10 @@ import org.jibble.pircbot.PircBot;
 public class TwitchBot extends PircBot {
 
     public TwitchBot() {
+
         this.setName("MinecraftBot");
         ChatPicker.loadBlacklistFile();
+
     }
 
 
@@ -25,17 +27,22 @@ public class TwitchBot extends PircBot {
         } else {
             ChatPicker.checkChat(message, sender);
         }
+
     }
 
     public void onConnect() {
+
         BotConnection.isConnected = true;
         BotCommands.player().sendMessage(new TextComponentString(TextFormatting.DARK_GREEN + "Bot connected! Use /ttv to see details."));
+
     }
 
 
     public void onDisconnect() {
+
         BotConnection.isConnected = false;
         BotCommands.player().sendMessage(new TextComponentString(TextFormatting.DARK_RED + "Bot disconnected."));
+
     }
 
 }

@@ -10,6 +10,7 @@ public class TimerGui extends Gui {
 
     @SubscribeEvent
     public void onRenderGui(RenderGameOverlayEvent.Post event) {
+
         if (event.getType() != RenderGameOverlayEvent.ElementType.TEXT)
             return;
 
@@ -20,6 +21,7 @@ public class TimerGui extends Gui {
 
             drawString(mc.fontRenderer, text, 4, 4, Integer.parseInt("AA0000", 16));
         }
+
     }
 
 }

@@ -1,6 +1,5 @@
 package com.icrazyblaze.twitchmod.gui;
 
-
 import com.icrazyblaze.twitchmod.util.Reference;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -26,9 +25,10 @@ public class MessageboxGui extends GuiScreen {
 
     @Override
     public void initGui() {
-        GuiButton btn = new GuiButton(200, width / 2 - 75, height / 2 + 55, 150, 20, I18n.format("gui.done"));
 
+        GuiButton btn = new GuiButton(200, width / 2 - 75, height / 2 + 55, 150, 20, I18n.format("gui.done"));
         this.buttonList.add(btn);
+
     }
 
     @Override
@@ -50,12 +50,15 @@ public class MessageboxGui extends GuiScreen {
         } else {
             mc.player.closeScreen();
         }
+
     }
 
     @Override
     public void actionPerformed(GuiButton btn) {
+
         if (btn.id == buttonList.get(0).id) {
             displayGUI = false;
         }
+
     }
 }

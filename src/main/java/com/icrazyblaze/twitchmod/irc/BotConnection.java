@@ -7,6 +7,7 @@ public class BotConnection {
     static TwitchBot bot = new TwitchBot();
 
     public static void main() throws Exception {
+
         // Now no longer logs by default (this prevents Oauth keys being stored in minecraft logs)
         bot.setVerbose(false);
 

@@ -74,16 +74,22 @@ public class TTVCommand extends CommandBase {
             if (args.length > 0) {
 
                 if (args[0].equalsIgnoreCase("key") && args.length == 2) {
+
                     BotConfig.TWITCH_KEY = args[1];
                     sender.sendMessage(new TextComponentString(TextFormatting.GOLD + "Set Twitch OAuth key"));
 
                 } else if (args[0].equalsIgnoreCase("channel") && args.length == 2) {
+
                     BotConfig.CHANNEL_NAME = args[1];
                     sender.sendMessage(new TextComponentString(TextFormatting.GOLD + "Set channel name to " + args[1]));
+
                 } else if (args[0].equalsIgnoreCase("affects") && args.length == 2) {
+
                     BotCommands.username = args[1];
                     sender.sendMessage(new TextComponentString(TextFormatting.GOLD + "Set player name to " + args[1]));
+
                 } else if (args[0].equalsIgnoreCase("connect")) {
+
                     try {
                         if (BotConnection.isConnected) {
                             sender.sendMessage(new TextComponentString(TextFormatting.DARK_PURPLE + "Reconnecting..."));
@@ -96,7 +102,9 @@ public class TTVCommand extends CommandBase {
                     } catch (Exception e) {
                         sender.sendMessage(new TextComponentString(TextFormatting.RED + "Could not connect: " + e.toString()));
                     }
+
                 } else if (args[0].equalsIgnoreCase("disconnect")) {
+
                     try {
                         if (BotConnection.isConnected) {
                             sender.sendMessage(new TextComponentString(TextFormatting.DARK_PURPLE + "Disconnecting..."));
@@ -109,15 +117,19 @@ public class TTVCommand extends CommandBase {
                     } catch (Exception e) {
                         sender.sendMessage(new TextComponentString(TextFormatting.RED + e.toString()));
                     }
+
                 } else if (args[0].equalsIgnoreCase("save")) {
+
                     ConfigManager.saveConfig();
                     sender.sendMessage(new TextComponentString(TextFormatting.GREEN + "Saved configuration."));
 
                 } else if (args[0].equalsIgnoreCase("reload")) {
+
                     ConfigManager.loadConfig();
                     sender.sendMessage(new TextComponentString(TextFormatting.GREEN + "Reloaded configuration."));
 
                 } else if (args[0].equalsIgnoreCase("showchat") && args.length == 2) {
+
                     if (args[1].equalsIgnoreCase("true")) {
                         BotConfig.showChatMessages = true;
                         sender.sendMessage(new TextComponentString(TextFormatting.DARK_PURPLE + "Chat is now shown."));
@@ -129,49 +141,50 @@ public class TTVCommand extends CommandBase {
                     }
 
                 } else if (args[0].equalsIgnoreCase("enabled") && args.length == 2) {
+
                     if (args[1].equalsIgnoreCase("true")) {
                         TickHandler.enabled = true;
                         sender.sendMessage(new TextComponentString(TextFormatting.DARK_PURPLE + "Twitch commands enabled."));
                     } else if (args[1].equalsIgnoreCase("false")) {
                         TickHandler.enabled = false;
                         sender.sendMessage(new TextComponentString(TextFormatting.DARK_PURPLE + "Twitch commands disabled."));
-					} else {
+                    } else {
                         throw new WrongUsageException(getUsage(sender));
                     }
-					
-				} else if (args[0].equalsIgnoreCase("enabled") && args.length == 1) {
-					if (TickHandler.enabled) {
-						sender.sendMessage(new TextComponentString(TextFormatting.WHITE + "Twitch commands are enabled."));
-					}
-					else {
-						sender.sendMessage(new TextComponentString(TextFormatting.WHITE + "Twitch commands are disabled."));
-					}
+
+                } else if (args[0].equalsIgnoreCase("enabled") && args.length == 1) {
+
+                    if (TickHandler.enabled) {
+                        sender.sendMessage(new TextComponentString(TextFormatting.WHITE + "Twitch commands are currently enabled."));
+                    } else {
+                        sender.sendMessage(new TextComponentString(TextFormatting.WHITE + "Twitch commands are currently disabled."));
+                    }
 
 
                 } else if (args[0].equalsIgnoreCase("log") && args.length == 2) {
+
                     if (args[1].equalsIgnoreCase("true")) {
                         BotConnection.setVerboseMode(true);
                         sender.sendMessage(new TextComponentString(TextFormatting.DARK_PURPLE + "Bot log mode enabled."));
                     } else if (args[1].equalsIgnoreCase("false")) {
                         BotConnection.setVerboseMode(false);
                         sender.sendMessage(new TextComponentString(TextFormatting.DARK_PURPLE + "Bot log mode disabled."));
-					} else {
+                    } else {
                         throw new WrongUsageException(getUsage(sender));
-					}
-					
-				} else if (args[0].equalsIgnoreCase("log") && args.length == 1) {
-					if (BotConnection.isVerbose) {
-						sender.sendMessage(new TextComponentString(TextFormatting.WHITE + "Bot log mode is enabled."));
-					}
-					else {
-						sender.sendMessage(new TextComponentString(TextFormatting.WHITE + "Bot log mode is disabled."));
-					}
+                    }
+
+                } else if (args[0].equalsIgnoreCase("log") && args.length == 1) {
+
+                    if (BotConnection.isVerbose) {
+                        sender.sendMessage(new TextComponentString(TextFormatting.WHITE + "Bot log mode is currently enabled."));
+                    } else {
+                        sender.sendMessage(new TextComponentString(TextFormatting.WHITE + "Bot log mode is currently disabled."));
+                    }
 
 
                 } else if (args[0].equalsIgnoreCase("seconds") && args.length == 2) {
 
                     try {
-
                         int newInt = Integer.parseInt(args[1]);
 
                         if (newInt >= 5 && newInt <= 120) {
@@ -186,7 +199,12 @@ public class TTVCommand extends CommandBase {
                         sender.sendMessage(new TextComponentString(TextFormatting.RED + "Invalid value."));
                     }
 
-                } else if (args[0].equalsIgnoreCase("help")) {
+                } else if (args[0].equalsIgnoreCase("seconds") && args.length == 1) {
+                    sender.sendMessage(new TextComponentString(TextFormatting.WHITE + "A new command will be chosen every " + TickHandler.chatSecondsDefault + " seconds."));
+                }
+
+                else if (args[0].equalsIgnoreCase("help")) {
+
                     TextComponentString helpmessage = new TextComponentString(TextFormatting.RED + "Use '/help ttv' for usage, or click on this message to view a list of commands.");
 
                     ClickEvent goLinkEvent = new ClickEvent(ClickEvent.Action.OPEN_URL, "http://bit.ly/2UfBCiL");
@@ -195,8 +213,14 @@ public class TTVCommand extends CommandBase {
                     helpmessage.getStyle().setHoverEvent(goHoverEvent);
 
                     sender.sendMessage(helpmessage);
+
                 } else if (args[0].equalsIgnoreCase("blacklist")) {
-                    sender.sendMessage(new TextComponentString(TextFormatting.WHITE + "Blacklist: " + ChatPicker.blacklist.toString()));
+                    if (args.length == 1) {
+                        sender.sendMessage(new TextComponentString(TextFormatting.WHITE + "Blacklist: " + ChatPicker.blacklist.toString()));
+                    }
+                    else if (args[1].equalsIgnoreCase("add") && args.length == 3) {
+                        ChatPicker.addToBlacklist(args[2]);
+                    }
                 } else if (args[0].equalsIgnoreCase("test") && args.length == 3) {
                     ChatPicker.checkChat(args[1], args[2]);
                     BotCommands.player().sendMessage(new TextComponentString(TextFormatting.WHITE + "<" + TextFormatting.DARK_PURPLE + "Twitch " + TextFormatting.WHITE + args[2] + "> " + args[1]));
@@ -208,7 +232,7 @@ public class TTVCommand extends CommandBase {
 
 
             } else {
-				
+
                 if (BotConnection.isConnected) {
                     sender.sendMessage(new TextComponentString(TextFormatting.GREEN + "Bot is connected."));
                 } else {

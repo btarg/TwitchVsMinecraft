@@ -34,10 +34,9 @@ public class TickHandler {
                 chatTicks = 0;
             }
             if (chatSeconds == 0) {
-                if (ChatPicker.newChats.size() > 0) {
-                    ChatPicker.pickRandomChat();
-                    chatSeconds = chatSecondsDefault;
-                }
+
+                ChatPicker.pickRandomChat();
+                chatSeconds = chatSecondsDefault;
 
                 chatTicks = 0;
             }
@@ -54,6 +53,7 @@ public class TickHandler {
                     timerTicks = 0;
                 }
                 if (timerSeconds == 0) {
+
                     BotCommands.killPlayer();
                     killTimer = false;
                 }
