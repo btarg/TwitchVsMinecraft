@@ -45,6 +45,11 @@ public class ConfigManager {
                     "", // Default value
                     "The streamer's Minecraft username"); // Comment
 
+            Property prefixProp = config.get(Configuration.CATEGORY_GENERAL, // What category will it be saved to, can be any string
+                    "COMMAND_PREFIX", // Property name
+                    "!", // Default value
+                    "The prefix for commands"); // Comment
+
 
             // Get the values from file
             BotConfig.CHANNEL_NAME = channelProp.getString();
@@ -53,6 +58,7 @@ public class ConfigManager {
             TickHandler.chatSeconds = chatSecondsProp.getInt();
             TickHandler.chatSecondsDefault = chatSecondsProp.getInt();
             BotCommands.username = usernameProp.getString();
+            BotConfig.prefix = prefixProp.getString();
 
 
         } catch (Exception e) {
@@ -96,12 +102,18 @@ public class ConfigManager {
                     "", // Default value
                     "The streamer's Minecraft username"); // Comment
 
+            Property prefixProp = config.get(Configuration.CATEGORY_GENERAL, // What category will it be saved to, can be any string
+                    "COMMAND_PREFIX", // Property name
+                    "!", // Default value
+                    "The prefix for commands"); // Comment
+
             // Set the values in file
             keyProp.set(BotConfig.TWITCH_KEY);
             channelProp.set(BotConfig.CHANNEL_NAME);
             showMessagesProp.set(BotConfig.showChatMessages);
             chatSecondsProp.set(TickHandler.chatSecondsDefault);
             usernameProp.set(BotCommands.username);
+            prefixProp.set(BotConfig.prefix);
 
         } catch (Exception e) {
             // Failed reading/writing, just continue

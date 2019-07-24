@@ -2,6 +2,7 @@ package com.icrazyblaze.twitchmod;
 
 import com.icrazyblaze.twitchmod.command.TTVCommand;
 import com.icrazyblaze.twitchmod.gui.TimerGui;
+import com.icrazyblaze.twitchmod.irc.BotConnection;
 import com.icrazyblaze.twitchmod.irc.TwitchBot;
 import com.icrazyblaze.twitchmod.util.ConfigManager;
 import com.icrazyblaze.twitchmod.util.Reference;
@@ -37,7 +38,6 @@ public class Main {
     @EventHandler
     public void init(FMLInitializationEvent event) {
         MinecraftForge.EVENT_BUS.register(this);
-        MinecraftForge.EVENT_BUS.register(new TwitchBot());
         MinecraftForge.EVENT_BUS.register(new TickHandler());
         MinecraftForge.EVENT_BUS.register(new BotCommands());
         MinecraftForge.EVENT_BUS.register(new TimerGui());

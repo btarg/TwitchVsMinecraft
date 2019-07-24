@@ -7,7 +7,7 @@ A Minecraft mod for Forge 1.12.2 inspired by [Kaze Emanuar](https://www.youtube.
 [View the project on CurseForge for more info!](https://minecraft.curseforge.com/projects/twitch-vs-minecraft)
 
 # How it works
-This mod integrates PircBot, a Java IRC API. It uses PircBot to connect to Twitch's IRC server and read a Twitch channel's chat. Every time a new chat message is recieved that isn't blacklisted, it is added to a list. Every 20 seconds (this can be changed), a random message from the list is chosen, and if it's a valid command, e.g. "!creeper", the list of new chat messages will be cleared, the timer will restart and the command will be executed.
+This mod integrates [PircBotX](https://github.com/pircbotx/pircbotx), a Java IRC API. It uses PircBotX to connect to Twitch's IRC server and read a Twitch channel's chat. Every time a new chat message is recieved that isn't blacklisted and starts with the chosen prefix, it is added to a list. Every 20 seconds (this can be changed), a random message from the list is chosen, and if it's a valid command, e.g. "!creeper", the list of new chat messages will be cleared, the timer will restart and the command will be executed. A list of commands is available on the CurseForge page.
 
 # Twitch OAuth key
 As stated on CurseForge, you will need a Twitch OAuth key. You can get this [here.](https://twitchapps.com/tmi)
@@ -35,3 +35,6 @@ To build the project using a terminal, type
 Or find it in the Gradle tab in IDEA.
 
 The build will be located in the **build/libs** folder, alongside the "sources" file. **The sources file is not a mod!**
+
+# Rewrite
+As of the latest versions, the PircBot API has been replaced with PircBotX, and is now shaded in the Gradle file, rather than being included in the repo.

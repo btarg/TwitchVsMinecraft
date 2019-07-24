@@ -1,27 +1,55 @@
 package com.icrazyblaze.twitchmod.irc;
 
+import org.pircbotx.Configuration;
+import org.pircbotx.PircBotX;
+import org.pircbotx.cap.EnableCapHandler;
+
+
 public class BotConnection {
 
-    public static boolean isConnected = false;
-	public static boolean isVerbose = false;
-    static TwitchBot bot = new TwitchBot();
+    public static PircBotX bot = null;
+
 
     public static void main() throws Exception {
 
-        // Now no longer logs by default (this prevents Oauth keys being stored in minecraft logs)
-        bot.setVerbose(false);
+        try {
 
-        bot.connect("irc.twitch.tv", 6667, BotConfig.TWITCH_KEY);
-        bot.joinChannel("#" + BotConfig.CHANNEL_NAME);
+            Configuration config = new Configuration.Builder()
+                    .setAutoReconnect(true)
+                    .setAutoNickChange(false) // Twitch doesn't support multiple users
+                    .setOnJoinWhoEnabled(false) // Twitch doesn't support WHO command
+                    .setCapEnabled(true)
+                    .addCapHandler(new EnableCapHandler("twitch.tv/membership"))
+                    .setName("MinecraftBot")
+                    .addServer("irc.twitch.tv", 6667)
+                    .setServerPassword(BotConfig.TWITCH_KEY)
+                    .addAutoJoinChannel("#" + BotConfig.CHANNEL_NAME)
+                    .addListener(new TwitchBot())
+                    .buildConfiguration();
+
+            bot = new PircBotX(config);
+            bot.startBot();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static boolean isConnected() {
+
+        if (bot != null) {
+            return bot.isConnected();
+        } else {
+            return false;
+        }
 
     }
 
     public static void disconnectBot() {
-        bot.disconnect();
+
+        bot.stopBotReconnect();
+        bot.close();
+
     }
 
-    public static void setVerboseMode(boolean set) {
-        bot.setVerbose(set);
-		isVerbose = set;
-    }
 }

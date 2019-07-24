@@ -14,6 +14,7 @@ import net.minecraft.util.text.TextFormatting;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -45,24 +46,46 @@ public class ChatPicker {
     }
 
     public static void addToBlacklist(String toAdd) {
+
         try {
-            // Write to file
+            // Append to file
             FileWriter fr = new FileWriter(textfile, true);
             fr.write(toAdd);
             fr.close();
+
             // Update from file
             loadBlacklistFile();
+
         } catch (IOException e) {
             Main.logger.error(e);
         }
+
+    }
+
+    public static void clearBlacklist() {
+
+        try {
+            // Clear text file using PrintWriter
+            PrintWriter pr = new PrintWriter(textfile);
+            pr.close();
+
+            // Update from file
+            loadBlacklistFile();
+
+        } catch (IOException e) {
+            Main.logger.error(e);
+        }
+
     }
 
     public static void checkChat(String message, String sender) {
 
-        // Only add the message if it is not blacklisted and starts with !
+        // UPDATE: Prefix checking moved to bot class for custom prefixes, swapped check order
+        // Only add the message if it is not blacklisted
+
         if (!blacklist.isEmpty()) {
             for (String str : blacklist) {
-                if (message.contains(str) || !message.startsWith("!")) {
+                if (str.contains(message)) {
                     break;
                 } else {
                     newChats.add(message);
@@ -71,12 +94,10 @@ public class ChatPicker {
                 }
             }
         }
-        // Fix for empty blacklist bug: accept any message starting with !
+        // Fix for empty blacklist bug: accept any message
         else {
-            if (message.startsWith("!")) {
-                newChats.add(message);
-                newChatSenders.add(sender);
-            }
+            newChats.add(message);
+            newChatSenders.add(sender);
         }
 
     }
@@ -115,70 +136,70 @@ public class ChatPicker {
 
     public static boolean doCommand(String message, String sender) {
         try {
-            if (message.equalsIgnoreCase("!poison")) {
+            if (message.equalsIgnoreCase("poison")) {
                 BotCommands.addPoison();
-            } else if (message.equalsIgnoreCase("!hunger")) {
+            } else if (message.equalsIgnoreCase("hunger")) {
                 BotCommands.addHunger();
-            } else if (message.equalsIgnoreCase("!slowness")) {
+            } else if (message.equalsIgnoreCase("slowness")) {
                 BotCommands.addSlowness();
-            } else if (message.equalsIgnoreCase("!speed") || message.equalsIgnoreCase("!gottagofast")) {
+            } else if (message.equalsIgnoreCase("speed") || message.equalsIgnoreCase("gottagofast")) {
                 BotCommands.addSpeed();
-            } else if (message.equalsIgnoreCase("!nausea") || message.equalsIgnoreCase("!dontfeelsogood")) {
+            } else if (message.equalsIgnoreCase("nausea") || message.equalsIgnoreCase("dontfeelsogood")) {
                 BotCommands.addNausea();
-            } else if (message.equalsIgnoreCase("!levitate") || message.equalsIgnoreCase("!fly")) {
+            } else if (message.equalsIgnoreCase("levitate") || message.equalsIgnoreCase("fly")) {
                 BotCommands.addLevitation();
-            } else if (message.equalsIgnoreCase("!nofall")) {
+            } else if (message.equalsIgnoreCase("nofall")) {
                 BotCommands.noFall();
-            } else if (message.equalsIgnoreCase("!weakness")) {
+            } else if (message.equalsIgnoreCase("weakness")) {
                 BotCommands.addWeakness();
-            } else if (message.equalsIgnoreCase("!fatigue")) {
+            } else if (message.equalsIgnoreCase("fatigue")) {
                 BotCommands.addFatigue();
-            } else if (message.equalsIgnoreCase("!regen") || message.equalsIgnoreCase("!health")) {
+            } else if (message.equalsIgnoreCase("regen") || message.equalsIgnoreCase("health")) {
                 BotCommands.addRegen();
-            } else if (message.equalsIgnoreCase("!fire") || message.equalsIgnoreCase("!burn")) {
+            } else if (message.equalsIgnoreCase("fire") || message.equalsIgnoreCase("burn")) {
                 BotCommands.setOnFire();
-            } else if (message.equalsIgnoreCase("!lava") || message.equalsIgnoreCase("!floorislava")) {
+            } else if (message.equalsIgnoreCase("lava") || message.equalsIgnoreCase("floorislava")) {
                 BotCommands.floorIsLava();
-            } else if (message.equalsIgnoreCase("!deathtimer") || message.equalsIgnoreCase("!timer")) {
+            } else if (message.equalsIgnoreCase("deathtimer") || message.equalsIgnoreCase("timer")) {
                 BotCommands.deathTimer();
             } else if (message.startsWith("!messagebox ") && message.length() > 12) {
                 BotCommands.showMessagebox(message);
             } else if (message.startsWith("!sign ") && message.length() > 6) {
                 BotCommands.placeSign(message);
-            } else if (message.equalsIgnoreCase("!anvil")) {
+            } else if (message.equalsIgnoreCase("anvil")) {
                 BotCommands.spawnAnvil();
-            } else if (message.equalsIgnoreCase("!creeper")) {
+            } else if (message.equalsIgnoreCase("creeper")) {
                 Entity ent = new EntityCreeper(BotCommands.player().world);
                 BotCommands.spawnMob(ent);
-            } else if (message.equalsIgnoreCase("!zombie")) {
+            } else if (message.equalsIgnoreCase("zombie")) {
                 Entity ent = new EntityZombie(BotCommands.player().world);
                 BotCommands.spawnMob(ent);
-            } else if (message.equalsIgnoreCase("!creeper")) {
+            } else if (message.equalsIgnoreCase("creeper")) {
                 Entity ent = new EntitySkeleton(BotCommands.player().world);
                 BotCommands.spawnMob(ent);
-            } else if (message.equalsIgnoreCase("!creeperscare") || message.equalsIgnoreCase("!behindyou")) {
+            } else if (message.equalsIgnoreCase("creeperscare") || message.equalsIgnoreCase("behindyou")) {
                 BotCommands.creeperScare();
-            } else if (message.equalsIgnoreCase("!zombiescare")) {
+            } else if (message.equalsIgnoreCase("zombiescare")) {
                 BotCommands.zombieScare();
-            } else if (message.equalsIgnoreCase("!skeletonscare")) {
+            } else if (message.equalsIgnoreCase("skeletonscare")) {
                 BotCommands.skeletonScare();
-            } else if (message.equalsIgnoreCase("!lightning")) {
+            } else if (message.equalsIgnoreCase("lightning")) {
                 BotCommands.spawnLightning();
-            } else if (message.equalsIgnoreCase("!fireball")) {
+            } else if (message.equalsIgnoreCase("fireball")) {
                 BotCommands.spawnFireball();
-            } else if (message.equalsIgnoreCase("!oresexplode") && !BotCommands.oresExplode) {
+            } else if (message.equalsIgnoreCase("oresexplode") && !BotCommands.oresExplode) {
                 BotCommands.oresExplode = true;
-            } else if (message.equalsIgnoreCase("!bedrock") && !BotCommands.placeBedrock) {
+            } else if (message.equalsIgnoreCase("bedrock") && !BotCommands.placeBedrock) {
                 BotCommands.placeBedrock = true;
-            } else if (message.equalsIgnoreCase("!break")) {
+            } else if (message.equalsIgnoreCase("break")) {
                 BotCommands.breakBlock();
-            } else if (message.equalsIgnoreCase("!water") || message.equalsIgnoreCase("!watersbroke")) {
+            } else if (message.equalsIgnoreCase("water") || message.equalsIgnoreCase("watersbroke")) {
                 BotCommands.waterBucket();
-            } else if (message.equalsIgnoreCase("!dismount") || message.equalsIgnoreCase("!getoff")) {
+            } else if (message.equalsIgnoreCase("dismount") || message.equalsIgnoreCase("getoff")) {
                 BotCommands.dismount();
-            } else if (message.equalsIgnoreCase("!drop") || message.equalsIgnoreCase("!throw")) {
+            } else if (message.equalsIgnoreCase("drop") || message.equalsIgnoreCase("throw")) {
                 BotCommands.dropItem();
-            } else if (message.equalsIgnoreCase("!silverfish")) {
+            } else if (message.equalsIgnoreCase("silverfish")) {
                 BotCommands.monsterEgg();
             } else {
                 return false;
@@ -204,5 +225,6 @@ public class ChatPicker {
             }
         }
     }
+
 
 }
