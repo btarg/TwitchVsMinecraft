@@ -26,6 +26,8 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.EnumDifficulty;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -113,9 +115,22 @@ public class BotCommands {
 
     }
 
+    public static void heavyRain() {
+
+        player().world.getWorldInfo().setRaining(true);
+        player().world.getWorldInfo().setThundering(true);
+
+    }
+
+    public static void setDifficulty(EnumDifficulty difficulty) {
+
+        player().getServer().setDifficultyForAllWorlds(difficulty);
+
+    }
+
+
     public static void killPlayer() {
 
-        Main.logger.info(player());
         player().setDead();
 
     }

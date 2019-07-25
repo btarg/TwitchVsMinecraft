@@ -10,6 +10,7 @@ import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.EnumDifficulty;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -19,6 +20,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -81,9 +83,15 @@ public class ChatPicker {
     public static void checkChat(String message, String sender) {
 
         // UPDATE: Prefix checking moved to bot class for custom prefixes, swapped check order
-        // Only add the message if it is not blacklisted
 
+        // Fix for blacklist being null - set to empty instead
+        if (blacklist == null) {
+            blacklist = Collections.emptyList();
+        }
+
+        // Only add the message if it is not blacklisted
         if (!blacklist.isEmpty()) {
+
             for (String str : blacklist) {
                 if (str.contains(message)) {
                     break;
@@ -93,11 +101,14 @@ public class ChatPicker {
                     break;
                 }
             }
+
         }
         // Fix for empty blacklist bug: accept any message
-        else {
+        else if (blacklist.isEmpty()) {
+
             newChats.add(message);
             newChatSenders.add(sender);
+
         }
 
     }
@@ -120,13 +131,17 @@ public class ChatPicker {
 
             // If command is invalid
             if (!hasExecuted) {
+
                 newChats.remove(listRandom);
                 commandFailed();
+
             }
 
 
             if (BotConfig.showChatMessages) {
-                BotCommands.player().sendMessage(new TextComponentString(TextFormatting.AQUA + "Command Chosen: " + message));
+
+                BotCommands.player().sendMessage(new TextComponentString(TextFormatting.AQUA + "Command Chosen: " + BotConfig.prefix + message));
+
             }
 
             newChats.clear();
@@ -201,7 +216,15 @@ public class ChatPicker {
                 BotCommands.dropItem();
             } else if (message.equalsIgnoreCase("silverfish")) {
                 BotCommands.monsterEgg();
-            } else {
+            } else if (message.equalsIgnoreCase("rain") || message.equalsIgnoreCase("shaun")) {
+                BotCommands.heavyRain();
+            } else if (message.equalsIgnoreCase("hardmode") || message.equalsIgnoreCase("isthiseasymode")) {
+                BotCommands.setDifficulty(EnumDifficulty.HARD);
+            } else if (message.equalsIgnoreCase("peaceful") || message.equalsIgnoreCase("peacefulmode")) {
+                BotCommands.setDifficulty(EnumDifficulty.PEACEFUL);
+            }
+
+            else {
                 return false;
             }
 

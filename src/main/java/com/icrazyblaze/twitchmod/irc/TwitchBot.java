@@ -40,6 +40,8 @@ public class TwitchBot extends ListenerAdapter {
 
         } else if (message.startsWith(BotConfig.prefix)) {
 
+            // Remove the prefix
+            message = message.substring(BotConfig.prefix.length());
             ChatPicker.checkChat(message, sender);
 
         }

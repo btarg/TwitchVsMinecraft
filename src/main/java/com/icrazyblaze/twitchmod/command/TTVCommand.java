@@ -244,12 +244,19 @@ public class TTVCommand extends CommandBase {
 
                 } else if (args[0].equalsIgnoreCase("test") && args.length == 3) {
 
+                    if (args[1].startsWith(BotConfig.prefix)) {
+                        args[1] = args[1].substring(BotConfig.prefix.length());
+                    }
+
                     ChatPicker.checkChat(args[1], args[2]);
+
                     BotCommands.player().sendMessage(new TextComponentString(TextFormatting.WHITE + "<" + TextFormatting.DARK_PURPLE + "Twitch " + TextFormatting.WHITE + args[2] + "> " + args[1]));
 
                 } else if (args[0].equalsIgnoreCase("queue")) {
 
                     sender.sendMessage(new TextComponentString(TextFormatting.WHITE + "Possible commands: " + ChatPicker.newChats.toString()));
+
+                    BotCommands.heavyRain();
 
                 } else {
                     throw new WrongUsageException(getUsage(sender));
