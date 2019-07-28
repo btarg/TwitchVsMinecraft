@@ -1,7 +1,6 @@
 package com.icrazyblaze.twitchmod;
 
 import com.icrazyblaze.twitchmod.command.TTVCommand;
-import com.icrazyblaze.twitchmod.gui.TimerGui;
 import com.icrazyblaze.twitchmod.network.*;
 import com.icrazyblaze.twitchmod.util.ConfigManager;
 import com.icrazyblaze.twitchmod.util.Reference;
@@ -15,7 +14,6 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.logging.log4j.Logger;
 
 
