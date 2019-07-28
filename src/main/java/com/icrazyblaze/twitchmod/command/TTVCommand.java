@@ -218,7 +218,9 @@ public class TTVCommand extends CommandBase {
                     }
 
                 } else if (args[0].equalsIgnoreCase("seconds") && args.length == 1) {
+
                     sender.sendMessage(new TextComponentString(TextFormatting.WHITE + "A new command will be chosen every " + TickHandler.chatSecondsDefault + " seconds."));
+                    
                 } else if (args[0].equalsIgnoreCase("help")) {
 
                     TextComponentString helpmessage = new TextComponentString(TextFormatting.RED + "Use '/help ttv' for usage, or click on this message to view a list of commands.");
@@ -256,7 +258,6 @@ public class TTVCommand extends CommandBase {
 
                     sender.sendMessage(new TextComponentString(TextFormatting.WHITE + "Possible commands: " + ChatPicker.newChats.toString()));
 
-                    BotCommands.heavyRain();
 
                 } else {
                     throw new WrongUsageException(getUsage(sender));

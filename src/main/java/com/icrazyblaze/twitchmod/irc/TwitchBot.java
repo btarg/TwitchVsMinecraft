@@ -2,7 +2,6 @@ package com.icrazyblaze.twitchmod.irc;
 
 
 import com.icrazyblaze.twitchmod.BotCommands;
-import com.icrazyblaze.twitchmod.Main;
 import com.icrazyblaze.twitchmod.chat.ChatPicker;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
