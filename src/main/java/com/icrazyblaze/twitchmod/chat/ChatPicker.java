@@ -46,6 +46,11 @@ public class ChatPicker {
             Main.logger.error(e);
         }
 
+        // Fix for blacklist being null - set to empty instead
+        if (blacklist == null) {
+            blacklist = Collections.emptyList();
+        }
+
     }
 
     public static void addToBlacklist(String toAdd) {
@@ -85,11 +90,6 @@ public class ChatPicker {
     public static void checkChat(String message, String sender) {
 
         // UPDATE: Prefix checking moved to bot class for custom prefixes, swapped check order
-
-        // Fix for blacklist being null - set to empty instead
-        if (blacklist == null) {
-            blacklist = Collections.emptyList();
-        }
 
         // Only add the message if it is not blacklisted
         if (!blacklist.isEmpty()) {
