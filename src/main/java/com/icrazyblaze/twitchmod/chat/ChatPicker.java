@@ -38,6 +38,7 @@ public class ChatPicker {
 
         textfile = new File(path.toString());
         try {
+
             textfile.createNewFile(); // Create file if it doesn't already exist
             blacklist = Files.readAllLines(path); // Read into list
 
@@ -50,6 +51,7 @@ public class ChatPicker {
     public static void addToBlacklist(String toAdd) {
 
         try {
+
             // Append to file
             FileWriter fr = new FileWriter(textfile, true);
             fr.write(toAdd);
@@ -136,7 +138,6 @@ public class ChatPicker {
                 commandFailed();
 
             }
-
 
             if (BotConfig.showChatMessages) {
 
@@ -238,6 +239,7 @@ public class ChatPicker {
     }
 
     public static void commandFailed() {
+
         if (!hasExecuted) {
             if (!newChats.isEmpty()) {
                 // Choose another if the list is big enough
@@ -248,6 +250,5 @@ public class ChatPicker {
             }
         }
     }
-
 
 }

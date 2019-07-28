@@ -1,7 +1,6 @@
 package com.icrazyblaze.twitchmod.network;
 
-import com.icrazyblaze.twitchmod.gui.MessageboxGui;
-import net.minecraft.client.Minecraft;
+import com.icrazyblaze.twitchmod.BotCommands;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
@@ -20,7 +19,7 @@ public class GuiMessageHandler implements IMessageHandler<GuiMessage, IMessage> 
         String display = message.toSend;
         // Execute the action on the main server thread by adding it as a scheduled task
         serverPlayer.getServerWorld().addScheduledTask(() -> {
-            Minecraft.getMinecraft().displayGuiScreen(new MessageboxGui(display));
+            BotCommands.showMessageBoxClient(display);
         });
         // No response packet
         return null;

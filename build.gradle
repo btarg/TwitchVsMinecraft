@@ -70,7 +70,6 @@ dependencies {
 
 
     // Shade required jars when building
-
     shade (group: 'org.pircbotx', name: 'pircbotx', version: '2.1') {
         transitive = false
     }

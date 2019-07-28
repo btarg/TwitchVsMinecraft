@@ -1,5 +1,6 @@
 package com.icrazyblaze.twitchmod;
 
+import com.icrazyblaze.twitchmod.gui.MessageboxGui;
 import com.icrazyblaze.twitchmod.irc.BotConfig;
 import com.icrazyblaze.twitchmod.util.TickHandler;
 import com.icrazyblaze.twitchmod.network.*;
@@ -8,6 +9,7 @@ import net.minecraft.block.BlockSilverfish;
 import net.minecraft.block.BlockStandingSign;
 import net.minecraft.block.BlockStoneBrick;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -30,6 +32,8 @@ import net.minecraft.world.EnumDifficulty;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.Arrays;
 import java.util.List;
@@ -316,9 +320,16 @@ public class BotCommands {
 
         PacketHandler.INSTANCE.sendToServer(new GuiMessage(message));
 
-//        if (!player().world.isRemote) {
-//            Minecraft.getMinecraft().displayGuiScreen(new MessageboxGui(message));
-//        }
+    }
+
+    /*
+    This code is run on the client when the GuiMessage packet is received.
+    */
+    @SideOnly(Side.CLIENT)
+    public static void showMessageBoxClient(String message) {
+
+        Minecraft.getMinecraft().displayGuiScreen(new MessageboxGui(message));
+
     }
 
     public static void placeSign(String message) {
@@ -351,6 +362,7 @@ public class BotCommands {
                 sign.signText[2] = new TextComponentString(splitMessage[2]);
                 sign.signText[3] = new TextComponentString(splitMessage[3]);
             }
+
         }
 
     }
