@@ -139,7 +139,7 @@ public class ChatPicker {
 
             }
 
-            if (BotConfig.showChatMessages) {
+            else if (BotConfig.showChatMessages) {
 
                 BotCommands.player().sendMessage(new TextComponentString(TextFormatting.AQUA + "Command Chosen: " + BotConfig.prefix + message));
 
@@ -246,6 +246,7 @@ public class ChatPicker {
                 pickRandomChat();
             } else {
                 newChats.clear();
+                Main.logger.info("Failed to execute a command.");
                 return;
             }
         }
