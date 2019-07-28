@@ -28,7 +28,7 @@ public class TTVCommand extends CommandBase {
     private final String[] truefalse = {"true", "false"};
     private final String[] addclear = {"add", "clear"};
 
-    public Thread botThread;
+    public Thread botThread = null;
 
 
     public TTVCommand() {
@@ -123,6 +123,11 @@ public class TTVCommand extends CommandBase {
                         }
 
                         // Start the bot in a new thread (required since PircBotX rewrite)
+
+                        if (botThread != null) {
+                            botThread.start();
+                        }
+
                         botThread = new Thread(() -> {
 
                             try {
@@ -234,6 +239,8 @@ public class TTVCommand extends CommandBase {
 
                 } else if (args[0].equalsIgnoreCase("blacklist")) {
 
+                    ChatPicker.loadBlacklistFile();
+
                     if (args.length == 1) {
                         sender.sendMessage(new TextComponentString(TextFormatting.WHITE + "Blacklist: " + ChatPicker.blacklist.toString()));
                     } else if (args[1].equalsIgnoreCase("add") && args.length == 3) {
@@ -252,12 +259,11 @@ public class TTVCommand extends CommandBase {
 
                     ChatPicker.checkChat(args[1], args[2]);
 
-                    BotCommands.player().sendMessage(new TextComponentString(TextFormatting.WHITE + "<" + TextFormatting.DARK_PURPLE + "Twitch " + TextFormatting.WHITE + args[2] + "> " + args[1]));
+                    BotCommands.player().sendMessage(new TextComponentString(TextFormatting.WHITE + "<" + TextFormatting.DARK_PURPLE + "Twitch " + TextFormatting.WHITE + args[2] + "> " + BotConfig.prefix + args[1]));
 
                 } else if (args[0].equalsIgnoreCase("queue")) {
 
                     sender.sendMessage(new TextComponentString(TextFormatting.WHITE + "Possible commands: " + ChatPicker.newChats.toString()));
-
 
                 } else {
                     throw new WrongUsageException(getUsage(sender));
