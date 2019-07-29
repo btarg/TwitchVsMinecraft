@@ -180,9 +180,9 @@ public class ChatPicker {
                 BotCommands.deathTimer();
             } else if (message.startsWith("messagebox ") && message.length() > 12) {
                 BotCommands.showMessagebox(message);
-            } else if (message.equalsIgnoreCase("drain") || message.equalsIgnoreCase("halfhealth")) { 
+            } else if (message.equalsIgnoreCase("drain") || message.equalsIgnoreCase("halfhealth")) {
                 BotCommands.drainHealth();
-            } else if (message.startsWith("!sign ") && message.length() > 6) {
+            } else if (message.startsWith("sign ") && message.length() > 6) {
                 BotCommands.placeSign(message);
             } else if (message.equalsIgnoreCase("anvil")) {
                 BotCommands.spawnAnvil();
