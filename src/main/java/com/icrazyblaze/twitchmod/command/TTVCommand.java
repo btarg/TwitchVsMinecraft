@@ -32,8 +32,10 @@ public class TTVCommand extends CommandBase {
 
 
     public TTVCommand() {
+
         aliases = new ArrayList();
         aliases.add("twitch");
+
     }
 
     @Override
@@ -265,12 +267,16 @@ public class TTVCommand extends CommandBase {
 
                     sender.sendMessage(new TextComponentString(TextFormatting.WHITE + "Possible commands: " + ChatPicker.newChats.toString()));
 
-                } else {
+                }
+
+                else {
                     throw new WrongUsageException(getUsage(sender));
                 }
 
+            }
 
-            } else {
+            // The player just types "/ttv"
+            else {
 
                 if (BotConnection.isConnected()) {
                     sender.sendMessage(new TextComponentString(TextFormatting.GREEN + "Bot is connected."));

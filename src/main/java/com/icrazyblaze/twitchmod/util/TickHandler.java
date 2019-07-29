@@ -5,6 +5,7 @@ import com.icrazyblaze.twitchmod.chat.ChatPicker;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
+
 public class TickHandler {
 
     public static boolean enabled = true;
@@ -15,7 +16,6 @@ public class TickHandler {
 
     public static int timerTicks = 0;
     public static int timerSeconds = 60;
-
     public static boolean killTimer = false;
 
     @SubscribeEvent
@@ -25,10 +25,10 @@ public class TickHandler {
 
             chatTicks++;
 
-            if (chatTicks == 40) {
+            if (chatTicks == 40) { // 40 playerticks = 1 second
 
                 if (chatSeconds > 0) {
-                    chatSeconds--;
+                    chatSeconds--; // Seconds left decreases by 1
                 }
 
                 chatTicks = 0;
@@ -36,12 +36,15 @@ public class TickHandler {
             if (chatSeconds == 0) {
 
                 ChatPicker.pickRandomChat();
-                chatSeconds = chatSecondsDefault;
 
+                // Reset timer
+                chatSeconds = chatSecondsDefault;
                 chatTicks = 0;
+
             }
 
             if (killTimer) {
+
                 timerTicks++;
 
                 if (timerTicks == 40) {
@@ -56,9 +59,9 @@ public class TickHandler {
 
                     BotCommands.killPlayer();
                     killTimer = false;
+
                 }
             }
-
         }
     }
 

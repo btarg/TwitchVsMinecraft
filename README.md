@@ -2,7 +2,7 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/9b887bfebvnuvixy?svg=true)](https://ci.appveyor.com/project/iCrazyBlaze/twitchvsminecraft)
 [![CurseForge](http://cf.way2muchnoise.eu/full_twitch-vs-minecraft_downloads.svg)](https://www.curseforge.com/minecraft/mc-mods/twitch-vs-minecraft)
 
-A Minecraft mod for Forge 1.12.2 inspired by [Kaze Emanuar](https://www.youtube.com/channel/UCuvSqzfO_LV_QzHdmEj84SQ) that lets Twitch viewers interact with the game to provide a fun challenge for streamers.
+A Minecraft mod for Forge 1.12.2 inspired by [Kaze Emanuar](https://www.youtube.com/channel/UCuvSqzfO_LV_QzHdmEj84SQ) and [CrowdControl](https://crowdcontrol.live) that lets Twitch viewers interact with the game to provide a fun challenge for streamers.
 
 [View the project on CurseForge for more info!](https://www.curseforge.com/minecraft/mc-mods/twitch-vs-minecraft)
 

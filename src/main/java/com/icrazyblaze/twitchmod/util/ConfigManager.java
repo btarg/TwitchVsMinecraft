@@ -16,6 +16,7 @@ public class ConfigManager {
         config = Main.config;
 
         try {
+
             // Load config
             config.load();
 
@@ -122,6 +123,5 @@ public class ConfigManager {
             config.save();
         }
     }
-
 
 }

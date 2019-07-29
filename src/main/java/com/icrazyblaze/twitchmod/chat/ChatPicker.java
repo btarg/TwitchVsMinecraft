@@ -27,8 +27,8 @@ import java.util.Random;
 public class ChatPicker {
 
     public static List<String> blacklist;
-    public static ArrayList<String> newChats = new ArrayList<String>();
-    public static ArrayList<String> newChatSenders = new ArrayList<String>();
+    public static ArrayList<String> newChats = new ArrayList<>();
+    public static ArrayList<String> newChatSenders = new ArrayList<>();
     public static Path path = Paths.get(Minecraft.getMinecraft().mcDataDir.getPath(), "config/twitch-blacklist.txt");
     public static File textfile;
 
@@ -56,7 +56,6 @@ public class ChatPicker {
     public static void addToBlacklist(String toAdd) {
 
         try {
-
             // Append to file
             FileWriter fr = new FileWriter(textfile, true);
             fr.write(toAdd);
@@ -137,9 +136,7 @@ public class ChatPicker {
                 newChats.remove(listRandom);
                 commandFailed();
 
-            }
-
-            else if (BotConfig.showChatMessages) {
+            } else if (BotConfig.showChatMessages) {
 
                 BotCommands.player().sendMessage(new TextComponentString(TextFormatting.AQUA + "Command Chosen: " + BotConfig.prefix + message));
 
@@ -151,6 +148,7 @@ public class ChatPicker {
     }
 
     public static boolean doCommand(String message, String sender) {
+
         try {
             if (message.equalsIgnoreCase("poison")) {
                 BotCommands.addPoison();
@@ -178,10 +176,10 @@ public class ChatPicker {
                 BotCommands.floorIsLava();
             } else if (message.equalsIgnoreCase("deathtimer") || message.equalsIgnoreCase("timer")) {
                 BotCommands.deathTimer();
-            } else if (message.startsWith("messagebox ") && message.length() > 12) {
-                BotCommands.showMessagebox(message);
             } else if (message.equalsIgnoreCase("drain") || message.equalsIgnoreCase("halfhealth")) {
                 BotCommands.drainHealth();
+            } else if (message.startsWith("messagebox ") && message.length() > 12) {
+                BotCommands.showMessagebox(message);
             } else if (message.startsWith("sign ") && message.length() > 6) {
                 BotCommands.placeSign(message);
             } else if (message.equalsIgnoreCase("anvil")) {
@@ -225,9 +223,7 @@ public class ChatPicker {
                 BotCommands.setDifficulty(EnumDifficulty.HARD);
             } else if (message.equalsIgnoreCase("peaceful") || message.equalsIgnoreCase("peacefulmode")) {
                 BotCommands.setDifficulty(EnumDifficulty.PEACEFUL);
-            }
-
-            else {
+            } else {
                 return false;
             }
 

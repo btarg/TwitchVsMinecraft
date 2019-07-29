@@ -144,7 +144,6 @@ public class BotCommands {
 
     }
 
-
     public static void killPlayer() {
 
         player().setDead();
