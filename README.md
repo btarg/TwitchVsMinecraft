@@ -1,10 +1,10 @@
 # Twitch Vs Minecraft
 [![Build status](https://ci.appveyor.com/api/projects/status/9b887bfebvnuvixy?svg=true)](https://ci.appveyor.com/project/iCrazyBlaze/twitchvsminecraft)
-[![CurseForge](http://cf.way2muchnoise.eu/full_twitch-vs-minecraft_downloads.svg)](https://minecraft.curseforge.com/projects/twitch-vs-minecraft)
+[![CurseForge](http://cf.way2muchnoise.eu/full_twitch-vs-minecraft_downloads.svg)](https://www.curseforge.com/minecraft/mc-mods/twitch-vs-minecraft)
 
 A Minecraft mod for Forge 1.12.2 inspired by [Kaze Emanuar](https://www.youtube.com/channel/UCuvSqzfO_LV_QzHdmEj84SQ) that lets Twitch viewers interact with the game to provide a fun challenge for streamers.
 
-[View the project on CurseForge for more info!](https://minecraft.curseforge.com/projects/twitch-vs-minecraft)
+[View the project on CurseForge for more info!](https://www.curseforge.com/minecraft/mc-mods/twitch-vs-minecraft)
 
 # How it works
 This mod integrates [PircBotX](https://github.com/pircbotx/pircbotx), a Java IRC API. It uses PircBotX to connect to Twitch's IRC server and read a Twitch channel's chat. Every time a new chat message is recieved that isn't blacklisted and starts with the chosen prefix, it is added to a list. Every 20 seconds (this can be changed), a random message from the list is chosen, and if it's a valid command, e.g. "!creeper", the list of new chat messages will be cleared, the timer will restart and the command will be executed. A list of commands is available on the CurseForge page.
