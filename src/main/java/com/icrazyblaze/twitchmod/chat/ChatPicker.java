@@ -178,8 +178,10 @@ public class ChatPicker {
                 BotCommands.floorIsLava();
             } else if (message.equalsIgnoreCase("deathtimer") || message.equalsIgnoreCase("timer")) {
                 BotCommands.deathTimer();
-            } else if (message.startsWith("!messagebox ") && message.length() > 12) {
+            } else if (message.startsWith("messagebox ") && message.length() > 12) {
                 BotCommands.showMessagebox(message);
+            } else if (message.equalsIgnoreCase("drain") || message.equalsIgnoreCase("halfhealth")) { 
+                BotCommands.drainHealth();
             } else if (message.startsWith("!sign ") && message.length() > 6) {
                 BotCommands.placeSign(message);
             } else if (message.equalsIgnoreCase("anvil")) {

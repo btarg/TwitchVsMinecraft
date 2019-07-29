@@ -131,6 +131,19 @@ public class BotCommands {
 
     }
 
+    public static void drainHealth() {
+
+        // Half the player's health
+        float halfhealth = player().getHealth() / 2;
+
+        if (halfhealth == 0) {
+            killPlayer();
+        } else {
+            player().setHealth(halfhealth);
+        }
+
+    }
+
 
     public static void killPlayer() {
 
