@@ -255,13 +255,15 @@ public class TTVCommand extends CommandBase {
 
                 } else if (args[0].equalsIgnoreCase("test") && args.length == 3) {
 
-                    if (args[1].startsWith(BotConfig.prefix)) {
-                        args[1] = args[1].substring(BotConfig.prefix.length());
+                    String message = args[1];
+
+                    if (message.startsWith(BotConfig.prefix)) {
+                        message = message.substring(BotConfig.prefix.length());
                     }
 
-                    ChatPicker.checkChat(args[1], args[2]);
+                    ChatPicker.checkChat(message, args[2]);
 
-                    BotCommands.player().sendMessage(new TextComponentString(TextFormatting.WHITE + "<" + TextFormatting.DARK_PURPLE + "Twitch " + TextFormatting.WHITE + args[2] + "> " + BotConfig.prefix + args[1]));
+                    BotCommands.player().sendMessage(new TextComponentString(TextFormatting.WHITE + "<" + TextFormatting.DARK_PURPLE + "Twitch " + TextFormatting.WHITE + args[2] + "> " + BotConfig.prefix + message));
 
                 } else if (args[0].equalsIgnoreCase("queue")) {
 

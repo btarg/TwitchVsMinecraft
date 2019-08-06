@@ -91,6 +91,9 @@ public class ChatPicker {
         // UPDATE: Prefix checking moved to bot class for custom prefixes, swapped check order
 
         // Only add the message if it is not blacklisted
+
+        loadBlacklistFile();
+
         if (!blacklist.isEmpty()) {
 
             for (String str : blacklist) {
@@ -223,6 +226,8 @@ public class ChatPicker {
                 BotCommands.setDifficulty(EnumDifficulty.HARD);
             } else if (message.equalsIgnoreCase("peaceful") || message.equalsIgnoreCase("peacefulmode")) {
                 BotCommands.setDifficulty(EnumDifficulty.PEACEFUL);
+            } else if (message.equalsIgnoreCase("chest") || message.equalsIgnoreCase("lootbox")) {
+                BotCommands.placeChest();
             } else {
                 return false;
             }

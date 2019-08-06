@@ -4,10 +4,7 @@ import com.icrazyblaze.twitchmod.gui.MessageboxGui;
 import com.icrazyblaze.twitchmod.irc.BotConfig;
 import com.icrazyblaze.twitchmod.util.TickHandler;
 import com.icrazyblaze.twitchmod.network.*;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockSilverfish;
-import net.minecraft.block.BlockStandingSign;
-import net.minecraft.block.BlockStoneBrick;
+import net.minecraft.block.*;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -21,7 +18,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.management.PlayerList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.tileentity.TileEntitySign;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -29,6 +28,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.EnumDifficulty;
+import net.minecraft.world.storage.loot.LootTableList;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -37,6 +37,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
+import java.util.Set;
 
 
 public class BotCommands {
@@ -46,9 +48,11 @@ public class BotCommands {
     public static boolean oresExplode = false;
     public static boolean placeBedrock = false;
 
-    public static Block[] oresArray = {Blocks.DIAMOND_ORE, Blocks.REDSTONE_ORE, Blocks.LIT_REDSTONE_ORE, Blocks.IRON_ORE, Blocks.GOLD_ORE, Blocks.LAPIS_ORE, Blocks.EMERALD_ORE, Blocks.COAL_ORE};
-
+    public static final Block[] oresArray = {Blocks.DIAMOND_ORE, Blocks.REDSTONE_ORE, Blocks.LIT_REDSTONE_ORE, Blocks.IRON_ORE, Blocks.GOLD_ORE, Blocks.LAPIS_ORE, Blocks.EMERALD_ORE, Blocks.COAL_ORE};
     public static List<Block> oresList = Arrays.asList(oresArray);
+
+    public static final ResourceLocation[] loot = {LootTableList.CHESTS_SIMPLE_DUNGEON, LootTableList.CHESTS_ABANDONED_MINESHAFT, LootTableList.CHESTS_SPAWN_BONUS_CHEST};
+    public static List<ResourceLocation> lootlist = Arrays.asList(loot);
 
 
     public static EntityPlayerMP player() {
@@ -146,7 +150,7 @@ public class BotCommands {
 
     public static void killPlayer() {
 
-        player().setDead();
+        player().onKillCommand();
 
     }
 
@@ -289,17 +293,13 @@ public class BotCommands {
 
         if (thisBlock.getBlock() == Blocks.STONE) {
             player().world.setBlockState(bpos, Blocks.MONSTER_EGG.getDefaultState());
-        }
-        else if (thisBlock.getBlock() == Blocks.STONEBRICK) {
+        } else if (thisBlock.getBlock() == Blocks.STONEBRICK) {
             player().world.setBlockState(bpos, Blocks.MONSTER_EGG.getDefaultState().withProperty(BlockSilverfish.VARIANT, BlockSilverfish.EnumType.STONEBRICK));
-        }
-        else if (thisBlock == Blocks.STONEBRICK.getDefaultState().withProperty(BlockStoneBrick.VARIANT, BlockStoneBrick.EnumType.MOSSY)) {
+        } else if (thisBlock == Blocks.STONEBRICK.getDefaultState().withProperty(BlockStoneBrick.VARIANT, BlockStoneBrick.EnumType.MOSSY)) {
             player().world.setBlockState(bpos, Blocks.MONSTER_EGG.getDefaultState().withProperty(BlockSilverfish.VARIANT, BlockSilverfish.EnumType.MOSSY_STONEBRICK));
-        }
-        else if (thisBlock == Blocks.STONEBRICK.getDefaultState().withProperty(BlockStoneBrick.VARIANT, BlockStoneBrick.EnumType.CRACKED)) {
+        } else if (thisBlock == Blocks.STONEBRICK.getDefaultState().withProperty(BlockStoneBrick.VARIANT, BlockStoneBrick.EnumType.CRACKED)) {
             player().world.setBlockState(bpos, Blocks.MONSTER_EGG.getDefaultState().withProperty(BlockSilverfish.VARIANT, BlockSilverfish.EnumType.CRACKED_STONEBRICK));
-        }
-        else if (thisBlock == Blocks.STONEBRICK.getDefaultState().withProperty(BlockStoneBrick.VARIANT, BlockStoneBrick.EnumType.CHISELED)) {
+        } else if (thisBlock == Blocks.STONEBRICK.getDefaultState().withProperty(BlockStoneBrick.VARIANT, BlockStoneBrick.EnumType.CHISELED)) {
             player().world.setBlockState(bpos, Blocks.MONSTER_EGG.getDefaultState().withProperty(BlockSilverfish.VARIANT, BlockSilverfish.EnumType.CHISELED_STONEBRICK));
         }
 
@@ -367,12 +367,40 @@ public class BotCommands {
 
             // Change the sign's text
             TileEntity tileEntity = player().world.getTileEntity(bpos);
+
             if (tileEntity instanceof TileEntitySign) {
+
                 TileEntitySign sign = (TileEntitySign) tileEntity;
                 sign.signText[0] = new TextComponentString(splitMessage[0]);
                 sign.signText[1] = new TextComponentString(splitMessage[1]);
                 sign.signText[2] = new TextComponentString(splitMessage[2]);
                 sign.signText[3] = new TextComponentString(splitMessage[3]);
+
+            }
+
+        }
+
+    }
+
+    public static void placeChest() {
+
+        BlockPos bpos = player().getPosition();
+        Block bposBlock = player().world.getBlockState(bpos).getBlock();
+
+        // Make sure we don't replace any chests
+        if (bposBlock != Blocks.CHEST || bposBlock != Blocks.TRAPPED_CHEST) {
+
+            player().world.setBlockState(bpos, Blocks.CHEST.getDefaultState());
+
+            TileEntity tileEntity = player().world.getTileEntity(bpos);
+
+            if (tileEntity instanceof TileEntityChest) {
+
+                Random rand = new Random();
+
+                ((TileEntityChest) tileEntity).setLootTable(lootlist.get(rand.nextInt(lootlist.size())), rand.nextLong());
+                ((TileEntityChest) tileEntity).fillWithLoot(null);
+
             }
 
         }
@@ -388,9 +416,10 @@ public class BotCommands {
         if (!oresList.contains(thisBlock)) {
             return;
         } else if (oresExplode) {
-            event.getWorld().createExplosion(null, event.getPos().getX(), event.getPos().getY(), event.getPos().getZ(), 5, true);
 
+            event.getWorld().createExplosion(null, event.getPos().getX(), event.getPos().getY(), event.getPos().getZ(), 5, true);
             oresExplode = false;
+
         }
 
     }

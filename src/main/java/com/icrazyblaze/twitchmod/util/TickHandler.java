@@ -19,13 +19,13 @@ public class TickHandler {
     public static boolean killTimer = false;
 
     @SubscribeEvent
-    public void tickTimer(TickEvent.PlayerTickEvent event) {
+    public void tickTimer(TickEvent.ServerTickEvent event) {
 
-        if (event.phase == TickEvent.Phase.END && event.player != null && enabled) {
+        if (event.phase == TickEvent.Phase.END && enabled) {
 
             chatTicks++;
 
-            if (chatTicks == 40) { // 40 playerticks = 1 second
+            if (chatTicks == 20) { // 20 serverticks = 1 second
 
                 if (chatSeconds > 0) {
                     chatSeconds--; // Seconds left decreases by 1
@@ -47,7 +47,7 @@ public class TickHandler {
 
                 timerTicks++;
 
-                if (timerTicks == 40) {
+                if (timerTicks == 20) {
 
                     if (timerSeconds > 0) {
                         timerSeconds--;

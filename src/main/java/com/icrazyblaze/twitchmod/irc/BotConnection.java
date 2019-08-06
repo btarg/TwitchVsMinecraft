@@ -18,8 +18,6 @@ public class BotConnection {
                     .setAutoReconnect(true)
                     .setAutoNickChange(false) // Twitch doesn't support multiple users
                     .setOnJoinWhoEnabled(false) // Twitch doesn't support WHO command
-                    .setCapEnabled(true)
-                    .addCapHandler(new EnableCapHandler("twitch.tv/membership"))
                     .setName("MinecraftBot")
                     .addServer("irc.twitch.tv", 6667)
                     .setServerPassword(BotConfig.TWITCH_KEY)
