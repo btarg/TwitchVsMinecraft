@@ -325,7 +325,7 @@ public class BotCommands {
     public static void showMessagebox(String message) {
 
         // Cut off the command
-        message = message.substring(BotConfig.prefix.length() + 11);
+        message = message.substring(11);
 
         // Then trim the string to the proper length (324 chars max)
         message = message.substring(0, Math.min(message.length(), 324));
@@ -347,7 +347,7 @@ public class BotCommands {
     public static void placeSign(String message) {
 
         // Cut off the command
-        message = message.substring(BotConfig.prefix.length() + 5);
+        message = message.substring(5);
 
         // Split every 15 characters
         int maxlength = 15;

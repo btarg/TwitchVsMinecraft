@@ -193,7 +193,7 @@ public class ChatPicker {
             } else if (message.equalsIgnoreCase("zombie")) {
                 Entity ent = new EntityZombie(BotCommands.player().world);
                 BotCommands.spawnMob(ent);
-            } else if (message.equalsIgnoreCase("creeper")) {
+            } else if (message.equalsIgnoreCase("skeleton")) {
                 Entity ent = new EntitySkeleton(BotCommands.player().world);
                 BotCommands.spawnMob(ent);
             } else if (message.equalsIgnoreCase("creeperscare") || message.equalsIgnoreCase("behindyou")) {
