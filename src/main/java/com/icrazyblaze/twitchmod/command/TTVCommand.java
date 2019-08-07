@@ -28,8 +28,6 @@ public class TTVCommand extends CommandBase {
     private final String[] truefalse = {"true", "false"};
     private final String[] addclear = {"add", "clear"};
 
-    public Thread botThread = null;
-
 
     public TTVCommand() {
 
@@ -114,33 +112,18 @@ public class TTVCommand extends CommandBase {
                 } else if (args[0].equalsIgnoreCase("connect")) {
 
                     try {
+
                         if (BotConnection.isConnected()) {
 
                             BotConnection.disconnectBot();
                             sender.sendMessage(new TextComponentString(TextFormatting.DARK_PURPLE + "Reconnecting..."));
 
                         } else {
-
                             sender.sendMessage(new TextComponentString(TextFormatting.DARK_PURPLE + "Connecting..."));
                         }
 
                         // Start the bot in a new thread (required since PircBotX rewrite)
-
-                        if (botThread != null) {
-                            botThread.start();
-                        }
-
-                        botThread = new Thread(() -> {
-
-                            try {
-                                BotConnection.main();
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-
-                        });
-
-                        botThread.start();
+                        BotConnection.main();
 
                     } catch (Exception e) {
                         sender.sendMessage(new TextComponentString(TextFormatting.RED + "Could not connect: " + e.toString()));
@@ -157,7 +140,6 @@ public class TTVCommand extends CommandBase {
                         }
 
                         BotConnection.disconnectBot();
-                        botThread.interrupt();
 
                     } catch (Exception e) {
                         sender.sendMessage(new TextComponentString(TextFormatting.RED + e.toString()));

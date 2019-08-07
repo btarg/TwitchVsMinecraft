@@ -8,9 +8,9 @@ import org.pircbotx.cap.EnableCapHandler;
 public class BotConnection {
 
     public static PircBotX bot = null;
+    public static Thread botThread = null;
 
-
-    public static void main() throws Exception {
+    public static void main() {
 
         try {
 
@@ -18,6 +18,9 @@ public class BotConnection {
                     .setAutoReconnect(true)
                     .setAutoNickChange(false) // Twitch doesn't support multiple users
                     .setOnJoinWhoEnabled(false) // Twitch doesn't support WHO command
+                    .setCapEnabled(true)
+                    .addCapHandler(new EnableCapHandler("twitch.tv/membership"))
+                    .addCapHandler(new EnableCapHandler("twitch.tv/tags"))
                     .setName("MinecraftBot")
                     .addServer("irc.twitch.tv", 6667)
                     .setServerPassword(BotConfig.TWITCH_KEY)
@@ -26,7 +29,18 @@ public class BotConnection {
                     .buildConfiguration();
 
             bot = new PircBotX(config);
-            bot.startBot();
+
+            botThread = new Thread(() -> {
+
+                try {
+                    bot.startBot();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            });
+
+            botThread.start();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -47,6 +61,7 @@ public class BotConnection {
 
         bot.stopBotReconnect();
         bot.close();
+        botThread.interrupt();
 
     }
 

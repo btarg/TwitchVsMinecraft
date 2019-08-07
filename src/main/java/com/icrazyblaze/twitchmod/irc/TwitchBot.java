@@ -27,10 +27,21 @@ public class TwitchBot extends ListenerAdapter {
         String message = event.getMessage();
         String sender = event.getUser().getNick();
 
+        TextFormatting format = TextFormatting.WHITE;
+
 
         if (BotConfig.showChatMessages) {
 
-            BotCommands.player().sendMessage(new TextComponentString(TextFormatting.WHITE + "<" + TextFormatting.DARK_PURPLE + "Twitch " + TextFormatting.WHITE + sender + "> " + message));
+            if (event.getTags().get("badges").contains("broadcaster/1")) {
+                format = TextFormatting.GOLD;
+            } else if (event.getTags().get("badges").contains("subscriber/1")) {
+                format = TextFormatting.AQUA;
+            } else if (event.getTags().get("badges").contains("moderator/1")) {
+                format = TextFormatting.GREEN;
+            }
+
+            BotCommands.player().sendMessage(new TextComponentString(TextFormatting.WHITE + "<" + TextFormatting.DARK_PURPLE + "Twitch " + format + sender + TextFormatting.WHITE + "> " + message));
+
         }
 
         if (message.equalsIgnoreCase(BotConfig.prefix + "help") || message.equalsIgnoreCase(BotConfig.prefix + "commands")) {
