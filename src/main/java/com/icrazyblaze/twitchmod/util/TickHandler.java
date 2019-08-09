@@ -11,7 +11,7 @@ public class TickHandler {
     public static boolean enabled = true;
 
     public static int chatTicks = 0;
-    public static int chatSecondsDefault = 20;
+    public static int chatSecondsDefault = 30;
     public static int chatSeconds = chatSecondsDefault;
 
     public static int timerTicks = 0;

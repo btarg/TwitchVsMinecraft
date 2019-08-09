@@ -44,7 +44,7 @@ public class ConfigManager {
 
             Property chatSecondsProp = config.get(Configuration.CATEGORY_GENERAL, // What category will it be saved to, can be any string
                     "CHAT_TIMER", // Property name
-                    20, // Default value
+                    30, // Default value
                     "How many seconds until the next command is chosen"); // Comment
 
             Property usernameProp = config.get(Configuration.CATEGORY_GENERAL, // What category will it be saved to, can be any string
