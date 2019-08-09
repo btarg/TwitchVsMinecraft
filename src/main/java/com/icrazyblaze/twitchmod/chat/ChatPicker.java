@@ -3,6 +3,7 @@ package com.icrazyblaze.twitchmod.chat;
 import com.icrazyblaze.twitchmod.BotCommands;
 import com.icrazyblaze.twitchmod.Main;
 import com.icrazyblaze.twitchmod.irc.BotConfig;
+import com.icrazyblaze.twitchmod.irc.BotConnection;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.monster.EntityCreeper;
@@ -33,6 +34,10 @@ public class ChatPicker {
     public static File textfile;
 
     public static boolean hasExecuted = false;
+
+    public static boolean cooldownEnabled = false;
+    public static String lastCommand = null;
+
 
     public static void loadBlacklistFile() {
 
@@ -88,30 +93,63 @@ public class ChatPicker {
 
     public static void checkChat(String message, String sender) {
 
-        // UPDATE: Prefix checking moved to bot class for custom prefixes, swapped check order
-
-        // Only add the message if it is not blacklisted
+        // Only add the message if it is not blacklisted, and if the command isn't the same as the last
 
         loadBlacklistFile();
 
         if (!blacklist.isEmpty()) {
 
             for (String str : blacklist) {
+
                 if (str.contains(message)) {
                     break;
+
                 } else {
-                    newChats.add(message);
-                    newChatSenders.add(sender);
-                    break;
+
+                    if (lastCommand != null && cooldownEnabled) {
+
+                        if (!message.equalsIgnoreCase(lastCommand)) {
+
+                            newChats.add(message);
+                            newChatSenders.add(sender);
+                            break;
+
+                        } else {
+                            Main.logger.info("Command not executed: cooldown is active for this command.");
+                            break;
+                        }
+
+                    } else {
+
+                        newChats.add(message);
+                        newChatSenders.add(sender);
+                        break;
+
+                    }
                 }
             }
 
         }
-        // Fix for empty blacklist bug: accept any message
+        // Fix for empty blacklist bug: accept any message (also runs cooldown check)
         else if (blacklist.isEmpty()) {
 
-            newChats.add(message);
-            newChatSenders.add(sender);
+            if (lastCommand != null && cooldownEnabled) {
+
+                if (!message.equalsIgnoreCase(lastCommand)) {
+
+                    newChats.add(message);
+                    newChatSenders.add(sender);
+
+                } else {
+                    Main.logger.info("Command not executed: cooldown is active for this command.");
+                }
+
+            } else {
+
+                newChats.add(message);
+                newChatSenders.add(sender);
+
+            }
 
         }
 
@@ -130,7 +168,6 @@ public class ChatPicker {
             message = newChats.get(listRandom);
             sender = newChatSenders.get(listRandom);
 
-
             hasExecuted = doCommand(message, sender);
 
             // If command is invalid
@@ -146,6 +183,7 @@ public class ChatPicker {
             }
 
             newChats.clear();
+
         }
 
     }
@@ -173,6 +211,8 @@ public class ChatPicker {
                 BotCommands.addFatigue();
             } else if (message.equalsIgnoreCase("regen") || message.equalsIgnoreCase("health")) {
                 BotCommands.addRegen();
+            } else if (message.equalsIgnoreCase("jumpboost") || message.equalsIgnoreCase("yeet")) {
+                BotCommands.addJumpBoost();
             } else if (message.equalsIgnoreCase("fire") || message.equalsIgnoreCase("burn")) {
                 BotCommands.setOnFire();
             } else if (message.equalsIgnoreCase("lava") || message.equalsIgnoreCase("floorislava")) {
@@ -181,9 +221,9 @@ public class ChatPicker {
                 BotCommands.deathTimer();
             } else if (message.equalsIgnoreCase("drain") || message.equalsIgnoreCase("halfhealth")) {
                 BotCommands.drainHealth();
-            } else if (message.startsWith("messagebox ") && message.length() > 12) {
+            } else if (message.startsWith("messagebox ") && message.length() > 11) {
                 BotCommands.showMessagebox(message);
-            } else if (message.startsWith("sign ") && message.length() > 6) {
+            } else if (message.startsWith("sign ") && message.length() > 5) {
                 BotCommands.placeSign(message);
             } else if (message.equalsIgnoreCase("anvil")) {
                 BotCommands.spawnAnvil();
@@ -233,6 +273,9 @@ public class ChatPicker {
             }
 
             // Below will not be executed if the command does not run
+
+            lastCommand = message;
+
             return true;
 
         } catch (Exception e) {

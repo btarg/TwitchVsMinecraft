@@ -43,7 +43,7 @@ public class TTVCommand extends CommandBase {
 
     @Override
     public String getUsage(ICommandSender sender) {
-        return "/ttv <key/channel> [OAuth key/channel name] OR /ttv affects <username> OR /ttv prefix <prefix> OR /ttv <connect/disconnect> OR /ttv enabled <true/false> OR /ttv <save/reload> OR /ttv showchat <true/false> OR /ttv seconds <seconds> OR /ttv blacklist <add/clear> [command] OR /ttv queue";
+        return "/ttv <key/channel> [OAuth key/channel name] OR /ttv affects <username> OR /ttv prefix <prefix> OR /ttv <connect/disconnect> OR /ttv enabled <true/false> OR /ttv cooldown <true/false> OR /ttv <save/reload> OR /ttv showchat <true/false> OR /ttv seconds <seconds> OR /ttv blacklist <add/clear> [command] OR /ttv queue";
     }
 
     @Override
@@ -63,7 +63,7 @@ public class TTVCommand extends CommandBase {
             return CommandBase.getListOfStringsMatchingLastWord(args, autocomplete);
         } else if (args[0].equalsIgnoreCase("affects")) {
             return CommandBase.getListOfStringsMatchingLastWord(args, server.getOnlinePlayerNames());
-        } else if (args[0].equalsIgnoreCase("showchat") || args[0].equalsIgnoreCase("enabled")) {
+        } else if (args[0].equalsIgnoreCase("showchat") || args[0].equalsIgnoreCase("enabled") || args[0].equalsIgnoreCase("cooldown")) {
             return CommandBase.getListOfStringsMatchingLastWord(args, truefalse);
         } else if (args[0].equalsIgnoreCase("blacklist")) {
             return CommandBase.getListOfStringsMatchingLastWord(args, addclear);
@@ -163,6 +163,18 @@ public class TTVCommand extends CommandBase {
                     } else if (args[1].equalsIgnoreCase("false")) {
                         BotConfig.showChatMessages = false;
                         sender.sendMessage(new TextComponentString(TextFormatting.DARK_PURPLE + "Chat is now hidden."));
+                    } else {
+                        throw new WrongUsageException(getUsage(sender));
+                    }
+
+                } else if (args[0].equalsIgnoreCase("cooldown") && args.length == 2) {
+
+                    if (args[1].equalsIgnoreCase("true")) {
+                        ChatPicker.cooldownEnabled = true;
+                        sender.sendMessage(new TextComponentString(TextFormatting.AQUA + "Cooldown is now enabled."));
+                    } else if (args[1].equalsIgnoreCase("false")) {
+                        ChatPicker.cooldownEnabled = false;
+                        sender.sendMessage(new TextComponentString(TextFormatting.AQUA + "Cooldown is now disabled."));
                     } else {
                         throw new WrongUsageException(getUsage(sender));
                     }

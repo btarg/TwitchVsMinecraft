@@ -48,6 +48,10 @@ public class TwitchBot extends ListenerAdapter {
 
             event.respond("Click here for a list of commands: http://bit.ly/2UfBCiL");
 
+        } else if (message.equalsIgnoreCase(BotConfig.prefix + "modlink")) {
+
+            event.respond("Click here to download the mod: http://bit.ly/TwitchVsMinecraft");
+
         } else if (message.startsWith(BotConfig.prefix)) {
 
             // Remove the prefix

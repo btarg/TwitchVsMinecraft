@@ -2,6 +2,7 @@ package com.icrazyblaze.twitchmod.util;
 
 import com.icrazyblaze.twitchmod.BotCommands;
 import com.icrazyblaze.twitchmod.Main;
+import com.icrazyblaze.twitchmod.chat.ChatPicker;
 import com.icrazyblaze.twitchmod.irc.BotConfig;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
@@ -51,6 +52,11 @@ public class ConfigManager {
                     "!", // Default value
                     "The prefix for commands"); // Comment
 
+            Property cooldownProp = config.get(Configuration.CATEGORY_GENERAL, // What category will it be saved to, can be any string
+                    "COOLDOWN_ENABLED", // Property name
+                    false, // Default value
+                    "Prevent the same command from being executed twice in a row."); // Comment
+
 
             // Get the values from file
             BotConfig.CHANNEL_NAME = channelProp.getString();
@@ -60,6 +66,7 @@ public class ConfigManager {
             TickHandler.chatSecondsDefault = chatSecondsProp.getInt();
             BotCommands.username = usernameProp.getString();
             BotConfig.prefix = prefixProp.getString();
+            ChatPicker.cooldownEnabled = cooldownProp.getBoolean();
 
 
         } catch (Exception e) {
@@ -108,6 +115,11 @@ public class ConfigManager {
                     "!", // Default value
                     "The prefix for commands"); // Comment
 
+            Property cooldownProp = config.get(Configuration.CATEGORY_GENERAL, // What category will it be saved to, can be any string
+                    "COOLDOWN_ENABLED", // Property name
+                    false, // Default value
+                    "Prevent the same command from being executed twice in a row."); // Comment
+
             // Set the values in file
             keyProp.set(BotConfig.TWITCH_KEY);
             channelProp.set(BotConfig.CHANNEL_NAME);
@@ -115,6 +127,7 @@ public class ConfigManager {
             chatSecondsProp.set(TickHandler.chatSecondsDefault);
             usernameProp.set(BotCommands.username);
             prefixProp.set(BotConfig.prefix);
+            cooldownProp.set(ChatPicker.cooldownEnabled);
 
         } catch (Exception e) {
             // Failed reading/writing, just continue

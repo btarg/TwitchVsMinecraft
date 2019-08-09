@@ -1,7 +1,6 @@
 package com.icrazyblaze.twitchmod;
 
 import com.icrazyblaze.twitchmod.gui.MessageboxGui;
-import com.icrazyblaze.twitchmod.irc.BotConfig;
 import com.icrazyblaze.twitchmod.util.TickHandler;
 import com.icrazyblaze.twitchmod.network.*;
 import net.minecraft.block.*;
@@ -38,7 +37,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
 
 
 public class BotCommands {
@@ -107,6 +105,10 @@ public class BotCommands {
 
     public static void addRegen() {
         player().addPotionEffect(new PotionEffect(MobEffects.HEALTH_BOOST, 200, 0));
+    }
+
+    public static void addJumpBoost() {
+        player().addPotionEffect(new PotionEffect(MobEffects.JUMP_BOOST, 200, 1));
     }
 
     public static void setOnFire() {
