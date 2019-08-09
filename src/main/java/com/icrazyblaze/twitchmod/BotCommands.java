@@ -432,9 +432,11 @@ public class BotCommands {
         BlockPos bpos = event.getPos();
 
         if (placeBedrock) {
+
             event.setCanceled(true);
             event.getWorld().setBlockState(bpos, Blocks.BEDROCK.getDefaultState());
             placeBedrock = false;
+
         }
 
     }

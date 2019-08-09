@@ -24,7 +24,7 @@ import java.util.List;
 public class TTVCommand extends CommandBase {
 
     private final List aliases;
-    private final String[] autocomplete = {"key", "channel", "affects", "prefix", "connect", "disconnect", "enabled", "save", "reload", "showchat", "seconds", "blacklist", "help", "test", "queue"};
+    private final String[] autocomplete = {"key", "channel", "affects", "prefix", "connect", "disconnect", "enabled", "save", "reload", "showchat", "showcommands", "seconds", "blacklist", "help", "test", "queue"};
     private final String[] truefalse = {"true", "false"};
     private final String[] addclear = {"add", "clear"};
 
@@ -307,12 +307,19 @@ public class TTVCommand extends CommandBase {
                     String message = args[1];
 
                     if (message.startsWith(BotConfig.prefix)) {
+                        
                         message = message.substring(BotConfig.prefix.length());
+                        BotCommands.player().sendMessage(new TextComponentString(TextFormatting.WHITE + "<" + TextFormatting.DARK_PURPLE + "Twitch " + TextFormatting.WHITE + args[2] + "> " + BotConfig.prefix + message));
+
+                    }
+                    else {
+
+                        BotCommands.player().sendMessage(new TextComponentString(TextFormatting.WHITE + "<" + TextFormatting.DARK_PURPLE + "Twitch " + TextFormatting.WHITE + args[2] + "> " + message));
+
                     }
 
                     ChatPicker.checkChat(message, args[2]);
 
-                    BotCommands.player().sendMessage(new TextComponentString(TextFormatting.WHITE + "<" + TextFormatting.DARK_PURPLE + "Twitch " + TextFormatting.WHITE + args[2] + "> " + message));
 
                 } else if (args[0].equalsIgnoreCase("queue")) {
 
