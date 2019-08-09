@@ -37,6 +37,11 @@ public class ConfigManager {
                     true, // Default value
                     "Should chat messages be shown"); // Comment
 
+            Property showCommandsProp = config.get(Configuration.CATEGORY_GENERAL, // What category will it be saved to, can be any string
+                    "SHOW_CHAT_COMMANDS", // Property name
+                    false, // Default value
+                    "Should chosen commands be shown if chat messages are enabled"); // Comment
+
             Property chatSecondsProp = config.get(Configuration.CATEGORY_GENERAL, // What category will it be saved to, can be any string
                     "CHAT_TIMER", // Property name
                     20, // Default value
@@ -62,6 +67,7 @@ public class ConfigManager {
             BotConfig.CHANNEL_NAME = channelProp.getString();
             BotConfig.TWITCH_KEY = keyProp.getString();
             BotConfig.showChatMessages = showMessagesProp.getBoolean();
+            BotConfig.showCommands = showCommandsProp.getBoolean();
             TickHandler.chatSeconds = chatSecondsProp.getInt();
             TickHandler.chatSecondsDefault = chatSecondsProp.getInt();
             BotCommands.username = usernameProp.getString();
@@ -100,6 +106,11 @@ public class ConfigManager {
                     true, // Default value
                     "Should chat messages be shown"); // Comment
 
+            Property showCommandsProp = config.get(Configuration.CATEGORY_GENERAL, // What category will it be saved to, can be any string
+                    "SHOW_CHAT_COMMANDS", // Property name
+                    false, // Default value
+                    "Should chosen commands be shown if chat messages are enabled"); // Comment
+
             Property chatSecondsProp = config.get(Configuration.CATEGORY_GENERAL, // What category will it be saved to, can be any string
                     "CHAT_TIMER", // Property name
                     20, // Default value
@@ -124,6 +135,7 @@ public class ConfigManager {
             keyProp.set(BotConfig.TWITCH_KEY);
             channelProp.set(BotConfig.CHANNEL_NAME);
             showMessagesProp.set(BotConfig.showChatMessages);
+            showCommandsProp.set(BotConfig.showCommands);
             chatSecondsProp.set(TickHandler.chatSecondsDefault);
             usernameProp.set(BotCommands.username);
             prefixProp.set(BotConfig.prefix);

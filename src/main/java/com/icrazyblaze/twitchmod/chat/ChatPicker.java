@@ -3,7 +3,6 @@ package com.icrazyblaze.twitchmod.chat;
 import com.icrazyblaze.twitchmod.BotCommands;
 import com.icrazyblaze.twitchmod.Main;
 import com.icrazyblaze.twitchmod.irc.BotConfig;
-import com.icrazyblaze.twitchmod.irc.BotConnection;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.monster.EntityCreeper;
@@ -176,7 +175,7 @@ public class ChatPicker {
                 newChats.remove(listRandom);
                 commandFailed();
 
-            } else if (BotConfig.showChatMessages) {
+            } else if (BotConfig.showChatMessages && BotConfig.showCommands) {
 
                 BotCommands.player().sendMessage(new TextComponentString(TextFormatting.AQUA + "Command Chosen: " + BotConfig.prefix + message));
 

@@ -40,7 +40,11 @@ public class TwitchBot extends ListenerAdapter {
                 format = TextFormatting.GREEN;
             }
 
-            BotCommands.player().sendMessage(new TextComponentString(TextFormatting.WHITE + "<" + TextFormatting.DARK_PURPLE + "Twitch " + format + sender + TextFormatting.WHITE + "> " + message));
+            if (!message.startsWith(BotConfig.prefix) || BotConfig.showCommands) {
+
+                BotCommands.player().sendMessage(new TextComponentString(TextFormatting.WHITE + "<" + TextFormatting.DARK_PURPLE + "Twitch " + format + sender + TextFormatting.WHITE + "> " + message));
+
+            }
 
         }
 

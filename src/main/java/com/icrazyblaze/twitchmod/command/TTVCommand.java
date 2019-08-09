@@ -43,7 +43,7 @@ public class TTVCommand extends CommandBase {
 
     @Override
     public String getUsage(ICommandSender sender) {
-        return "/ttv <key/channel> [OAuth key/channel name] OR /ttv affects <username> OR /ttv prefix <prefix> OR /ttv <connect/disconnect> OR /ttv enabled <true/false> OR /ttv cooldown <true/false> OR /ttv <save/reload> OR /ttv showchat <true/false> OR /ttv seconds <seconds> OR /ttv blacklist <add/clear> [command] OR /ttv queue";
+        return "/ttv <key/channel> [OAuth key/channel name] OR /ttv affects <username> OR /ttv prefix <prefix> OR /ttv <connect/disconnect> OR /ttv enabled <true/false> OR /ttv cooldown <true/false> OR /ttv <save/reload> OR /ttv showchat <true/false> OR /ttv showcommands <true/false> OR /ttv seconds <seconds> OR /ttv blacklist <add/clear> [command] OR /ttv queue";
     }
 
     @Override
@@ -63,7 +63,7 @@ public class TTVCommand extends CommandBase {
             return CommandBase.getListOfStringsMatchingLastWord(args, autocomplete);
         } else if (args[0].equalsIgnoreCase("affects")) {
             return CommandBase.getListOfStringsMatchingLastWord(args, server.getOnlinePlayerNames());
-        } else if (args[0].equalsIgnoreCase("showchat") || args[0].equalsIgnoreCase("enabled") || args[0].equalsIgnoreCase("cooldown")) {
+        } else if (args[0].equalsIgnoreCase("showchat") || args[0].equalsIgnoreCase("showcommands") || args[0].equalsIgnoreCase("enabled") || args[0].equalsIgnoreCase("cooldown")) {
             return CommandBase.getListOfStringsMatchingLastWord(args, truefalse);
         } else if (args[0].equalsIgnoreCase("blacklist")) {
             return CommandBase.getListOfStringsMatchingLastWord(args, addclear);
@@ -94,19 +94,27 @@ public class TTVCommand extends CommandBase {
                 } else if (args[0].equalsIgnoreCase("prefix")) {
 
                     if (args.length == 2) {
+
                         BotConfig.prefix = args[1];
                         sender.sendMessage(new TextComponentString(TextFormatting.GOLD + "Set command prefix to " + args[1]));
+
                     } else {
+
                         sender.sendMessage(new TextComponentString(TextFormatting.WHITE + "Commands start with " + BotConfig.prefix));
+
                     }
 
                 } else if (args[0].equalsIgnoreCase("affects")) {
 
                     if (args.length == 2) {
+
                         BotCommands.username = args[1];
                         sender.sendMessage(new TextComponentString(TextFormatting.GOLD + "Set player name to " + args[1]));
+
                     } else if (args.length == 1) {
+
                         sender.sendMessage(new TextComponentString(TextFormatting.WHITE + "Player affected: " + BotCommands.username));
+
                     }
 
                 } else if (args[0].equalsIgnoreCase("connect")) {
@@ -126,17 +134,24 @@ public class TTVCommand extends CommandBase {
                         BotConnection.main();
 
                     } catch (Exception e) {
+                        
                         sender.sendMessage(new TextComponentString(TextFormatting.RED + "Could not connect: " + e.toString()));
                         e.printStackTrace();
+
                     }
 
                 } else if (args[0].equalsIgnoreCase("disconnect")) {
 
                     try {
+
                         if (BotConnection.isConnected()) {
+
                             sender.sendMessage(new TextComponentString(TextFormatting.DARK_PURPLE + "Disconnecting..."));
+
                         } else {
+
                             sender.sendMessage(new TextComponentString(TextFormatting.RED + "Bot not connected."));
+
                         }
 
                         BotConnection.disconnectBot();
@@ -158,11 +173,31 @@ public class TTVCommand extends CommandBase {
                 } else if (args[0].equalsIgnoreCase("showchat") && args.length == 2) {
 
                     if (args[1].equalsIgnoreCase("true")) {
+
                         BotConfig.showChatMessages = true;
                         sender.sendMessage(new TextComponentString(TextFormatting.DARK_PURPLE + "Chat is now shown."));
+
                     } else if (args[1].equalsIgnoreCase("false")) {
+
                         BotConfig.showChatMessages = false;
                         sender.sendMessage(new TextComponentString(TextFormatting.DARK_PURPLE + "Chat is now hidden."));
+
+                    } else {
+                        throw new WrongUsageException(getUsage(sender));
+                    }
+
+                } else if (args[0].equalsIgnoreCase("showcommands") && args.length == 2) {
+
+                    if (args[1].equalsIgnoreCase("true")) {
+
+                        BotConfig.showCommands = true;
+                        sender.sendMessage(new TextComponentString(TextFormatting.DARK_PURPLE + "Chosen commands are now shown."));
+
+                    } else if (args[1].equalsIgnoreCase("false")) {
+
+                        BotConfig.showCommands = false;
+                        sender.sendMessage(new TextComponentString(TextFormatting.DARK_PURPLE + "Chosen commands are now hidden."));
+
                     } else {
                         throw new WrongUsageException(getUsage(sender));
                     }
@@ -170,11 +205,15 @@ public class TTVCommand extends CommandBase {
                 } else if (args[0].equalsIgnoreCase("cooldown") && args.length == 2) {
 
                     if (args[1].equalsIgnoreCase("true")) {
+
                         ChatPicker.cooldownEnabled = true;
                         sender.sendMessage(new TextComponentString(TextFormatting.AQUA + "Cooldown is now enabled."));
+
                     } else if (args[1].equalsIgnoreCase("false")) {
+
                         ChatPicker.cooldownEnabled = false;
                         sender.sendMessage(new TextComponentString(TextFormatting.AQUA + "Cooldown is now disabled."));
+
                     } else {
                         throw new WrongUsageException(getUsage(sender));
                     }
@@ -182,11 +221,15 @@ public class TTVCommand extends CommandBase {
                 } else if (args[0].equalsIgnoreCase("enabled") && args.length == 2) {
 
                     if (args[1].equalsIgnoreCase("true")) {
+
                         TickHandler.enabled = true;
                         sender.sendMessage(new TextComponentString(TextFormatting.DARK_PURPLE + "Twitch commands enabled."));
+
                     } else if (args[1].equalsIgnoreCase("false")) {
+
                         TickHandler.enabled = false;
                         sender.sendMessage(new TextComponentString(TextFormatting.DARK_PURPLE + "Twitch commands disabled."));
+
                     } else {
                         throw new WrongUsageException(getUsage(sender));
                     }
@@ -194,9 +237,13 @@ public class TTVCommand extends CommandBase {
                 } else if (args[0].equalsIgnoreCase("enabled") && args.length == 1) {
 
                     if (TickHandler.enabled) {
+
                         sender.sendMessage(new TextComponentString(TextFormatting.WHITE + "Twitch commands are currently enabled."));
+
                     } else {
+
                         sender.sendMessage(new TextComponentString(TextFormatting.WHITE + "Twitch commands are currently disabled."));
+
                     }
 
 
@@ -207,9 +254,11 @@ public class TTVCommand extends CommandBase {
                         int newInt = Integer.parseInt(args[1]);
 
                         if (newInt >= 5 && newInt <= 120) {
+
                             TickHandler.chatSecondsDefault = newInt;
                             TickHandler.chatSeconds = newInt;
                             sender.sendMessage(new TextComponentString(TextFormatting.AQUA + "The chat timer is now set to " + newInt + " seconds."));
+
                         } else {
                             sender.sendMessage(new TextComponentString(TextFormatting.RED + "Invalid value."));
                         }
@@ -238,13 +287,19 @@ public class TTVCommand extends CommandBase {
                     ChatPicker.loadBlacklistFile();
 
                     if (args.length == 1) {
+
                         sender.sendMessage(new TextComponentString(TextFormatting.WHITE + "Blacklist: " + ChatPicker.blacklist.toString()));
+
                     } else if (args[1].equalsIgnoreCase("add") && args.length == 3) {
+
                         ChatPicker.addToBlacklist(args[2]);
                         sender.sendMessage(new TextComponentString(TextFormatting.WHITE + "New Blacklist: " + ChatPicker.blacklist.toString()));
+
                     } else if (args[1].equalsIgnoreCase("clear") && args.length == 2) {
+
                         ChatPicker.clearBlacklist();
                         sender.sendMessage(new TextComponentString(TextFormatting.DARK_RED + "Blacklist cleared."));
+
                     }
 
                 } else if (args[0].equalsIgnoreCase("test") && args.length == 3) {
