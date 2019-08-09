@@ -2,7 +2,7 @@
 {
   "modid": "twitchmod",
   "name": "Twitch Vs. Minecraft",
-  "description": "Be at your viewers' mercy! Every 20 seconds a random command is chosen from the Twitch chat.",
+  "description": "Be at your viewers' mercy! Random commands are chosen from the Twitch chat.",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "https://icrazyblaze.github.io/",

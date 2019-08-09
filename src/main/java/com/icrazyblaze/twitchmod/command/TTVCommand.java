@@ -134,7 +134,7 @@ public class TTVCommand extends CommandBase {
                         BotConnection.main();
 
                     } catch (Exception e) {
-                        
+
                         sender.sendMessage(new TextComponentString(TextFormatting.RED + "Could not connect: " + e.toString()));
                         e.printStackTrace();
 
@@ -312,7 +312,7 @@ public class TTVCommand extends CommandBase {
 
                     ChatPicker.checkChat(message, args[2]);
 
-                    BotCommands.player().sendMessage(new TextComponentString(TextFormatting.WHITE + "<" + TextFormatting.DARK_PURPLE + "Twitch " + TextFormatting.WHITE + args[2] + "> " + BotConfig.prefix + message));
+                    BotCommands.player().sendMessage(new TextComponentString(TextFormatting.WHITE + "<" + TextFormatting.DARK_PURPLE + "Twitch " + TextFormatting.WHITE + args[2] + "> " + message));
 
                 } else if (args[0].equalsIgnoreCase("queue")) {
 

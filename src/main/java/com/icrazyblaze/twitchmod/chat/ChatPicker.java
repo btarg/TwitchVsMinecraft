@@ -11,7 +11,6 @@ import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.EnumDifficulty;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -226,7 +225,7 @@ public class ChatPicker {
                 BotCommands.placeSign(message);
             } else if (message.equalsIgnoreCase("anvil")) {
                 BotCommands.spawnAnvil();
-            } else if (message.equalsIgnoreCase("creeper")) {
+            } else if (message.equalsIgnoreCase("creeper") || message.equalsIgnoreCase("awman")) {
                 Entity ent = new EntityCreeper(BotCommands.player().world);
                 BotCommands.spawnMob(ent);
             } else if (message.equalsIgnoreCase("zombie")) {
