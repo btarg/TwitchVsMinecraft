@@ -207,7 +207,7 @@ public class ChatPicker {
                 BotCommands.addWeakness();
             } else if (message.equalsIgnoreCase("fatigue")) {
                 BotCommands.addFatigue();
-            } else if (message.equalsIgnoreCase("regen") || message.equalsIgnoreCase("health")) {
+            } else if (message.equalsIgnoreCase("regen") || message.equalsIgnoreCase("heal") || message.equalsIgnoreCase("health")) {
                 BotCommands.addRegen();
             } else if (message.equalsIgnoreCase("jumpboost") || message.equalsIgnoreCase("yeet")) {
                 BotCommands.addJumpBoost();

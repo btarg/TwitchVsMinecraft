@@ -104,11 +104,12 @@ public class BotCommands {
     }
 
     public static void addRegen() {
-        player().addPotionEffect(new PotionEffect(MobEffects.HEALTH_BOOST, 200, 0));
+        player().addPotionEffect(new PotionEffect(MobEffects.HEALTH_BOOST, 400, 1));
+        player().addPotionEffect(new PotionEffect(MobEffects.REGENERATION, 400, 1));
     }
 
     public static void addJumpBoost() {
-        player().addPotionEffect(new PotionEffect(MobEffects.JUMP_BOOST, 200, 1));
+        player().addPotionEffect(new PotionEffect(MobEffects.JUMP_BOOST, 400, 2));
     }
 
     public static void setOnFire() {
