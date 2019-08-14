@@ -138,6 +138,15 @@ public class BotCommands {
 
     }
 
+    public static void setTime(long time) {
+
+        for (int i = 0; i < player().server.worlds.length; ++i)
+        {
+            player().server.worlds[i].setWorldTime(time);
+        }
+
+    }
+
     public static void drainHealth() {
 
         // Half the player's health
@@ -312,8 +321,12 @@ public class BotCommands {
 
         ItemStack currentItem = player().inventory.getCurrentItem();
 
-        player().dropItem(currentItem, false, true);
-        player().inventory.deleteStack(currentItem);
+        if (currentItem != ItemStack.EMPTY) {
+
+            player().dropItem(currentItem, false, true);
+            player().inventory.deleteStack(currentItem);
+
+        }
 
     }
 
@@ -360,28 +373,33 @@ public class BotCommands {
         BlockPos bpos = player().getPosition();
         Block bposBlock = player().world.getBlockState(bpos).getBlock();
 
+        double xpos = player().posX;
+        double ypos = player().posY;
+        double zpos = player().posZ;
 
-        // Make sure we don't replace any signs that have already been placed
-        if (bposBlock != Blocks.STANDING_SIGN) {
+        BlockPos bposBelow = new BlockPos(xpos, ypos - 1, zpos);
 
-            // Rotate the sign to face the player
-            int playerFace = MathHelper.floor((double) ((player().rotationYaw + 180.0F) * 16.0F / 360.0F) + 0.5D) & 15;
-            player().world.setBlockState(bpos, Blocks.STANDING_SIGN.getDefaultState().withProperty(BlockStandingSign.ROTATION, Integer.valueOf(playerFace)), 11);
+        // UPDATE: Signs are now replaced.
 
-            // Change the sign's text
-            TileEntity tileEntity = player().world.getTileEntity(bpos);
+        // Rotate the sign to face the player
+        int playerFace = MathHelper.floor((double) ((player().rotationYaw + 180.0F) * 16.0F / 360.0F) + 0.5D) & 15;
+        player().world.setBlockState(bpos, Blocks.STANDING_SIGN.getDefaultState().withProperty(BlockStandingSign.ROTATION, Integer.valueOf(playerFace)), 11);
 
-            if (tileEntity instanceof TileEntitySign) {
+        // Change the sign's text
+        TileEntity tileEntity = player().world.getTileEntity(bpos);
 
-                TileEntitySign sign = (TileEntitySign) tileEntity;
-                sign.signText[0] = new TextComponentString(splitMessage[0]);
-                sign.signText[1] = new TextComponentString(splitMessage[1]);
-                sign.signText[2] = new TextComponentString(splitMessage[2]);
-                sign.signText[3] = new TextComponentString(splitMessage[3]);
+        if (tileEntity instanceof TileEntitySign) {
 
-            }
+            TileEntitySign sign = (TileEntitySign) tileEntity;
+            sign.signText[0] = new TextComponentString(splitMessage[0]);
+            sign.signText[1] = new TextComponentString(splitMessage[1]);
+            sign.signText[2] = new TextComponentString(splitMessage[2]);
+            sign.signText[3] = new TextComponentString(splitMessage[3]);
 
         }
+
+        // Add a light source below the sign for reading at night (thanks Gaiet)
+        player().world.setBlockState(bposBelow, Blocks.GLOWSTONE.getDefaultState());
 
     }
 

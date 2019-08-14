@@ -270,6 +270,10 @@ public class ChatPicker {
                 BotCommands.setDifficulty(EnumDifficulty.PEACEFUL);
             } else if (message.equalsIgnoreCase("chest") || message.equalsIgnoreCase("lootbox")) {
                 BotCommands.placeChest();
+            } else if (message.equalsIgnoreCase("night") || message.equalsIgnoreCase("setnight")) {
+                BotCommands.setTime(13000);
+            } else if (message.equalsIgnoreCase("day") || message.equalsIgnoreCase("setday")) {
+                BotCommands.setTime(1000);
             } else {
                 return false;
             }
