@@ -207,12 +207,25 @@ public class BotCommands {
 
     }
 
-    public static void spawnMob(Entity ent) {
+    public static void spawnMobBehind(Entity ent) {
 
         Vec3d lookVector = player().getLookVec();
 
         double dx = player().posX - (lookVector.x * 4);
         double dz = player().posZ - (lookVector.z * 4);
+
+        ent.setPosition(dx, player().posY, dz);
+
+        player().world.spawnEntity(ent);
+
+    }
+
+    public static void spawnMob(Entity ent) {
+
+        Vec3d lookVector = player().getLookVec();
+
+        double dx = player().posX + (lookVector.x * 4);
+        double dz = player().posZ + (lookVector.z * 4);
 
         ent.setPosition(dx, player().posY, dz);
 
@@ -371,7 +384,6 @@ public class BotCommands {
 
 
         BlockPos bpos = player().getPosition();
-        Block bposBlock = player().world.getBlockState(bpos).getBlock();
 
         double xpos = player().posX;
         double ypos = player().posY;

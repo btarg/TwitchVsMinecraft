@@ -5,9 +5,7 @@ import com.icrazyblaze.twitchmod.Main;
 import com.icrazyblaze.twitchmod.irc.BotConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.monster.EntityCreeper;
-import net.minecraft.entity.monster.EntitySkeleton;
-import net.minecraft.entity.monster.EntityZombie;
+import net.minecraft.entity.monster.*;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.EnumDifficulty;
@@ -231,13 +229,19 @@ public class ChatPicker {
                 BotCommands.spawnAnvil();
             } else if (message.equalsIgnoreCase("creeper") || message.equalsIgnoreCase("awman")) {
                 Entity ent = new EntityCreeper(BotCommands.player().world);
-                BotCommands.spawnMob(ent);
+                BotCommands.spawnMobBehind(ent);
             } else if (message.equalsIgnoreCase("zombie")) {
                 Entity ent = new EntityZombie(BotCommands.player().world);
+                BotCommands.spawnMobBehind(ent);
+            } else if (message.equalsIgnoreCase("enderman")) {
+                Entity ent = new EntityEnderman(BotCommands.player().world);
                 BotCommands.spawnMob(ent);
+            } else if (message.equalsIgnoreCase("witch")) {
+                Entity ent = new EntityWitch(BotCommands.player().world);
+                BotCommands.spawnMobBehind(ent);
             } else if (message.equalsIgnoreCase("skeleton")) {
                 Entity ent = new EntitySkeleton(BotCommands.player().world);
-                BotCommands.spawnMob(ent);
+                BotCommands.spawnMobBehind(ent);
             } else if (message.equalsIgnoreCase("creeperscare") || message.equalsIgnoreCase("behindyou")) {
                 BotCommands.creeperScare();
             } else if (message.equalsIgnoreCase("zombiescare")) {
@@ -279,9 +283,7 @@ public class ChatPicker {
             }
 
             // Below will not be executed if the command does not run
-
             lastCommand = message;
-
             return true;
 
         } catch (Exception e) {
@@ -302,6 +304,7 @@ public class ChatPicker {
                 return;
             }
         }
+
     }
 
 }
