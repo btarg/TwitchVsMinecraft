@@ -28,7 +28,7 @@ public class ChatPicker {
     public static List<String> blacklist;
     public static ArrayList<String> newChats = new ArrayList<>();
     public static ArrayList<String> newChatSenders = new ArrayList<>();
-    public static Path path = Paths.get(Minecraft.getMinecraft().mcDataDir.getPath(), "config/twitch-blacklist.txt");
+    public static Path path = Paths.get(Minecraft.getMinecraft().gameDir.getPath(), "config/twitch-blacklist.txt");
     public static File textfile;
 
     public static boolean hasExecuted = false;
