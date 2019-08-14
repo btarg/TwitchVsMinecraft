@@ -59,9 +59,13 @@ public class ChatPicker {
     public static void addToBlacklist(String toAdd) {
 
         try {
+
             // Append to file
             FileWriter fr = new FileWriter(textfile, true);
-            fr.write(toAdd);
+
+            // New line fix
+            fr.write(System.lineSeparator() + toAdd);
+
             fr.close();
 
             // Update from file
@@ -76,6 +80,7 @@ public class ChatPicker {
     public static void clearBlacklist() {
 
         try {
+
             // Clear text file using PrintWriter
             PrintWriter pr = new PrintWriter(textfile);
             pr.close();
@@ -101,7 +106,6 @@ public class ChatPicker {
 
                 if (str.contains(message)) {
                     break;
-
                 } else {
 
                     if (lastCommand != null && cooldownEnabled) {

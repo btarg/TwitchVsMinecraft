@@ -56,6 +56,10 @@ public class TwitchBot extends ListenerAdapter {
 
             event.respond("Click here to download the mod: http://bit.ly/TwitchVsMinecraft");
 
+        } else if (message.equalsIgnoreCase(BotConfig.prefix + "blacklist")) {
+
+            event.respond("Blacklisted commands: " + ChatPicker.blacklist.toString());
+
         } else if (message.startsWith(BotConfig.prefix)) {
 
             // Remove the prefix
