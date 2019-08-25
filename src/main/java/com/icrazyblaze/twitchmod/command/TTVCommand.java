@@ -202,47 +202,68 @@ public class TTVCommand extends CommandBase {
                         throw new WrongUsageException(getUsage(sender));
                     }
 
-                } else if (args[0].equalsIgnoreCase("cooldown") && args.length == 2) {
+                } else if (args[0].equalsIgnoreCase("cooldown")) {
 
-                    if (args[1].equalsIgnoreCase("true")) {
+                    if (args.length == 2) {
 
-                        ChatPicker.cooldownEnabled = true;
-                        sender.sendMessage(new TextComponentString(TextFormatting.AQUA + "Cooldown is now enabled."));
+                        if (args[1].equalsIgnoreCase("true")) {
 
-                    } else if (args[1].equalsIgnoreCase("false")) {
+                            ChatPicker.cooldownEnabled = true;
+                            sender.sendMessage(new TextComponentString(TextFormatting.AQUA + "Cooldown is now enabled."));
 
-                        ChatPicker.cooldownEnabled = false;
-                        sender.sendMessage(new TextComponentString(TextFormatting.AQUA + "Cooldown is now disabled."));
+                        } else if (args[1].equalsIgnoreCase("false")) {
+
+                            ChatPicker.cooldownEnabled = false;
+                            sender.sendMessage(new TextComponentString(TextFormatting.AQUA + "Cooldown is now disabled."));
+
+                        } else {
+                            throw new WrongUsageException(getUsage(sender));
+                        }
 
                     } else {
-                        throw new WrongUsageException(getUsage(sender));
+
+                        if (ChatPicker.cooldownEnabled) {
+
+                            sender.sendMessage(new TextComponentString(TextFormatting.WHITE + "Cooldown is currently enabled."));
+
+                        } else {
+
+                            sender.sendMessage(new TextComponentString(TextFormatting.WHITE + "Cooldown is currently disabled."));
+
+                        }
+
                     }
 
-                } else if (args[0].equalsIgnoreCase("enabled") && args.length == 2) {
+                } else if (args[0].equalsIgnoreCase("enabled")) {
 
-                    if (args[1].equalsIgnoreCase("true")) {
+                    if (args.length == 2) {
 
-                        TickHandler.enabled = true;
-                        sender.sendMessage(new TextComponentString(TextFormatting.DARK_PURPLE + "Twitch commands enabled."));
+                        if (args[1].equalsIgnoreCase("true")) {
 
-                    } else if (args[1].equalsIgnoreCase("false")) {
+                            TickHandler.enabled = true;
+                            sender.sendMessage(new TextComponentString(TextFormatting.DARK_PURPLE + "Twitch commands enabled."));
 
-                        TickHandler.enabled = false;
-                        sender.sendMessage(new TextComponentString(TextFormatting.DARK_PURPLE + "Twitch commands disabled."));
+                        } else if (args[1].equalsIgnoreCase("false")) {
 
-                    } else {
-                        throw new WrongUsageException(getUsage(sender));
-                    }
+                            TickHandler.enabled = false;
+                            sender.sendMessage(new TextComponentString(TextFormatting.DARK_PURPLE + "Twitch commands disabled."));
 
-                } else if (args[0].equalsIgnoreCase("enabled") && args.length == 1) {
-
-                    if (TickHandler.enabled) {
-
-                        sender.sendMessage(new TextComponentString(TextFormatting.WHITE + "Twitch commands are currently enabled."));
+                        } else {
+                            throw new WrongUsageException(getUsage(sender));
+                        }
 
                     } else {
 
-                        sender.sendMessage(new TextComponentString(TextFormatting.WHITE + "Twitch commands are currently disabled."));
+
+                        if (TickHandler.enabled) {
+
+                            sender.sendMessage(new TextComponentString(TextFormatting.WHITE + "Twitch commands are currently enabled."));
+
+                        } else {
+
+                            sender.sendMessage(new TextComponentString(TextFormatting.WHITE + "Twitch commands are currently disabled."));
+
+                        }
 
                     }
 

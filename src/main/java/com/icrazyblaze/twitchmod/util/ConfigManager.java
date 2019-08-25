@@ -47,6 +47,11 @@ public class ConfigManager {
                     30, // Default value
                     "How many seconds until the next command is chosen"); // Comment
 
+            Property messageSecondsProp = config.get(Configuration.CATEGORY_GENERAL, // What category will it be saved to, can be any string
+                    "MESSAGE_TIMER", // Property name
+                    300, // Default value
+                    "How many seconds until a random viewer-written message is shown on screen"); // Comment
+
             Property usernameProp = config.get(Configuration.CATEGORY_GENERAL, // What category will it be saved to, can be any string
                     "USER_AFFECTED", // Property name
                     "", // Default value
@@ -69,6 +74,7 @@ public class ConfigManager {
             BotConfig.showChatMessages = showMessagesProp.getBoolean();
             BotConfig.showCommands = showCommandsProp.getBoolean();
             TickHandler.chatSeconds = chatSecondsProp.getInt();
+            TickHandler.messageSeconds = messageSecondsProp.getInt();
             TickHandler.chatSecondsDefault = chatSecondsProp.getInt();
             BotCommands.username = usernameProp.getString();
             BotConfig.prefix = prefixProp.getString();
@@ -116,6 +122,11 @@ public class ConfigManager {
                     20, // Default value
                     "How many seconds until the next command is chosen"); // Comment
 
+            Property messageSecondsProp = config.get(Configuration.CATEGORY_GENERAL, // What category will it be saved to, can be any string
+                    "MESSAGE_TIMER", // Property name
+                    300, // Default value
+                    "How many seconds until a random viewer-written message is shown on screen"); // Comment
+
             Property usernameProp = config.get(Configuration.CATEGORY_GENERAL, // What category will it be saved to, can be any string
                     "USER_AFFECTED", // Property name
                     "", // Default value
@@ -137,6 +148,7 @@ public class ConfigManager {
             showMessagesProp.set(BotConfig.showChatMessages);
             showCommandsProp.set(BotConfig.showCommands);
             chatSecondsProp.set(TickHandler.chatSecondsDefault);
+            messageSecondsProp.set(TickHandler.messageSecondsDefault);
             usernameProp.set(BotCommands.username);
             prefixProp.set(BotConfig.prefix);
             cooldownProp.set(ChatPicker.cooldownEnabled);

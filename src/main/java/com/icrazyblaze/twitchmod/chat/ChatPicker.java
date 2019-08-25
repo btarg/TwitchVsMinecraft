@@ -223,6 +223,8 @@ public class ChatPicker {
                 BotCommands.drainHealth();
             } else if (message.startsWith("messagebox ") && message.length() > 11) {
                 BotCommands.showMessagebox(message);
+            } else if (message.startsWith("addmessage ") && message.length() > 11) {
+                BotCommands.addToMessages(message);
             } else if (message.startsWith("sign ") && message.length() > 5) {
                 BotCommands.placeSign(message);
             } else if (message.equalsIgnoreCase("anvil")) {

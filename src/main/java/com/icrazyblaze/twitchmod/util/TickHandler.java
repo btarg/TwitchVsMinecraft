@@ -18,6 +18,10 @@ public class TickHandler {
     public static int timerSeconds = 60;
     public static boolean killTimer = false;
 
+    public static int messageTicks = 0;
+    public static int messageSecondsDefault = 300;
+    public static int messageSeconds = messageSecondsDefault;
+
     @SubscribeEvent
     public void tickTimer(TickEvent.ServerTickEvent event) {
 
@@ -54,6 +58,7 @@ public class TickHandler {
                     }
 
                     timerTicks = 0;
+
                 }
                 if (timerSeconds == 0) {
 
@@ -61,6 +66,26 @@ public class TickHandler {
                     killTimer = false;
 
                 }
+            }
+
+            messageTicks++;
+
+            if (messageTicks == 20) {
+
+                if (messageSeconds < messageSecondsDefault) {
+                    messageSeconds++;
+                }
+
+                messageTicks = 0;
+
+            }
+            if (messageSeconds == messageSecondsDefault) {
+
+                BotCommands.chooseRandomMessage();
+
+                messageTicks = 0;
+                messageSeconds = 0;
+
             }
         }
     }

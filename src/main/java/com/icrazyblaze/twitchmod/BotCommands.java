@@ -1,9 +1,13 @@
 package com.icrazyblaze.twitchmod;
 
 import com.icrazyblaze.twitchmod.gui.MessageboxGui;
+import com.icrazyblaze.twitchmod.network.GuiMessage;
+import com.icrazyblaze.twitchmod.network.PacketHandler;
 import com.icrazyblaze.twitchmod.util.TickHandler;
-import com.icrazyblaze.twitchmod.network.*;
-import net.minecraft.block.*;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockSilverfish;
+import net.minecraft.block.BlockStandingSign;
+import net.minecraft.block.BlockStoneBrick;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -26,6 +30,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.storage.loot.LootTableList;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
@@ -34,6 +39,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -41,16 +47,17 @@ import java.util.Random;
 
 public class BotCommands {
 
+    public static final Block[] oresArray = {Blocks.DIAMOND_ORE, Blocks.REDSTONE_ORE, Blocks.LIT_REDSTONE_ORE, Blocks.IRON_ORE, Blocks.GOLD_ORE, Blocks.LAPIS_ORE, Blocks.EMERALD_ORE, Blocks.COAL_ORE};
+    public static final ResourceLocation[] lootArray = {LootTableList.CHESTS_SIMPLE_DUNGEON, LootTableList.CHESTS_ABANDONED_MINESHAFT, LootTableList.CHESTS_SPAWN_BONUS_CHEST};
     public static String username = null;
 
     public static boolean oresExplode = false;
     public static boolean placeBedrock = false;
 
-    public static final Block[] oresArray = {Blocks.DIAMOND_ORE, Blocks.REDSTONE_ORE, Blocks.LIT_REDSTONE_ORE, Blocks.IRON_ORE, Blocks.GOLD_ORE, Blocks.LAPIS_ORE, Blocks.EMERALD_ORE, Blocks.COAL_ORE};
     public static List<Block> oresList = Arrays.asList(oresArray);
+    public static List<ResourceLocation> lootlist = Arrays.asList(lootArray);
 
-    public static final ResourceLocation[] loot = {LootTableList.CHESTS_SIMPLE_DUNGEON, LootTableList.CHESTS_ABANDONED_MINESHAFT, LootTableList.CHESTS_SPAWN_BONUS_CHEST};
-    public static List<ResourceLocation> lootlist = Arrays.asList(loot);
+    public static ArrayList<String> messagesList = new ArrayList<>();
 
 
     public static EntityPlayerMP player() {
@@ -104,8 +111,10 @@ public class BotCommands {
     }
 
     public static void addRegen() {
+
         player().addPotionEffect(new PotionEffect(MobEffects.HEALTH_BOOST, 400, 1));
         player().addPotionEffect(new PotionEffect(MobEffects.REGENERATION, 400, 1));
+
     }
 
     public static void addJumpBoost() {
@@ -140,9 +149,10 @@ public class BotCommands {
 
     public static void setTime(long time) {
 
-        for (int i = 0; i < player().server.worlds.length; ++i)
-        {
+        for (int i = 0; i < player().server.worlds.length; ++i) {
+
             player().server.worlds[i].setWorldTime(time);
+
         }
 
     }
@@ -269,11 +279,7 @@ public class BotCommands {
 
     public static void spawnLightning() {
 
-        double xpos = player().posX;
-        double ypos = player().posY;
-        double zpos = player().posZ;
-
-        player().world.spawnEntity(new EntityLightningBolt(player().world, xpos, ypos, zpos, false));
+        player().world.spawnEntity(new EntityLightningBolt(player().world, player().posX, player().posY, player().posZ, false));
 
     }
 
@@ -435,6 +441,31 @@ public class BotCommands {
                 ((TileEntityChest) tileEntity).fillWithLoot(null);
 
             }
+
+        }
+
+    }
+
+    public static void addToMessages(String message) {
+
+        String newmsg = message.substring(11);
+        messagesList.add(newmsg);
+
+    }
+
+    public static void chooseRandomMessage() {
+
+        if (!messagesList.isEmpty()) {
+
+            Random rand = new Random();
+            int r = rand.nextInt(messagesList.size());
+            String message = messagesList.get(r);
+
+            messagesList.remove(r);
+
+            r = rand.nextInt(TextFormatting.values().length);
+
+            player().sendMessage(new TextComponentString(TextFormatting.fromColorIndex(r) + message));
 
         }
 
