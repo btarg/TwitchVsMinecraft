@@ -351,7 +351,7 @@ public class BotCommands {
 
     }
 
-    public static void dropRandom() {
+    public static void removeRandom() {
 
         Random rand = new Random();
 
@@ -360,14 +360,14 @@ public class BotCommands {
 
         ItemStack randomItem = player().inventory.getStackInSlot(r);
 
-        if (randomItem != ItemStack.EMPTY && randomItem != player().inventory.getCurrentItem()) {
+        if (randomItem != ItemStack.EMPTY) {
 
             player().inventory.deleteStack(randomItem);
 
         }
         else {
 
-            dropRandom();
+            removeRandom();
 
         }
 
@@ -388,15 +388,19 @@ public class BotCommands {
 
             if (item instanceof ItemAir) {
 
-                giveRandom();
+                return;
 
             }
 
             ItemStack stack = new ItemStack(item);
             stack.setCount(rand.nextInt(stack.getMaxStackSize()));
 
+            // Remove the random item here to prevent an item being removed and no item being given to the player
+            removeRandom();
+
             player().addItemStackToInventory(stack);
 
+            Main.logger.info(stack.getDisplayName());
 
         }
 
@@ -406,7 +410,6 @@ public class BotCommands {
 
         if (!player().inventory.isEmpty()) {
 
-            dropRandom();
             giveRandom();
 
             // Show chat message
