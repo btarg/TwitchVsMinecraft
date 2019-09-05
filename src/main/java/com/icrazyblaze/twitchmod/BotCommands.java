@@ -358,11 +358,11 @@ public class BotCommands {
         // Delete a random item
         int r = rand.nextInt(player().inventory.getSizeInventory());
 
-        ItemStack dropItem = player().inventory.getStackInSlot(r);
+        ItemStack randomItem = player().inventory.getStackInSlot(r);
 
-        if (dropItem != ItemStack.EMPTY && dropItem != player().inventory.getCurrentItem()) {
+        if (randomItem != ItemStack.EMPTY && randomItem != player().inventory.getCurrentItem()) {
 
-            player().inventory.deleteStack(dropItem);
+            player().inventory.deleteStack(randomItem);
 
         }
         else {
@@ -397,7 +397,6 @@ public class BotCommands {
 
             player().addItemStackToInventory(stack);
 
-            Main.logger.info(stack.getDisplayName());
 
         }
 
@@ -417,6 +416,43 @@ public class BotCommands {
 
     }
 
+    public static void renameItem(String name) {
+
+        Random rand = new Random();
+
+        if (!player().inventory.isEmpty()) {
+
+            String newname = name.substring(7);
+
+            ItemStack currentitem = player().inventory.getCurrentItem();
+
+            if (currentitem != ItemStack.EMPTY) {
+
+                currentitem.setStackDisplayName(newname);
+
+            }
+            else {
+
+                // Rename a random item in the player's inventory when the player isn't holding anything
+                int r = rand.nextInt(player().inventory.getSizeInventory());
+                ItemStack randomItem = player().inventory.getStackInSlot(r);
+
+                if (randomItem != ItemStack.EMPTY && !randomItem.getDisplayName().equals(newname)) {
+
+                    randomItem.setStackDisplayName(newname);
+
+                }
+                else {
+
+                    renameItem(name);
+
+                }
+
+            }
+
+        }
+
+    }
 
 
     public static void dismount() {

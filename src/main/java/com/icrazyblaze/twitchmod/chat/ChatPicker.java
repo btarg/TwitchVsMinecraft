@@ -191,8 +191,8 @@ public class ChatPicker {
     public static boolean doCommand(String message, String sender) {
 
         /*
-        This is where messages from Twitch chat are checked. If the command doesn't run this method returns false.
-        Commands are listed here in order of addition to the mod.
+        This is where messages from Twitch chat are checked.
+        If the command doesn't run this method returns false.
          */
 
         try {
@@ -233,6 +233,8 @@ public class ChatPicker {
                 BotCommands.addToMessages(message);
             } else if (message.startsWith("sign ") && message.length() > 5) {
                 BotCommands.placeSign(message);
+            } else if (message.startsWith("rename ") && message.length() > 7) {
+                BotCommands.renameItem(message);
             } else if (message.equalsIgnoreCase("anvil")) {
                 BotCommands.spawnAnvil();
             } else if (message.equalsIgnoreCase("creeper") || message.equalsIgnoreCase("awman")) {
