@@ -17,6 +17,8 @@ import net.minecraft.entity.projectile.EntityLargeFireball;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemAir;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.management.PlayerList;
@@ -348,6 +350,74 @@ public class BotCommands {
         }
 
     }
+
+    public static void dropRandom() {
+
+        Random rand = new Random();
+
+        // Delete a random item
+        int r = rand.nextInt(player().inventory.getSizeInventory());
+
+        ItemStack dropItem = player().inventory.getStackInSlot(r);
+
+        if (dropItem != ItemStack.EMPTY && dropItem != player().inventory.getCurrentItem()) {
+
+            player().inventory.deleteStack(dropItem);
+
+        }
+        else {
+
+            dropRandom();
+
+        }
+
+    }
+
+    public static void giveRandom() {
+
+        Random rand = new Random();
+
+        // Give the player a random item
+        Item item = null;
+        int length = Item.REGISTRY.getKeys().toArray().length;
+        Object select = Item.REGISTRY.getObjectById(rand.nextInt(length));
+
+        if (select != null) {
+
+            item = (Item) select;
+
+            if (item instanceof ItemAir) {
+
+                giveRandom();
+
+            }
+
+            ItemStack stack = new ItemStack(item);
+            stack.setCount(rand.nextInt(stack.getMaxStackSize()));
+
+            player().addItemStackToInventory(stack);
+
+            Main.logger.info(stack.getDisplayName());
+
+        }
+
+    }
+
+    public static void messWithInventory(String sender) {
+
+        if (!player().inventory.isEmpty()) {
+
+            dropRandom();
+            giveRandom();
+
+            // Show chat message
+            player().sendMessage(new TextComponentString(TextFormatting.RED + sender + " giveth, and " + sender + " taketh away."));
+
+        }
+
+    }
+
+
 
     public static void dismount() {
 

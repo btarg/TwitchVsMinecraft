@@ -190,7 +190,13 @@ public class ChatPicker {
 
     public static boolean doCommand(String message, String sender) {
 
+        /*
+        This is where messages from Twitch chat are checked. If the command doesn't run this method returns false.
+        Commands are listed here in order of addition to the mod.
+         */
+
         try {
+
             if (message.equalsIgnoreCase("poison")) {
                 BotCommands.addPoison();
             } else if (message.equalsIgnoreCase("hunger")) {
@@ -280,6 +286,8 @@ public class ChatPicker {
                 BotCommands.setTime(13000);
             } else if (message.equalsIgnoreCase("day") || message.equalsIgnoreCase("setday")) {
                 BotCommands.setTime(1000);
+            } else if (message.equalsIgnoreCase("itemroulette") || message.equalsIgnoreCase("roulette")) {
+                BotCommands.messWithInventory(sender);
             } else {
                 return false;
             }
