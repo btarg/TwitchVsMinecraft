@@ -18,7 +18,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemAir;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.management.PlayerList;
@@ -380,17 +379,17 @@ public class BotCommands {
         // Give the player a random item
         Item item = null;
         int length = Item.REGISTRY.getKeys().toArray().length;
-        Object select = Item.REGISTRY.getObjectById(rand.nextInt(length));
+        int r = 0;
+
+        while (r == 0) {
+            r = rand.nextInt(length);
+        }
+
+        Object select = Item.REGISTRY.getObjectById(r);
 
         if (select != null) {
 
             item = (Item) select;
-
-            if (item instanceof ItemAir) {
-
-                return;
-
-            }
 
             ItemStack stack = new ItemStack(item);
             stack.setCount(rand.nextInt(stack.getMaxStackSize()));
@@ -399,8 +398,6 @@ public class BotCommands {
             removeRandom();
 
             player().addItemStackToInventory(stack);
-
-            Main.logger.info(stack.getDisplayName());
 
         }
 
