@@ -21,6 +21,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+
 public class ChatPicker {
 
     public static List<String> blacklist;
@@ -92,7 +93,17 @@ public class ChatPicker {
 
     }
 
-    public static void checkChat(String message, String sender) {
+    public static void checkChat(String message, String sender, boolean forceCommands) {
+
+        // Skip checking if force commands is enabled (only allows 1 forced command)
+        if (forceCommands) {
+
+            newChats.add(message);
+            newChatSenders.add(sender);
+            forceCommands = false;
+            return;
+
+        }
 
         // Only add the message if it is not blacklisted, and if the command isn't the same as the last
 
@@ -193,6 +204,8 @@ public class ChatPicker {
         /*
         This is where messages from Twitch chat are checked.
         If the command doesn't run this method returns false.
+
+        TODO: Replace with switch case or hashmap because this is just gross
          */
 
         try {

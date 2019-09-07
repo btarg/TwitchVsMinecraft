@@ -25,6 +25,39 @@ public class TickHandler {
     @SubscribeEvent
     public void tickTimer(TickEvent.ServerTickEvent event) {
 
+        /*
+        This method is used for timers such as the death timer as thread.sleep cannot be called while playing.
+        Countdown timers look like this:
+        ===================================================================================
+
+        if (condition) {
+
+            ticks++;
+
+            if (ticks == 20) {
+
+                if (seconds > 0) {
+                    seconds--;
+                }
+
+                ticks = 0;
+
+                if (seconds == 0) {
+                    // do something
+                    seconds = defaultAmountOfSeconds;
+                    ticks = 0;
+                }
+
+            }
+
+        }
+
+        ===================================================================================
+        Timers are set and reset externally by changing the condition.
+        The example can also be configured to count up.
+
+         */
+
         if (event.phase == TickEvent.Phase.END && enabled) {
 
             chatTicks++;

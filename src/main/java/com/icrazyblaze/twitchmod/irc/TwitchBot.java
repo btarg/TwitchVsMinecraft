@@ -14,6 +14,8 @@ import org.pircbotx.hooks.events.PingEvent;
 
 public class TwitchBot extends ListenerAdapter {
 
+    public static boolean forceCommands = false;
+
     public TwitchBot() {
 
         ChatPicker.loadBlacklistFile();
@@ -34,6 +36,7 @@ public class TwitchBot extends ListenerAdapter {
 
             if (event.getTags().get("badges").contains("broadcaster/1")) {
                 format = TextFormatting.GOLD;
+                forceCommands = true; // Force commands to execute instantly for broadcaster testing
             } else if (event.getTags().get("badges").contains("subscriber/1")) {
                 format = TextFormatting.AQUA;
             } else if (event.getTags().get("badges").contains("moderator/1")) {
@@ -64,7 +67,7 @@ public class TwitchBot extends ListenerAdapter {
 
             // Remove the prefix
             message = message.substring(BotConfig.prefix.length());
-            ChatPicker.checkChat(message, sender);
+            ChatPicker.checkChat(message, sender, forceCommands);
 
         }
 
