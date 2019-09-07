@@ -95,12 +95,10 @@ public class ChatPicker {
 
     public static void checkChat(String message, String sender, boolean forceCommands) {
 
-        // Skip checking if force commands is enabled (only allows 1 forced command)
+        // Skip checking if force commands is enabled
         if (forceCommands) {
 
-            newChats.add(message);
-            newChatSenders.add(sender);
-            forceCommands = false;
+            doCommand(message, sender);
             return;
 
         }
