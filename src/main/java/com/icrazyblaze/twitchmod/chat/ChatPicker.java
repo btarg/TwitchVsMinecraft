@@ -218,47 +218,47 @@ public class ChatPicker {
         registerCommand(() -> BotCommands.myCommand(), "mycommand", "mycommandalias");
          */
 
-        registerCommand(() -> BotCommands.addPoison(), "poison");
-        registerCommand(() -> BotCommands.addHunger(), "hunger");
-        registerCommand(() -> BotCommands.addSlowness(), "slowness");
-        registerCommand(() -> BotCommands.addSpeed(), "speed", "gottagofast");
-        registerCommand(() -> BotCommands.addNausea(), "nausea", "dontfeelsogood");
-        registerCommand(() -> BotCommands.addLevitation(), "levitate", "fly");
-        registerCommand(() -> BotCommands.noFall(), "nofall", "float");
-        registerCommand(() -> BotCommands.addWeakness(), "weakness");
-        registerCommand(() -> BotCommands.addRegen(), "regen", "heal", "health");
-        registerCommand(() -> BotCommands.addJumpBoost(), "jumpboost", "yeet");
-        registerCommand(() -> BotCommands.setOnFire(), "fire", "burn");
-        registerCommand(() -> BotCommands.floorIsLava(), "lava", "floorislava");
-        registerCommand(() -> BotCommands.deathTimer(), "timer", "deathtimer");
-        registerCommand(() -> BotCommands.drainHealth(), "drain", "halfhealth");
-        registerCommand(() -> BotCommands.spawnAnvil(), "anvil"); // Gaiet's favourite command <3
+        registerCommand(BotCommands::addPoison, "poison");
+        registerCommand(BotCommands::addHunger, "hunger");
+        registerCommand(BotCommands::addSlowness, "slowness");
+        registerCommand(BotCommands::addSpeed, "speed", "gottagofast");
+        registerCommand(BotCommands::addNausea, "nausea", "dontfeelsogood");
+        registerCommand(BotCommands::addLevitation, "levitate", "fly");
+        registerCommand(BotCommands::noFall, "nofall", "float");
+        registerCommand(BotCommands::addWeakness, "weakness");
+        registerCommand(BotCommands::addRegen, "regen", "heal", "health");
+        registerCommand(BotCommands::addJumpBoost, "jumpboost", "yeet");
+        registerCommand(BotCommands::setOnFire, "fire", "burn");
+        registerCommand(BotCommands::floorIsLava, "lava", "floorislava");
+        registerCommand(BotCommands::deathTimer, "timer", "deathtimer");
+        registerCommand(BotCommands::drainHealth, "drain", "halfhealth");
+        registerCommand(BotCommands::spawnAnvil, "anvil"); // Gaiet's favourite command <3
         registerCommand(() -> BotCommands.spawnMobBehind(new EntityCreeper(BotCommands.player().world)), "creeper", "awman");
         registerCommand(() -> BotCommands.spawnMobBehind(new EntityZombie(BotCommands.player().world)), "zombie");
         registerCommand(() -> BotCommands.spawnMob(new EntityEnderman(BotCommands.player().world)), "enderman");
         registerCommand(() -> BotCommands.spawnMobBehind(new EntityWitch(BotCommands.player().world)), "witch");
         registerCommand(() -> BotCommands.spawnMobBehind(new EntitySkeleton(BotCommands.player().world)), "skeleton");
-        registerCommand(() -> BotCommands.creeperScare(), "creeperscare", "behindyou");
-        registerCommand(() -> BotCommands.zombieScare(), "zombiescare", "bruh");
-        registerCommand(() -> BotCommands.skeletonScare(), "skeletonscare", "spook");
-        registerCommand(() -> BotCommands.witchScare(), "witchscare");
-        registerCommand(() -> BotCommands.spawnLightning(), "lightning");
-        registerCommand(() -> BotCommands.spawnFireball(), "fireball");
+        registerCommand(BotCommands::creeperScare, "creeperscare", "behindyou");
+        registerCommand(BotCommands::zombieScare, "zombiescare", "bruh");
+        registerCommand(BotCommands::skeletonScare, "skeletonscare", "spook");
+        registerCommand(BotCommands::witchScare, "witchscare");
+        registerCommand(BotCommands::spawnLightning, "lightning");
+        registerCommand(BotCommands::spawnFireball, "fireball");
         registerCommand(() -> BotCommands.oresExplode = true, "oresexplode");
         registerCommand(() -> BotCommands.placeBedrock = true, "bedrock");
-        registerCommand(() -> BotCommands.waterBucket(), "water", "watersbroke");
-        registerCommand(() -> BotCommands.breakBlock(), "break");
-        registerCommand(() -> BotCommands.dismount(), "dismount", "getoff");
-        registerCommand(() -> BotCommands.dropItem(), "drop", "throw");
-        registerCommand(() -> BotCommands.monsterEgg(), "silverfish");
-        registerCommand(() -> BotCommands.heavyRain(), "rain", "shaun");
+        registerCommand(BotCommands::waterBucket, "water", "watersbroke");
+        registerCommand(BotCommands::breakBlock, "break");
+        registerCommand(BotCommands::dismount, "dismount", "getoff");
+        registerCommand(BotCommands::dropItem, "drop", "throw");
+        registerCommand(BotCommands::monsterEgg, "silverfish");
+        registerCommand(BotCommands::heavyRain, "rain", "shaun");
         registerCommand(() -> BotCommands.setDifficulty(EnumDifficulty.HARD), "hardmode", "isthiseasymode");
         registerCommand(() -> BotCommands.setDifficulty(EnumDifficulty.PEACEFUL), "peaceful", "peacefulmode");
-        registerCommand(() -> BotCommands.placeChest(), "chest", "lootbox");
+        registerCommand(BotCommands::placeChest, "chest", "lootbox");
         registerCommand(() -> BotCommands.setTime(1000), "day", "setday");
         registerCommand(() -> BotCommands.setTime(13000), "night", "setnight");
         registerCommand(() -> BotCommands.messWithInventory(sender), "itemroulette", "roulette");
-        registerCommand(() -> BotCommands.spawnCobweb(), "cobweb", "stuck", "gbj");
+        registerCommand(BotCommands::spawnCobweb, "cobweb", "stuck", "gbj");
 
 
         try {
