@@ -202,6 +202,7 @@ public class ChatPicker {
         Thank you gigaherz, very cool!
         */
         for(String key : keys) {
+            commands.put(key, runnable);
         }
 
     }
