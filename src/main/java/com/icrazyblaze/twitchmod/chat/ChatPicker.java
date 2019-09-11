@@ -4,7 +4,6 @@ import com.icrazyblaze.twitchmod.BotCommands;
 import com.icrazyblaze.twitchmod.Main;
 import com.icrazyblaze.twitchmod.irc.BotConfig;
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.monster.*;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
@@ -16,24 +15,23 @@ import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 
 public class ChatPicker {
 
     public static List<String> blacklist;
     public static ArrayList<String> newChats = new ArrayList<>();
-    public static ArrayList<String> newChatSenders = new ArrayList<>();
-    public static Path path = Paths.get(Minecraft.getMinecraft().gameDir.getPath(), "config/twitch-blacklist.txt");
-    public static File textfile;
+    private static ArrayList<String> newChatSenders = new ArrayList<>();
+    private static Path path = Paths.get(Minecraft.getMinecraft().gameDir.getPath(), "config/twitch-blacklist.txt");
+    private static File textfile;
 
-    public static boolean hasExecuted = false;
+    private static Map<String, Runnable> commands = new HashMap<>();
+
+    private static boolean hasExecuted = false;
 
     public static boolean cooldownEnabled = false;
-    public static String lastCommand = null;
+    private static String lastCommand = null;
 
 
     public static void loadBlacklistFile() {
@@ -197,48 +195,74 @@ public class ChatPicker {
 
     }
 
+    static void registerCommand(Runnable runnable, String... keys) {
+
+        /*
+        This code is used to add multiple aliases for commands using hashmaps.
+        Thank you gigaherz, very cool!
+        */
+        for(String key : keys) {
+        }
+
+    }
+
     public static boolean doCommand(String message, String sender) {
 
         /*
         This is where messages from Twitch chat are checked.
         If the command doesn't run this method returns false.
 
-        TODO: Replace with switch case or hashmap because this is just gross
+        The registerCommand method takes two arguments: a runnable, and any number of command aliases.
+
+        registerCommand(() -> BotCommands.myCommand(), "mycommand", "mycommandalias");
          */
+
+        registerCommand(() -> BotCommands.addPoison(), "poison");
+        registerCommand(() -> BotCommands.addHunger(), "hunger");
+        registerCommand(() -> BotCommands.addSlowness(), "slowness");
+        registerCommand(() -> BotCommands.addSpeed(), "speed", "gottagofast");
+        registerCommand(() -> BotCommands.addNausea(), "nausea", "dontfeelsogood");
+        registerCommand(() -> BotCommands.addLevitation(), "levitate", "fly");
+        registerCommand(() -> BotCommands.noFall(), "nofall", "float");
+        registerCommand(() -> BotCommands.addWeakness(), "weakness");
+        registerCommand(() -> BotCommands.addRegen(), "regen", "heal", "health");
+        registerCommand(() -> BotCommands.addJumpBoost(), "jumpboost", "yeet");
+        registerCommand(() -> BotCommands.setOnFire(), "fire", "burn");
+        registerCommand(() -> BotCommands.floorIsLava(), "lava", "floorislava");
+        registerCommand(() -> BotCommands.deathTimer(), "timer", "deathtimer");
+        registerCommand(() -> BotCommands.drainHealth(), "drain", "halfhealth");
+        registerCommand(() -> BotCommands.spawnAnvil(), "anvil"); // Gaiet's favourite command <3
+        registerCommand(() -> BotCommands.spawnMobBehind(new EntityCreeper(BotCommands.player().world)), "creeper", "awman");
+        registerCommand(() -> BotCommands.spawnMobBehind(new EntityZombie(BotCommands.player().world)), "zombie");
+        registerCommand(() -> BotCommands.spawnMob(new EntityEnderman(BotCommands.player().world)), "enderman");
+        registerCommand(() -> BotCommands.spawnMobBehind(new EntityWitch(BotCommands.player().world)), "witch");
+        registerCommand(() -> BotCommands.spawnMobBehind(new EntitySkeleton(BotCommands.player().world)), "skeleton");
+        registerCommand(() -> BotCommands.creeperScare(), "creeperscare", "behindyou");
+        registerCommand(() -> BotCommands.zombieScare(), "zombiescare", "bruh");
+        registerCommand(() -> BotCommands.skeletonScare(), "skeletonscare", "spook");
+        registerCommand(() -> BotCommands.witchScare(), "witchscare");
+        registerCommand(() -> BotCommands.spawnLightning(), "lightning");
+        registerCommand(() -> BotCommands.spawnFireball(), "fireball");
+        registerCommand(() -> BotCommands.oresExplode = true, "oresexplode");
+        registerCommand(() -> BotCommands.placeBedrock = true, "bedrock");
+        registerCommand(() -> BotCommands.waterBucket(), "water", "watersbroke");
+        registerCommand(() -> BotCommands.breakBlock(), "break");
+        registerCommand(() -> BotCommands.dismount(), "dismount", "getoff");
+        registerCommand(() -> BotCommands.dropItem(), "drop", "throw");
+        registerCommand(() -> BotCommands.monsterEgg(), "silverfish");
+        registerCommand(() -> BotCommands.heavyRain(), "rain", "shaun");
+        registerCommand(() -> BotCommands.setDifficulty(EnumDifficulty.HARD), "hardmode", "isthiseasymode");
+        registerCommand(() -> BotCommands.setDifficulty(EnumDifficulty.PEACEFUL), "peaceful", "peacefulmode");
+        registerCommand(() -> BotCommands.placeChest(), "chest", "lootbox");
+        registerCommand(() -> BotCommands.setTime(1000), "day", "setday");
+        registerCommand(() -> BotCommands.setTime(13000), "night", "setnight");
+        registerCommand(() -> BotCommands.messWithInventory(sender), "itemroulette", "roulette");
+        registerCommand(() -> BotCommands.spawnCobweb(), "cobweb", "stuck", "gbj");
+
 
         try {
 
-            if (message.equalsIgnoreCase("poison")) {
-                BotCommands.addPoison();
-            } else if (message.equalsIgnoreCase("hunger")) {
-                BotCommands.addHunger();
-            } else if (message.equalsIgnoreCase("slowness")) {
-                BotCommands.addSlowness();
-            } else if (message.equalsIgnoreCase("speed") || message.equalsIgnoreCase("gottagofast")) {
-                BotCommands.addSpeed();
-            } else if (message.equalsIgnoreCase("nausea") || message.equalsIgnoreCase("dontfeelsogood")) {
-                BotCommands.addNausea();
-            } else if (message.equalsIgnoreCase("levitate") || message.equalsIgnoreCase("fly")) {
-                BotCommands.addLevitation();
-            } else if (message.equalsIgnoreCase("nofall")) {
-                BotCommands.noFall();
-            } else if (message.equalsIgnoreCase("weakness")) {
-                BotCommands.addWeakness();
-            } else if (message.equalsIgnoreCase("fatigue")) {
-                BotCommands.addFatigue();
-            } else if (message.equalsIgnoreCase("regen") || message.equalsIgnoreCase("heal") || message.equalsIgnoreCase("health")) {
-                BotCommands.addRegen();
-            } else if (message.equalsIgnoreCase("jumpboost") || message.equalsIgnoreCase("yeet")) {
-                BotCommands.addJumpBoost();
-            } else if (message.equalsIgnoreCase("fire") || message.equalsIgnoreCase("burn")) {
-                BotCommands.setOnFire();
-            } else if (message.equalsIgnoreCase("lava") || message.equalsIgnoreCase("floorislava")) {
-                BotCommands.floorIsLava();
-            } else if (message.equalsIgnoreCase("deathtimer") || message.equalsIgnoreCase("timer")) {
-                BotCommands.deathTimer();
-            } else if (message.equalsIgnoreCase("drain") || message.equalsIgnoreCase("halfhealth")) {
-                BotCommands.drainHealth();
-            } else if (message.startsWith("messagebox ") && message.length() > 11) {
+            if (message.startsWith("messagebox ") && message.length() > 11) {
                 BotCommands.showMessagebox(message);
             } else if (message.startsWith("addmessage ") && message.length() > 11) {
                 BotCommands.addToMessages(message);
@@ -246,67 +270,11 @@ public class ChatPicker {
                 BotCommands.placeSign(message);
             } else if (message.startsWith("rename ") && message.length() > 7) {
                 BotCommands.renameItem(message);
-            } else if (message.equalsIgnoreCase("anvil")) {
-                BotCommands.spawnAnvil();
-            } else if (message.equalsIgnoreCase("creeper") || message.equalsIgnoreCase("awman")) {
-                Entity ent = new EntityCreeper(BotCommands.player().world);
-                BotCommands.spawnMobBehind(ent);
-            } else if (message.equalsIgnoreCase("zombie")) {
-                Entity ent = new EntityZombie(BotCommands.player().world);
-                BotCommands.spawnMobBehind(ent);
-            } else if (message.equalsIgnoreCase("enderman")) {
-                Entity ent = new EntityEnderman(BotCommands.player().world);
-                BotCommands.spawnMob(ent);
-            } else if (message.equalsIgnoreCase("witch")) {
-                Entity ent = new EntityWitch(BotCommands.player().world);
-                BotCommands.spawnMobBehind(ent);
-            } else if (message.equalsIgnoreCase("skeleton")) {
-                Entity ent = new EntitySkeleton(BotCommands.player().world);
-                BotCommands.spawnMobBehind(ent);
-            } else if (message.equalsIgnoreCase("creeperscare") || message.equalsIgnoreCase("behindyou")) {
-                BotCommands.creeperScare();
-            } else if (message.equalsIgnoreCase("zombiescare") || message.equalsIgnoreCase("bruh")) {
-                BotCommands.zombieScare();
-            } else if (message.equalsIgnoreCase("skeletonscare") || message.equalsIgnoreCase("spook")) {
-                BotCommands.skeletonScare();
-            } else if (message.equalsIgnoreCase("witchnscare") || message.equalsIgnoreCase("hehehe")) {
-                BotCommands.witchScare();
-            } else if (message.equalsIgnoreCase("lightning")) {
-                BotCommands.spawnLightning();
-            } else if (message.equalsIgnoreCase("fireball")) {
-                BotCommands.spawnFireball();
-            } else if (message.equalsIgnoreCase("oresexplode") && !BotCommands.oresExplode) {
-                BotCommands.oresExplode = true;
-            } else if (message.equalsIgnoreCase("bedrock") && !BotCommands.placeBedrock) {
-                BotCommands.placeBedrock = true;
-            } else if (message.equalsIgnoreCase("break") || message.equalsIgnoreCase("destroy")) {
-                BotCommands.breakBlock();
-            } else if (message.equalsIgnoreCase("water") || message.equalsIgnoreCase("watersbroke")) {
-                BotCommands.waterBucket();
-            } else if (message.equalsIgnoreCase("dismount") || message.equalsIgnoreCase("getoff")) {
-                BotCommands.dismount();
-            } else if (message.equalsIgnoreCase("drop") || message.equalsIgnoreCase("throw")) {
-                BotCommands.dropItem();
-            } else if (message.equalsIgnoreCase("silverfish")) {
-                BotCommands.monsterEgg();
-            } else if (message.equalsIgnoreCase("rain") || message.equalsIgnoreCase("shaun")) {
-                BotCommands.heavyRain();
-            } else if (message.equalsIgnoreCase("hardmode") || message.equalsIgnoreCase("isthiseasymode")) {
-                BotCommands.setDifficulty(EnumDifficulty.HARD);
-            } else if (message.equalsIgnoreCase("peaceful") || message.equalsIgnoreCase("peacefulmode")) {
-                BotCommands.setDifficulty(EnumDifficulty.PEACEFUL);
-            } else if (message.equalsIgnoreCase("chest") || message.equalsIgnoreCase("lootbox")) {
-                BotCommands.placeChest();
-            } else if (message.equalsIgnoreCase("night") || message.equalsIgnoreCase("setnight")) {
-                BotCommands.setTime(13000);
-            } else if (message.equalsIgnoreCase("day") || message.equalsIgnoreCase("setday")) {
-                BotCommands.setTime(1000);
-            } else if (message.equalsIgnoreCase("itemroulette") || message.equalsIgnoreCase("roulette")) {
-                BotCommands.messWithInventory(sender);
-            } else if (message.equalsIgnoreCase("cobweb")) {
-                BotCommands.spawnCobweb();
             } else {
-                return false;
+
+                // Invoke command from message
+                commands.get(message).run();
+
             }
 
             // Below will not be executed if the command does not run

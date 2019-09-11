@@ -14,7 +14,7 @@ import org.pircbotx.hooks.events.PingEvent;
 
 public class TwitchBot extends ListenerAdapter {
 
-    public static boolean forceCommands = false;
+    private static boolean forceCommands = false;
 
     public TwitchBot() {
 

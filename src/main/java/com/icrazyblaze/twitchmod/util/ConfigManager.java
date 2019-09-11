@@ -9,7 +9,7 @@ import net.minecraftforge.common.config.Property;
 
 public class ConfigManager {
 
-    public static Configuration config;
+    private static Configuration config;
 
     public static void loadConfig() { // Gets called from preInit
 

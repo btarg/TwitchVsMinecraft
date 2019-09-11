@@ -8,7 +8,7 @@ import org.pircbotx.cap.EnableCapHandler;
 public class BotConnection {
 
     public static PircBotX bot = null;
-    public static Thread botThread = null;
+    private static Thread botThread = null;
 
     public static void main() {
 
