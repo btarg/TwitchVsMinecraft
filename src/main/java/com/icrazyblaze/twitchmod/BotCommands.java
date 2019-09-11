@@ -218,6 +218,17 @@ public class BotCommands {
 
     }
 
+    public static void spawnCobweb() {
+
+        double xpos = player().posX;
+        double ypos = player().posY;
+        double zpos = player().posZ;
+
+        player().world.setBlockState(new BlockPos(xpos, ypos + 1, zpos), Blocks.WEB.getDefaultState());
+        player().world.setBlockState(new BlockPos(xpos, ypos - 1, zpos), Blocks.WEB.getDefaultState());
+
+    }
+
     public static void spawnMobBehind(Entity ent) {
 
         Vec3d lookVector = player().getLookVec();
@@ -259,6 +270,12 @@ public class BotCommands {
     public static void skeletonScare() {
 
         player().world.playSound(null, player().posX, player().posY, player().posZ, SoundEvents.ENTITY_SKELETON_AMBIENT, SoundCategory.HOSTILE, 1.0F, 1.0F);
+
+    }
+
+    public static void witchScare() {
+
+        player().world.playSound(null, player().posX, player().posY, player().posZ, SoundEvents.ENTITY_WITCH_AMBIENT, SoundCategory.HOSTILE, 1.0F, 1.0F);
 
     }
 

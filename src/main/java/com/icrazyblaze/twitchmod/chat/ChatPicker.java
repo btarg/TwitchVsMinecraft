@@ -265,10 +265,12 @@ public class ChatPicker {
                 BotCommands.spawnMobBehind(ent);
             } else if (message.equalsIgnoreCase("creeperscare") || message.equalsIgnoreCase("behindyou")) {
                 BotCommands.creeperScare();
-            } else if (message.equalsIgnoreCase("zombiescare")) {
+            } else if (message.equalsIgnoreCase("zombiescare") || message.equalsIgnoreCase("bruh")) {
                 BotCommands.zombieScare();
-            } else if (message.equalsIgnoreCase("skeletonscare")) {
+            } else if (message.equalsIgnoreCase("skeletonscare") || message.equalsIgnoreCase("spook")) {
                 BotCommands.skeletonScare();
+            } else if (message.equalsIgnoreCase("witchnscare") || message.equalsIgnoreCase("hehehe")) {
+                BotCommands.witchScare();
             } else if (message.equalsIgnoreCase("lightning")) {
                 BotCommands.spawnLightning();
             } else if (message.equalsIgnoreCase("fireball")) {
@@ -277,7 +279,7 @@ public class ChatPicker {
                 BotCommands.oresExplode = true;
             } else if (message.equalsIgnoreCase("bedrock") && !BotCommands.placeBedrock) {
                 BotCommands.placeBedrock = true;
-            } else if (message.equalsIgnoreCase("break")) {
+            } else if (message.equalsIgnoreCase("break") || message.equalsIgnoreCase("destroy")) {
                 BotCommands.breakBlock();
             } else if (message.equalsIgnoreCase("water") || message.equalsIgnoreCase("watersbroke")) {
                 BotCommands.waterBucket();
@@ -301,6 +303,8 @@ public class ChatPicker {
                 BotCommands.setTime(1000);
             } else if (message.equalsIgnoreCase("itemroulette") || message.equalsIgnoreCase("roulette")) {
                 BotCommands.messWithInventory(sender);
+            } else if (message.equalsIgnoreCase("cobweb")) {
+                BotCommands.spawnCobweb();
             } else {
                 return false;
             }

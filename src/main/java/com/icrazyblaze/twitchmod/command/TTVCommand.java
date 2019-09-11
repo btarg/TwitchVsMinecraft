@@ -23,7 +23,7 @@ import java.util.List;
 
 public class TTVCommand extends CommandBase {
 
-    private final List aliases;
+    private List aliases;
     private final String[] autocomplete = {"key", "channel", "affects", "prefix", "connect", "disconnect", "enabled", "save", "reload", "showchat", "showcommands", "seconds", "blacklist", "help", "test", "queue"};
     private final String[] truefalse = {"true", "false"};
     private final String[] addclear = {"add", "clear"};
@@ -325,7 +325,7 @@ public class TTVCommand extends CommandBase {
 
                 } else if (args[0].equalsIgnoreCase("test") && args.length == 3) {
 
-                    String message = args[1];
+                    String message = args[1].replaceAll("_", " ").toLowerCase();
 
                     if (message.startsWith(BotConfig.prefix)) {
                         
@@ -339,7 +339,7 @@ public class TTVCommand extends CommandBase {
 
                     }
 
-                    ChatPicker.checkChat(message, args[2]);
+                    ChatPicker.checkChat(message, args[2], true);
 
 
                 } else if (args[0].equalsIgnoreCase("queue")) {
