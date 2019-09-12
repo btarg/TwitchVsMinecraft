@@ -225,6 +225,7 @@ public class ChatPicker {
         registerCommand(BotCommands::addSlowness, "slowness");
         registerCommand(BotCommands::addSpeed, "speed", "gottagofast");
         registerCommand(BotCommands::addNausea, "nausea", "dontfeelsogood");
+        registerCommand(BotCommands::addFatigue, "fatigue");
         registerCommand(BotCommands::addLevitation, "levitate", "fly");
         registerCommand(BotCommands::noFall, "nofall", "float");
         registerCommand(BotCommands::addWeakness, "weakness");
