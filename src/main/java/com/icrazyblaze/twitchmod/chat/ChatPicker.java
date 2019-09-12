@@ -216,6 +216,8 @@ public class ChatPicker {
         The registerCommand method takes two arguments: a runnable, and any number of command aliases.
 
         registerCommand(() -> BotCommands.myCommand(), "mycommand", "mycommandalias");
+
+        IDEA will swap the lambda for a method reference wherever possible.
          */
 
         registerCommand(BotCommands::addPoison, "poison");
@@ -259,6 +261,7 @@ public class ChatPicker {
         registerCommand(() -> BotCommands.setTime(13000), "night", "setnight");
         registerCommand(() -> BotCommands.messWithInventory(sender), "itemroulette", "roulette");
         registerCommand(BotCommands::spawnCobweb, "cobweb", "stuck", "gbj");
+        registerCommand(BotCommands::setSpawn, "spawnpoint", "setspawn");
 
 
         try {

@@ -171,6 +171,14 @@ public class BotCommands {
 
     }
 
+    public static void setSpawn() {
+
+        BlockPos bpos = new BlockPos(player().posX, player().posY, player().posZ);
+
+        player().setSpawnPoint(bpos, true);
+
+    }
+
     public static void killPlayer() {
 
         player().onKillCommand();
@@ -188,11 +196,7 @@ public class BotCommands {
 
     public static void floorIsLava() {
 
-        double xpos = player().posX;
-        double ypos = player().posY;
-        double zpos = player().posZ;
-
-        BlockPos bpos = new BlockPos(xpos, ypos - 1, zpos);
+        BlockPos bpos = new BlockPos(player().posX, player().posY - 1, player().posZ);
 
         player().world.setBlockState(bpos, Blocks.LAVA.getDefaultState());
 
@@ -208,11 +212,7 @@ public class BotCommands {
 
     public static void spawnAnvil() {
 
-        double xpos = player().posX;
-        double ypos = player().posY;
-        double zpos = player().posZ;
-
-        BlockPos bpos = new BlockPos(xpos, ypos + 16, zpos);
+        BlockPos bpos = new BlockPos(player().posX, player().posY + 16, player().posZ);
 
         player().world.setBlockState(bpos, Blocks.ANVIL.getDefaultState());
 
@@ -220,12 +220,8 @@ public class BotCommands {
 
     public static void spawnCobweb() {
 
-        double xpos = player().posX;
-        double ypos = player().posY;
-        double zpos = player().posZ;
-
-        player().world.setBlockState(new BlockPos(xpos, ypos + 1, zpos), Blocks.WEB.getDefaultState());
-        player().world.setBlockState(new BlockPos(xpos, ypos - 1, zpos), Blocks.WEB.getDefaultState());
+        player().world.setBlockState(new BlockPos(player().posX, player().posY + 1, player().posZ), Blocks.WEB.getDefaultState());
+        player().world.setBlockState(new BlockPos(player().posX, player().posY - 1, player().posZ), Blocks.WEB.getDefaultState());
 
     }
 
