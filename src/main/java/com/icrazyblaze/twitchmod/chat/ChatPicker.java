@@ -138,7 +138,7 @@ public class ChatPicker {
 
         }
         // Fix for empty blacklist bug: accept any message (also runs cooldown check)
-        else if (blacklist.isEmpty()) {
+        else {
 
             if (lastCommand != null && cooldownEnabled) {
 

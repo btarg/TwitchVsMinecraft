@@ -315,11 +315,13 @@ public class TTVCommand extends CommandBase {
 
                         ChatPicker.addToBlacklist(args[2]);
                         sender.sendMessage(new TextComponentString(TextFormatting.WHITE + "New Blacklist: " + ChatPicker.blacklist.toString()));
+                        ChatPicker.loadBlacklistFile();
 
                     } else if (args[1].equalsIgnoreCase("clear") && args.length == 2) {
 
                         ChatPicker.clearBlacklist();
                         sender.sendMessage(new TextComponentString(TextFormatting.DARK_RED + "Blacklist cleared."));
+                        ChatPicker.loadBlacklistFile();
 
                     }
 
