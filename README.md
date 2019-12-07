@@ -5,6 +5,7 @@
 A Minecraft mod for Forge 1.12.2 inspired by [Kaze Emanuar](https://www.youtube.com/channel/UCuvSqzfO_LV_QzHdmEj84SQ) and [CrowdControl](https://crowdcontrol.live) that lets Twitch viewers interact with the game to provide a fun challenge for streamers.
 
 [View the project on CurseForge for more info!](https://www.curseforge.com/minecraft/mc-mods/twitch-vs-minecraft)
+
 [See the documentation if you are making modifications to the code.](https://icrazyblaze.github.io/TwitchVsMinecraft/)
 
 # How it works
