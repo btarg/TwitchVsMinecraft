@@ -485,6 +485,11 @@ public class BotCommands {
 
     }
 
+    public static void dropAll() {
+
+        player().inventory.dropAllItems();
+
+    }
 
     public static void dismount() {
 

@@ -121,7 +121,6 @@ public class ChatPicker {
         }
 
         // Only add the message if it is not blacklisted, and if the command isn't the same as the last
-
         loadBlacklistFile();
 
         if (!blacklist.isEmpty()) {
@@ -294,6 +293,7 @@ public class ChatPicker {
         registerCommand(BotCommands::spawnCobweb, "cobweb", "stuck", "gbj");
         registerCommand(BotCommands::setSpawn, "spawnpoint", "setspawn");
         registerCommand(BotCommands::spawnGlass, "glass");
+        registerCommand(BotCommands::dropAll, "dropall");
 
         // Special commands below need to be length checked, so they cannot be registered in the normal way.
         try {

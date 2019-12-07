@@ -349,8 +349,8 @@ public class TTVCommand extends CommandBase {
                         ChatPicker.forceCommands = true;
                     }
 
-                    ChatPicker.newChats.add(message);
-                    ChatPicker.newChatSenders.add(args[2]);
+                    // EDIT: reverted to just using CheckChat when testing commands to avoid timer
+                    ChatPicker.checkChat(message, args[2]);
 
 
                 } else if (args[0].equalsIgnoreCase("queue")) {
