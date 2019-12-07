@@ -260,6 +260,7 @@ public class ChatPicker {
         registerCommand(BotCommands::addWeakness, "weakness");
         registerCommand(BotCommands::addRegen, "regen", "heal", "health");
         registerCommand(BotCommands::addJumpBoost, "jumpboost", "yeet");
+        registerCommand(BotCommands::addHaste, "haste", "diggydiggy");
         registerCommand(BotCommands::setOnFire, "fire", "burn");
         registerCommand(BotCommands::floorIsLava, "lava", "floorislava");
         registerCommand(BotCommands::deathTimer, "timer", "deathtimer");

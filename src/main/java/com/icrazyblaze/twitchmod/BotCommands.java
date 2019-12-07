@@ -111,6 +111,10 @@ public class BotCommands {
         player().addPotionEffect(new PotionEffect(MobEffects.LEVITATION, 200, 1));
     }
 
+    public static void addHaste() {
+        player().addPotionEffect(new PotionEffect(MobEffects.HASTE, 400, 2));
+    }
+
     public static void noFall() {
         player().addPotionEffect(new PotionEffect(MobEffects.LEVITATION, 400, 255));
     }
