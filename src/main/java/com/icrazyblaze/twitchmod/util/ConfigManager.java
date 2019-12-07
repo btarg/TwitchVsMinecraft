@@ -11,6 +11,20 @@ public class ConfigManager {
 
     private static Configuration config;
 
+    private static ConfigManager instance;
+
+    public static void initialize() {
+        instance = new ConfigManager();
+    }
+
+    public static ConfigManager getInstance() {
+        return instance;
+    }
+
+    public Configuration getConfig() {
+        return config;
+    }
+
     public static void loadConfig() { // Gets called from preInit
 
         // Config file is made in the Main class

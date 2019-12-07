@@ -11,7 +11,7 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 //Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 
 
-version = "1.4.0f1"
+version = "1.4.1"
 group = "com.icrazyblaze.twitchmod" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "twitchmod"
 
@@ -74,9 +74,10 @@ dependencies {
         transitive = false
     }
 
-    shade (group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.28') {
+    shade (group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.29') {
         transitive = true
     }
+    implementation 'org.jetbrains:annotations:15.0'
 
 }
 

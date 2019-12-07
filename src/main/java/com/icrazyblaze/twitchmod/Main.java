@@ -1,5 +1,6 @@
 package com.icrazyblaze.twitchmod;
 
+import com.icrazyblaze.twitchmod.chat.ChatPicker;
 import com.icrazyblaze.twitchmod.command.TTVCommand;
 import com.icrazyblaze.twitchmod.network.*;
 import com.icrazyblaze.twitchmod.util.ConfigManager;
@@ -17,7 +18,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import org.apache.logging.log4j.Logger;
 
 
-@Mod(modid = Reference.MOD_ID, name = Reference.NAME, version = Reference.VERSION, updateJSON = Reference.UPDATE_JSON, dependencies = "after:vanillafix")
+@Mod(modid = Reference.MOD_ID, name = Reference.NAME, version = Reference.VERSION, updateJSON = Reference.UPDATE_JSON, guiFactory = Reference.GUI_FACTORY, dependencies = "after:vanillafix")
 public class Main {
 
     public static Logger logger;
@@ -26,15 +27,17 @@ public class Main {
     @Instance
     public static Main instance;
 
-
     @EventHandler
     public static void preInit(FMLPreInitializationEvent event) {
 
         logger = event.getModLog();
         config = new Configuration(event.getSuggestedConfigurationFile());
         ConfigManager.loadConfig();
+        ConfigManager.initialize();
 
         PacketHandler.INSTANCE.registerMessage(GuiMessageHandler.class, GuiMessage.class, 0, Side.SERVER);
+
+        ChatPicker.loadBlacklistFile(); // This will make sure we generate the blacklist file on startup
 
     }
 

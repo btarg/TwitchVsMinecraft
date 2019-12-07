@@ -46,6 +46,10 @@ import java.util.List;
 import java.util.Random;
 
 
+/**
+ * This class contains every method used by commands registered in the ChatPicker class.
+ * @see com.icrazyblaze.twitchmod.chat.ChatPicker
+ */
 public class BotCommands {
 
     public static final Block[] oresArray = {Blocks.DIAMOND_ORE, Blocks.REDSTONE_ORE, Blocks.LIT_REDSTONE_ORE, Blocks.IRON_ORE, Blocks.GOLD_ORE, Blocks.LAPIS_ORE, Blocks.EMERALD_ORE, Blocks.COAL_ORE};
@@ -600,7 +604,7 @@ public class BotCommands {
             return;
         } else if (oresExplode) {
 
-            event.getWorld().createExplosion(null, event.getPos().getX(), event.getPos().getY(), event.getPos().getZ(), 5, true);
+            event.getWorld().createExplosion(null, event.getPos().getX(), event.getPos().getY(), event.getPos().getZ(), 4, true);
             oresExplode = false;
 
         }

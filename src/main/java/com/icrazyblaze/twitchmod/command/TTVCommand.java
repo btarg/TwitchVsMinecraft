@@ -1,6 +1,7 @@
 package com.icrazyblaze.twitchmod.command;
 
 import com.icrazyblaze.twitchmod.BotCommands;
+import com.icrazyblaze.twitchmod.Main;
 import com.icrazyblaze.twitchmod.chat.ChatPicker;
 import com.icrazyblaze.twitchmod.irc.BotConfig;
 import com.icrazyblaze.twitchmod.irc.BotConnection;
@@ -43,7 +44,7 @@ public class TTVCommand extends CommandBase {
 
     @Override
     public String getUsage(ICommandSender sender) {
-        return "/ttv <key/channel> [OAuth key/channel name] OR /ttv affects <username> OR /ttv prefix <prefix> OR /ttv <connect/disconnect> OR /ttv enabled <true/false> OR /ttv cooldown <true/false> OR /ttv <save/reload> OR /ttv showchat <true/false> OR /ttv showcommands <true/false> OR /ttv seconds <seconds> OR /ttv blacklist <add/clear> [command] OR /ttv queue";
+        return "/ttv <key/channel> [OAuth key/channel name] OR /ttv affects <username> OR /ttv prefix <prefix> OR /ttv <connect/disconnect> OR /ttv enabled <true/false> OR /ttv cooldown <true/false> OR /ttv <save/reload> OR /ttv showchat <true/false> OR /ttv showcommands <true/false> OR /ttv seconds <seconds> OR /ttv blacklist <add/clear> [command] OR /ttv queue OR /ttv test <message> <sender> [ignore blacklist true/false]";
     }
 
     @Override
@@ -325,7 +326,7 @@ public class TTVCommand extends CommandBase {
 
                     }
 
-                } else if (args[0].equalsIgnoreCase("test") && args.length == 3) {
+                } else if (args[0].equalsIgnoreCase("test") && args.length >= 3) {
 
                     String message = args[1].replaceAll("_", " ").toLowerCase();
 
@@ -334,14 +335,23 @@ public class TTVCommand extends CommandBase {
                         message = message.substring(BotConfig.prefix.length());
                         BotCommands.player().sendMessage(new TextComponentString(TextFormatting.WHITE + "<" + TextFormatting.DARK_PURPLE + "Twitch " + TextFormatting.WHITE + args[2] + "> " + BotConfig.prefix + message));
 
-                    }
-                    else {
+                    } else {
 
                         BotCommands.player().sendMessage(new TextComponentString(TextFormatting.WHITE + "<" + TextFormatting.DARK_PURPLE + "Twitch " + TextFormatting.WHITE + args[2] + "> " + message));
 
                     }
 
-                    ChatPicker.checkChat(message, args[2], true);
+
+                    if (args.length == 4) {
+
+                        ChatPicker.forcecommands = parseBoolean(args[3]);
+
+                    } else {
+                        ChatPicker.forcecommands = true;
+                    }
+
+                    ChatPicker.newChats.add(message);
+                    ChatPicker.newChatSenders.add(args[2]);
 
 
                 } else if (args[0].equalsIgnoreCase("queue")) {
@@ -356,23 +366,19 @@ public class TTVCommand extends CommandBase {
 
             }
 
-            // The player just types "/ttv"
+            // The player just types "/ttv" without arguments
             else {
 
                 if (BotConnection.isConnected()) {
                     sender.sendMessage(new TextComponentString(TextFormatting.GREEN + "Bot is connected."));
-                } else {
+                }else {
                     sender.sendMessage(new TextComponentString(TextFormatting.RED + "Bot not connected."));
                 }
 
                 sender.sendMessage(new TextComponentString(TextFormatting.GOLD + "Channel name: " + BotConfig.CHANNEL_NAME));
-
                 sender.sendMessage(new TextComponentString(TextFormatting.GOLD + "Player affected: " + BotCommands.username));
-
                 sender.sendMessage(new TextComponentString(TextFormatting.DARK_PURPLE + "A new command will be chosen every " + TickHandler.chatSecondsDefault + " seconds."));
-
                 sender.sendMessage(new TextComponentString(TextFormatting.DARK_PURPLE + "Commands start with " + BotConfig.prefix));
-
                 TextComponentString keyMessage = new TextComponentString(TextFormatting.AQUA + "Click here to get your Twitch OAuth key!");
 
                 ClickEvent goLinkEvent = new ClickEvent(ClickEvent.Action.OPEN_URL, "https://twitchapps.com/tmi/");

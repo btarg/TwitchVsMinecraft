@@ -67,7 +67,8 @@ public class TwitchBot extends ListenerAdapter {
 
             // Remove the prefix
             message = message.substring(BotConfig.prefix.length());
-            ChatPicker.checkChat(message, sender, forceCommands);
+            ChatPicker.newChats.add(message);
+            ChatPicker.newChatSenders.add(sender);
 
         }
 

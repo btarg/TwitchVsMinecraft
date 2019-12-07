@@ -8,6 +8,8 @@ import net.minecraft.entity.monster.*;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.EnumDifficulty;
+
+import javax.annotation.Nullable;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -18,11 +20,14 @@ import java.nio.file.Paths;
 import java.util.*;
 
 
+/**
+ * This class is responsible for picking commands from chat and running them.
+ */
 public class ChatPicker {
 
     public static List<String> blacklist;
     public static ArrayList<String> newChats = new ArrayList<>();
-    private static ArrayList<String> newChatSenders = new ArrayList<>();
+    public static ArrayList<String> newChatSenders = new ArrayList<>();
     private static Path path = Paths.get(Minecraft.getMinecraft().gameDir.getPath(), "config/twitch-blacklist.txt");
     private static File textfile;
 
@@ -33,7 +38,11 @@ public class ChatPicker {
     public static boolean cooldownEnabled = false;
     private static String lastCommand = null;
 
+    public static boolean forcecommands = false;
 
+    /**
+     * Loads the blacklist file, or creates the file if it doesn't already exist.
+     */
     public static void loadBlacklistFile() {
 
         textfile = new File(path.toString());
@@ -53,6 +62,9 @@ public class ChatPicker {
 
     }
 
+    /**
+     * @param toAdd The string to add to the blacklist file.
+     */
     public static void addToBlacklist(String toAdd) {
 
         try {
@@ -74,6 +86,9 @@ public class ChatPicker {
 
     }
 
+    /**
+     * Clears the blacklist file.
+     */
     public static void clearBlacklist() {
 
         try {
@@ -91,6 +106,12 @@ public class ChatPicker {
 
     }
 
+    /**
+     * Checks the command against the blacklist, unless force commands is enabled.
+     * @param message The chat message
+     * @param sender The sender's name
+     * @param forceCommands Should the command ignore the blacklist and run anyway?
+     */
     public static void checkChat(String message, String sender, boolean forceCommands) {
 
         // Skip checking if force commands is enabled
@@ -110,6 +131,7 @@ public class ChatPicker {
             for (String str : blacklist) {
 
                 if (str.contains(message)) {
+                    Main.logger.info("Command not executed: command is blacklisted.");
                     break;
                 } else {
 
@@ -163,6 +185,10 @@ public class ChatPicker {
     }
 
 
+    /**
+     * Picks a random chat message, and checks if it is a command.
+     * If the chat message is a command, it will be run. Otherwise, a new message is picked.
+     */
     public static void pickRandomChat() {
 
         if (!newChats.isEmpty()) {
@@ -195,7 +221,19 @@ public class ChatPicker {
 
     }
 
-    static void registerCommand(Runnable runnable, String... keys) {
+    /**
+     * Adds a command to a list that ChatPicker checks.
+     * The registerCommand method takes two arguments: a runnable, and any number of command aliases.
+     * <pre>
+     * {@code
+     *     registerCommand(() -> BotCommands.myCommand(), "mycommand", "mycommandalias");
+     * }
+     * </pre>
+     * IDEA will swap the lambda for a method reference wherever possible.
+     * @param runnable The function linked to the command
+     * @param keys Aliases for the command
+     */
+    public static void registerCommand(Runnable runnable, String... keys) {
 
         /*
         This code is used to add multiple aliases for commands using hashmaps.
@@ -206,20 +244,15 @@ public class ChatPicker {
         }
 
     }
-
+    /**
+     * Attempts to run a command.
+     * @param message The actual command, e.g. "!creeper"
+     * @param sender The sender's name, which is used in some commands.
+     * @return If the command doesn't run, then this method returns false.
+     */
     public static boolean doCommand(String message, String sender) {
 
-        /*
-        This is where messages from Twitch chat are checked.
-        If the command doesn't run this method returns false.
-
-        The registerCommand method takes two arguments: a runnable, and any number of command aliases.
-
-        registerCommand(() -> BotCommands.myCommand(), "mycommand", "mycommandalias");
-
-        IDEA will swap the lambda for a method reference wherever possible.
-         */
-
+        commands.clear(); // Prevent duplication when registering commands (oops)
         registerCommand(BotCommands::addPoison, "poison");
         registerCommand(BotCommands::addHunger, "hunger");
         registerCommand(BotCommands::addSlowness, "slowness");
@@ -264,7 +297,7 @@ public class ChatPicker {
         registerCommand(BotCommands::spawnCobweb, "cobweb", "stuck", "gbj");
         registerCommand(BotCommands::setSpawn, "spawnpoint", "setspawn");
 
-
+        // Special commands below need to be length checked, so they cannot be registered in the normal way.
         try {
 
             if (message.startsWith("messagebox ") && message.length() > 11) {
