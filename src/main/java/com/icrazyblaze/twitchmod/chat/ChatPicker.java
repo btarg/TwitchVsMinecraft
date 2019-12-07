@@ -9,7 +9,6 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.EnumDifficulty;
 
-import javax.annotation.Nullable;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -38,7 +37,7 @@ public class ChatPicker {
     public static boolean cooldownEnabled = false;
     private static String lastCommand = null;
 
-    public static boolean forcecommands = false;
+    public static boolean forceCommands = false;
 
     /**
      * Loads the blacklist file, or creates the file if it doesn't already exist.
@@ -110,9 +109,8 @@ public class ChatPicker {
      * Checks the command against the blacklist, unless force commands is enabled.
      * @param message The chat message
      * @param sender The sender's name
-     * @param forceCommands Should the command ignore the blacklist and run anyway?
      */
-    public static void checkChat(String message, String sender, boolean forceCommands) {
+    public static void checkChat(String message, String sender) {
 
         // Skip checking if force commands is enabled
         if (forceCommands) {
@@ -252,7 +250,6 @@ public class ChatPicker {
      */
     public static boolean doCommand(String message, String sender) {
 
-        commands.clear(); // Prevent duplication when registering commands (oops)
         registerCommand(BotCommands::addPoison, "poison");
         registerCommand(BotCommands::addHunger, "hunger");
         registerCommand(BotCommands::addSlowness, "slowness");
@@ -296,6 +293,7 @@ public class ChatPicker {
         registerCommand(() -> BotCommands.messWithInventory(sender), "itemroulette", "roulette");
         registerCommand(BotCommands::spawnCobweb, "cobweb", "stuck", "gbj");
         registerCommand(BotCommands::setSpawn, "spawnpoint", "setspawn");
+        registerCommand(BotCommands::spawnGlass, "glass");
 
         // Special commands below need to be length checked, so they cannot be registered in the normal way.
         try {

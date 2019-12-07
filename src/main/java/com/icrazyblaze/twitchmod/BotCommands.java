@@ -354,6 +354,20 @@ public class BotCommands {
 
     }
 
+    public static void spawnGlass() {
+
+        double dx = player().posX;
+        double dy = player().posY;
+        double dz = player().posZ;
+
+        BlockPos[] positions = {new BlockPos(dx, dy + 2, dz), new BlockPos(dx, dy, dz - 1), new BlockPos(dx, dy + 1, dz - 1), new BlockPos(dx, dy, dz + 1), new BlockPos(dx, dy + 1, dz + 1), new BlockPos(dx - 1, dy, dz), new BlockPos(dx - 1, dy + 1, dz), new BlockPos(dx + 1, dy, dz), new BlockPos(dx + 1, dy + 1, dz), new BlockPos(dx, dy - 2, dz)};
+
+        for (BlockPos bpos : positions) {
+            player().world.setBlockState(bpos, Blocks.GLASS.getDefaultState());
+        }
+
+    }
+
     public static void dropItem() { // Thanks Amoo!
 
         ItemStack currentItem = player().inventory.getCurrentItem();

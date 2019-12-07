@@ -1,7 +1,6 @@
 package com.icrazyblaze.twitchmod.command;
 
 import com.icrazyblaze.twitchmod.BotCommands;
-import com.icrazyblaze.twitchmod.Main;
 import com.icrazyblaze.twitchmod.chat.ChatPicker;
 import com.icrazyblaze.twitchmod.irc.BotConfig;
 import com.icrazyblaze.twitchmod.irc.BotConnection;
@@ -344,10 +343,10 @@ public class TTVCommand extends CommandBase {
 
                     if (args.length == 4) {
 
-                        ChatPicker.forcecommands = parseBoolean(args[3]);
+                        ChatPicker.forceCommands = parseBoolean(args[3]);
 
                     } else {
-                        ChatPicker.forcecommands = true;
+                        ChatPicker.forceCommands = true;
                     }
 
                     ChatPicker.newChats.add(message);
