@@ -281,6 +281,12 @@ public class BotCommands {
 
     }
 
+    public static void anvilScare() {
+
+        player().world.playSound(null, player().posX, player().posY, player().posZ, SoundEvents.BLOCK_ANVIL_FALL, SoundCategory.BLOCKS, 1.0F, 1.0F);
+
+    }
+
     public static void spawnFireball() {
 
         Vec3d lookVector = player().getLookVec();

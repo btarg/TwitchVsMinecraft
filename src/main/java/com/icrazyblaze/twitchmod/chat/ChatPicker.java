@@ -291,6 +291,7 @@ public class ChatPicker {
         registerCommand(BotCommands::setSpawn, "spawnpoint", "setspawn");
         registerCommand(BotCommands::spawnGlass, "glass");
         registerCommand(BotCommands::dropAll, "dropall");
+        registerCommand(BotCommands::anvilScare, "anvilscare");
 
     }
 
