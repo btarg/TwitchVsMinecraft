@@ -23,10 +23,10 @@ import java.util.List;
 
 public class TTVCommand extends CommandBase {
 
-    private List aliases;
     private final String[] autocomplete = {"key", "channel", "affects", "prefix", "connect", "disconnect", "enabled", "save", "reload", "showchat", "showcommands", "seconds", "blacklist", "help", "test", "queue"};
     private final String[] truefalse = {"true", "false"};
     private final String[] addclear = {"add", "clear"};
+    private List aliases;
 
 
     public TTVCommand() {
@@ -330,7 +330,7 @@ public class TTVCommand extends CommandBase {
                     String message = args[1].replaceAll("_", " ").toLowerCase();
 
                     if (message.startsWith(BotConfig.prefix)) {
-                        
+
                         message = message.substring(BotConfig.prefix.length());
                         BotCommands.player().sendMessage(new TextComponentString(TextFormatting.WHITE + "<" + TextFormatting.DARK_PURPLE + "Twitch " + TextFormatting.WHITE + args[2] + "> " + BotConfig.prefix + message));
 
@@ -357,9 +357,7 @@ public class TTVCommand extends CommandBase {
 
                     sender.sendMessage(new TextComponentString(TextFormatting.WHITE + "Possible commands: " + ChatPicker.newChats.toString()));
 
-                }
-
-                else {
+                } else {
                     throw new WrongUsageException(getUsage(sender));
                 }
 
@@ -370,7 +368,7 @@ public class TTVCommand extends CommandBase {
 
                 if (BotConnection.isConnected()) {
                     sender.sendMessage(new TextComponentString(TextFormatting.GREEN + "Bot is connected."));
-                }else {
+                } else {
                     sender.sendMessage(new TextComponentString(TextFormatting.RED + "Bot not connected."));
                 }
 

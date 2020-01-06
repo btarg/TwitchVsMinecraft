@@ -2,7 +2,9 @@ package com.icrazyblaze.twitchmod;
 
 import com.icrazyblaze.twitchmod.chat.ChatPicker;
 import com.icrazyblaze.twitchmod.command.TTVCommand;
-import com.icrazyblaze.twitchmod.network.*;
+import com.icrazyblaze.twitchmod.network.GuiMessage;
+import com.icrazyblaze.twitchmod.network.GuiMessageHandler;
+import com.icrazyblaze.twitchmod.network.PacketHandler;
 import com.icrazyblaze.twitchmod.util.ConfigManager;
 import com.icrazyblaze.twitchmod.util.Reference;
 import com.icrazyblaze.twitchmod.util.TickHandler;
@@ -32,12 +34,19 @@ public class Main {
 
         logger = event.getModLog();
         config = new Configuration(event.getSuggestedConfigurationFile());
-        ConfigManager.loadConfig();
         ConfigManager.initialize();
 
         PacketHandler.INSTANCE.registerMessage(GuiMessageHandler.class, GuiMessage.class, 0, Side.SERVER);
 
         ChatPicker.loadBlacklistFile(); // This will make sure we generate the blacklist file on startup
+        ChatPicker.initCommands(); // Register all commands
+
+    }
+
+    @EventHandler
+    public static void serverStarting(FMLServerStartingEvent event) {
+
+        event.registerServerCommand(new TTVCommand());
 
     }
 
@@ -47,13 +56,6 @@ public class Main {
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(new TickHandler());
         MinecraftForge.EVENT_BUS.register(new BotCommands());
-
-    }
-
-    @EventHandler
-    public static void serverStarting(FMLServerStartingEvent event) {
-
-        event.registerServerCommand(new TTVCommand());
 
     }
 

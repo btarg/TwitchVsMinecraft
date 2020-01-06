@@ -48,20 +48,18 @@ import java.util.Random;
 
 /**
  * This class contains every method used by commands registered in the ChatPicker class.
+ *
  * @see com.icrazyblaze.twitchmod.chat.ChatPicker
  */
 public class BotCommands {
 
     public static final Block[] oresArray = {Blocks.DIAMOND_ORE, Blocks.REDSTONE_ORE, Blocks.LIT_REDSTONE_ORE, Blocks.IRON_ORE, Blocks.GOLD_ORE, Blocks.LAPIS_ORE, Blocks.EMERALD_ORE, Blocks.COAL_ORE};
     public static final ResourceLocation[] lootArray = {LootTableList.CHESTS_SIMPLE_DUNGEON, LootTableList.CHESTS_ABANDONED_MINESHAFT, LootTableList.CHESTS_SPAWN_BONUS_CHEST};
+    public static final List<Block> oresList = Arrays.asList(oresArray);
+    public static final List<ResourceLocation> lootlist = Arrays.asList(lootArray);
     public static String username = null;
-
     public static boolean oresExplode = false;
     public static boolean placeBedrock = false;
-
-    public static List<Block> oresList = Arrays.asList(oresArray);
-    public static List<ResourceLocation> lootlist = Arrays.asList(lootArray);
-
     public static ArrayList<String> messagesList = new ArrayList<>();
 
 
@@ -398,8 +396,7 @@ public class BotCommands {
 
             player().inventory.deleteStack(randomItem);
 
-        }
-        else {
+        } else {
 
             removeRandom();
 
@@ -465,8 +462,7 @@ public class BotCommands {
 
                 currentitem.setStackDisplayName(newname);
 
-            }
-            else {
+            } else {
 
                 // Rename a random item in the player's inventory when the player isn't holding anything
                 int r = rand.nextInt(player().inventory.getSizeInventory());
@@ -476,8 +472,7 @@ public class BotCommands {
 
                     randomItem.setStackDisplayName(newname);
 
-                }
-                else {
+                } else {
 
                     renameItem(name);
 

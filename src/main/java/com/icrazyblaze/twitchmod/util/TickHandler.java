@@ -13,7 +13,6 @@ public class TickHandler {
     public static int chatTicks = 0;
     public static int chatSecondsDefault = 30;
     public static int chatSeconds = chatSecondsDefault;
-
     public static int timerTicks = 0;
     public static int timerSeconds = 60;
     public static boolean killTimer = false;
@@ -52,6 +51,8 @@ public class TickHandler {
      * </pre>
      * Timers are set and reset externally by changing the condition.
      * The example can also be configured to count up.
+     * 20 serverticks is equal to one second realtime.
+     *
      * @param event Ignore this
      */
     @SubscribeEvent

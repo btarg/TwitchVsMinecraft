@@ -1,6 +1,7 @@
 package com.icrazyblaze.twitchmod.irc;
 
 
+import com.google.common.collect.ImmutableMap;
 import com.icrazyblaze.twitchmod.BotCommands;
 import com.icrazyblaze.twitchmod.chat.ChatPicker;
 import net.minecraft.util.text.TextComponentString;
@@ -11,36 +12,39 @@ import org.pircbotx.hooks.events.DisconnectEvent;
 import org.pircbotx.hooks.events.MessageEvent;
 import org.pircbotx.hooks.events.PingEvent;
 
+import java.util.Objects;
+
 
 public class TwitchBot extends ListenerAdapter {
 
     private static boolean forceCommands = false;
 
     public TwitchBot() {
-
         ChatPicker.loadBlacklistFile();
-
     }
 
 
     @Override
-    public void onMessage(MessageEvent event) throws Exception {
+    public void onMessage(MessageEvent event) {
 
         String message = event.getMessage();
-        String sender = event.getUser().getNick();
+        String sender = Objects.requireNonNull(event.getUser()).getNick();
+        ImmutableMap<String, String> tags = event.getV3Tags();
 
         TextFormatting format = TextFormatting.WHITE;
 
-
         if (BotConfig.showChatMessages) {
 
-            if (event.getTags().get("badges").contains("broadcaster/1")) {
-                format = TextFormatting.GOLD;
-                forceCommands = true; // Force commands to execute instantly for broadcaster testing
-            } else if (event.getTags().get("badges").contains("subscriber/1")) {
-                format = TextFormatting.AQUA;
-            } else if (event.getTags().get("badges").contains("moderator/1")) {
-                format = TextFormatting.GREEN;
+            if (tags != null) {
+
+                if (tags.get("badges").contains("broadcaster/1")) {
+                    format = TextFormatting.GOLD;
+                    forceCommands = true; // Force commands to execute instantly for broadcaster testing
+                } else if (tags.get("badges").contains("subscriber/1")) {
+                    format = TextFormatting.AQUA;
+                } else if (tags.get("badges").contains("moderator/1")) {
+                    format = TextFormatting.GREEN;
+                }
             }
 
             if (!message.startsWith(BotConfig.prefix) || BotConfig.showCommands) {
@@ -77,16 +81,12 @@ public class TwitchBot extends ListenerAdapter {
     }
 
     public void onConnect(ConnectEvent event) {
-
         BotCommands.player().sendMessage(new TextComponentString(TextFormatting.DARK_GREEN + "Bot connected! Use /ttv to see details."));
-
     }
 
 
     public void onDisconnect(DisconnectEvent event) {
-
         BotCommands.player().sendMessage(new TextComponentString(TextFormatting.DARK_RED + "Bot disconnected."));
-
     }
 
 

@@ -27,17 +27,13 @@ public class ChatPicker {
     public static List<String> blacklist;
     public static ArrayList<String> newChats = new ArrayList<>();
     public static ArrayList<String> newChatSenders = new ArrayList<>();
+    public static boolean cooldownEnabled = false;
+    public static boolean forceCommands = false;
     private static Path path = Paths.get(Minecraft.getMinecraft().gameDir.getPath(), "config/twitch-blacklist.txt");
     private static File textfile;
-
     private static Map<String, Runnable> commands = new HashMap<>();
-
     private static boolean hasExecuted = false;
-
-    public static boolean cooldownEnabled = false;
     private static String lastCommand = null;
-
-    public static boolean forceCommands = false;
 
     /**
      * Loads the blacklist file, or creates the file if it doesn't already exist.
@@ -107,8 +103,9 @@ public class ChatPicker {
 
     /**
      * Checks the command against the blacklist, unless force commands is enabled.
+     *
      * @param message The chat message
-     * @param sender The sender's name
+     * @param sender  The sender's name
      */
     public static void checkChat(String message, String sender) {
 
@@ -227,8 +224,9 @@ public class ChatPicker {
      * }
      * </pre>
      * IDEA will swap the lambda for a method reference wherever possible.
+     *
      * @param runnable The function linked to the command
-     * @param keys Aliases for the command
+     * @param keys     Aliases for the command
      */
     public static void registerCommand(Runnable runnable, String... keys) {
 
@@ -236,18 +234,17 @@ public class ChatPicker {
         This code is used to add multiple aliases for commands using hashmaps.
         Thank you gigaherz, very cool!
         */
-        for(String key : keys) {
-            commands.put(key, runnable);
+        for (String key : keys) {
+            if (!commands.containsKey(key))
+                commands.put(key, runnable);
         }
 
     }
+
     /**
-     * Attempts to run a command.
-     * @param message The actual command, e.g. "!creeper"
-     * @param sender The sender's name, which is used in some commands.
-     * @return If the command doesn't run, then this method returns false.
+     * Commands are registered here from init. (Moved from doCommands for performance reasons)
      */
-    public static boolean doCommand(String message, String sender) {
+    public static void initCommands() {
 
         registerCommand(BotCommands::addPoison, "poison");
         registerCommand(BotCommands::addHunger, "hunger");
@@ -290,13 +287,25 @@ public class ChatPicker {
         registerCommand(BotCommands::placeChest, "chest", "lootbox");
         registerCommand(() -> BotCommands.setTime(1000), "day", "setday");
         registerCommand(() -> BotCommands.setTime(13000), "night", "setnight");
-        registerCommand(() -> BotCommands.messWithInventory(sender), "itemroulette", "roulette");
         registerCommand(BotCommands::spawnCobweb, "cobweb", "stuck", "gbj");
         registerCommand(BotCommands::setSpawn, "spawnpoint", "setspawn");
         registerCommand(BotCommands::spawnGlass, "glass");
         registerCommand(BotCommands::dropAll, "dropall");
 
-        // Special commands below need to be length checked, so they cannot be registered in the normal way.
+    }
+
+    /**
+     * Attempts to run a command.
+     *
+     * @param message The actual command, e.g. "!creeper"
+     * @param sender  The sender's name, which is used in some commands.
+     * @return If the command doesn't run, then this method returns false.
+     */
+    public static boolean doCommand(String message, String sender) {
+
+        // Special commands below have extra arguments, so they are registered here.
+        registerCommand(() -> BotCommands.messWithInventory(sender), "itemroulette", "roulette");
+
         try {
 
             if (message.startsWith("messagebox ") && message.length() > 11) {
