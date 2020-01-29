@@ -39,7 +39,7 @@ public class Main {
         PacketHandler.INSTANCE.registerMessage(GuiMessageHandler.class, GuiMessage.class, 0, Side.SERVER);
 
         ChatPicker.loadBlacklistFile(); // This will make sure we generate the blacklist file on startup
-        ChatPicker.initCommands(); // Register all commands
+        //ChatPicker.initCommands(); // Register all commands
 
     }
 

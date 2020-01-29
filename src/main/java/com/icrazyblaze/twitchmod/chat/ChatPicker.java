@@ -235,14 +235,13 @@ public class ChatPicker {
         Thank you gigaherz, very cool!
         */
         for (String key : keys) {
-            if (!commands.containsKey(key))
-                commands.put(key, runnable);
+            commands.put(key, runnable);
         }
 
     }
 
     /**
-     * Commands are registered here from init. (Moved from doCommands for performance reasons)
+     * Commands are registered here.
      */
     public static void initCommands() {
 
@@ -303,6 +302,10 @@ public class ChatPicker {
      * @return If the command doesn't run, then this method returns false.
      */
     public static boolean doCommand(String message, String sender) {
+
+        // Added this to fix any potential issues with registering commands, may mess with performance but meh
+        commands.clear();
+        initCommands();
 
         // Special commands below have extra arguments, so they are registered here.
         registerCommand(() -> BotCommands.messWithInventory(sender), "itemroulette", "roulette");
