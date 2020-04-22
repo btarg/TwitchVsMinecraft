@@ -85,9 +85,8 @@ public class TwitchBot extends ListenerAdapter {
             // Remove the prefix
             message = message.substring(BotConfig.prefix.length());
 
-            // Add command to queue
-            ChatPicker.newChats.add(message);
-            ChatPicker.newChatSenders.add(sender);
+            // Add command to queue (USE CHECKCHAT DIPSHIT!!)
+            ChatPicker.checkChat(message, sender);
 
         }
 
